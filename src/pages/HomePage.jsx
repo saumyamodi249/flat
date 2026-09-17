@@ -11,11 +11,11 @@ function HomePage() {
       />
 
       {/* Top logo */}
-      <div className="relative flex justify-center pt-4 sm:pt-6 md:pt-8 pb-4">
+      <div className="relative flex pl-[30px] pt-[30px] ">
         <img
           src="/UI IMG/top_logo.svg"
           alt="Riviera Select"
-          className="h-14 sm:h-18 md:h-22 lg:h-28 max-w-[85vw] object-contain"
+          className="object-contain"
         />
       </div>
 

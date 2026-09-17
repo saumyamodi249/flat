@@ -2,7 +2,8 @@
 
 :root {
   --theme-bottom: #004443;
-  --theme-route: #C09973;
+  --theme-route-box: #C09973;
+  --theme-route: var(--theme-route-box);
   --theme-route-title: #F7E4CF;
   --theme-UrbanDataLayers: #FFFFFF;
 }
@@ -15,4 +16,24 @@
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Default: show full navigation, hide mobile club nav */
+.club-mobile-nav {
+  display: none !important;
+}
+
+.full-desktop-nav {
+  display: flex !important;
+}
+
+/* Mobile (<= 425px): show mobile club nav, hide full desktop nav */
+@media (max-width: 425px) {
+  .club-mobile-nav {
+    display: flex !important;
+  }
+
+  .full-desktop-nav {
+    display: none !important;
+  }
 }

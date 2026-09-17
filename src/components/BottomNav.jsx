@@ -1,5 +1,17 @@
 import { useState, useEffect } from "react";
 
+// Exact 4-circle dot menu icon from Figma design
+function FourDotsIcon({ size = 24, color = "#F5DEB3" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className="shrink-0">
+      <circle cx="7" cy="7" r="2.8" />
+      <circle cx="17" cy="7" r="2.8" />
+      <circle cx="7" cy="17" r="2.8" />
+      <circle cx="17" cy="17" r="2.8" />
+    </svg>
+  );
+}
+
 const navItems = [
   { label: "HOME", path: "/home" },
   { label: "INVENTORY", path: "/inventory" },
@@ -23,11 +35,11 @@ function BottomNav() {
       {/* Mobile Drawer when grid menu is tapped */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 club-mobile-nav"
           onClick={() => setMenuOpen(false)}
         >
           <div
-            className="absolute bottom-[60px] right-4 left-4 rounded-xl border border-[var(--theme-route)]/30 bg-[var(--theme-bottom)] p-4 shadow-2xl"
+            className="absolute bottom-[60px] right-4 left-4 rounded-xl border border-[var(--theme-route-box)]/30 bg-[var(--theme-bottom)] p-4 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -36,7 +48,7 @@ function BottomNav() {
               </span>
               <button
                 onClick={() => setMenuOpen(false)}
-                className="text-[var(--theme-route-title)] text-lg px-2"
+                className="text-[var(--theme-route-title)] text-lg px-2 cursor-pointer"
               >
                 ✕
               </button>
@@ -53,9 +65,9 @@ function BottomNav() {
                     key={item.path}
                     href={item.path}
                     onClick={() => setMenuOpen(false)}
-                    className={`rounded-lg px-3 py-2.5 text-center text-xs font-bold uppercase tracking-wider no-underline transition-all ${isActive
-                      ? "bg-[var(--theme-route)] text-white shadow-sm"
-                      : "text-white/80 hover:bg-white/10"
+                    className={`rounded-lg px-3 py-2.5 text-center text-xs font-bold uppercase tracking-wider no-underline transition-all text-[var(--theme-route-title)] ${isActive
+                      ? "bg-[var(--theme-route-box)] shadow-sm"
+                      : "hover:bg-white/10"
                       }`}
                   >
                     {item.label}
@@ -67,49 +79,54 @@ function BottomNav() {
         </div>
       )}
 
-      {/* Main Bottom Nav — exact match to Figma design */}
+      {/* Main Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 h-[52px] md:h-[56px] bg-[var(--theme-bottom)] flex items-center justify-between border-t border-[var(--theme-bottom)] select-none">
-        {/* === MOBILE (< md) === */}
-        <div className="flex md:hidden items-center justify-between w-full h-full px-4">
-          <a
-            href="/home"
-            className={`h-full flex items-center px-4 text-xs font-bold uppercase tracking-wider no-underline transition-all ${currentPath === "/" || currentPath === "/home"
-              ? "bg-[var(--theme-route)] text-white"
-              : "text-white"
-              }`}
-          >
-            HOME
-          </a>
+        {/* === MOBILE (<= 425px: shows clubbed view) === */}
+        <div className="club-mobile-nav items-center justify-between w-full h-full">
+          <div className="flex items-center h-full pl-[20px] py-[5px] gap-[10px]">
+            {navItems.slice(0, 2).map((item) => {
+              const isActive =
+                item.path === "/home"
+                  ? currentPath === "/" || currentPath === "/home"
+                  : currentPath.startsWith(item.path);
 
-          <a
-            href="/inventory"
-            className={`px-3 text-xs font-bold uppercase tracking-wider no-underline transition-all ${currentPath.startsWith("/inventory")
-              ? "text-[var(--theme-route)]"
-              : "text-white"
-              }`}
-          >
-            INVENTORY
-          </a>
+              return (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  className={`h-full flex items-center justify-center px-4 text-xs font-bold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${
+                    isActive
+                      ? "bg-[var(--theme-route-box)] shadow-sm"
+                      : "hover:bg-white/10"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
 
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center justify-center p-1 transition-transform hover:scale-105"
-            title="Menu"
-          >
-            <BsDice4Fill size={24} color="#F5DEB3" />
-          </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex items-center justify-center p-1 transition-transform hover:scale-105 cursor-pointer"
+              title="Menu"
+            >
+              <FourDotsIcon size={24} color="var(--theme-route-title, #F7E4CF)" />
+            </button>
+          </div>
 
-          <img
-            src="/UI IMG/bottom_logo.svg"
-            alt="Powered by SolidTwin"
-            className="h-5 object-contain"
-          />
+          <div className="flex items-center justify-end pr-[20px] py-[11.84px] shrink-0">
+            <img
+              src="/UI IMG/bottom_logo.svg"
+              alt="Powered by SolidTwin"
+              className="h-5 object-contain"
+            />
+          </div>
         </div>
 
-        {/* === DESKTOP (>= md) === */}
-        <div className="hidden md:flex items-center h-full w-full justify-between">
+        {/* === FULL NAV (> 425px: shows all items without clubbing) === */}
+        <div className="full-desktop-nav items-center h-full w-full justify-between">
           {/* Nav items starting cleanly with small left padding */}
-          <div className="flex items-center h-full pl-6 lg:pl-[50px] gap-6 lg:gap-[30px] xl:gap-12">
+          <div className="flex items-center h-full pl-6 lg:pl-[50px] gap-6 lg:gap-[30px] xl:gap-12 overflow-x-auto scrollbar-none">
             {navItems.map((item) => {
               const isActive =
                 item.path === "/home"
@@ -120,9 +137,9 @@ function BottomNav() {
                 <a
                   key={item.path}
                   href={item.path}
-                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap ${isActive
-                    ? "bg-[var(--theme-route)] text-white shadow-sm"
-                    : "text-white hover:bg-white/5 hover:text-[var(--theme-route-title)]"
+                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
+                    ? "bg-[var(--theme-route-box)] shadow-sm"
+                    : "hover:bg-white/10"
                     }`}
                 >
                   {item.label}
