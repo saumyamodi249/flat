@@ -2,9 +2,8 @@ import BottomNav from '../components/BottomNav'
 
 function ContactPage() {
   return (
-    <div>
-      <h1>Contact Page</h1>
-      <p>Riviera Select — Contact Us</p>
+    <div className="min-h-screen w-full bg-[var(--theme-route-title)] pb-16">
+      <h1 className="text-2xl font-semibold text-[var(--theme-bottom)] text-center pt-6">Contact Us</h1>
       <BottomNav />
     </div>
   )

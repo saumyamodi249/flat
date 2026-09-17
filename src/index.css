@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+:root {
+  --theme-bottom: #004443;
+  --theme-route: #C09973;
+  --theme-route-title: #F7E4CF;
+  --theme-UrbanDataLayers: #FFFFFF;
+}
+
+/* Hide scrollbar for clean horizontal nav on mobile */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
