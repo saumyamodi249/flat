@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
+import Compass from "./Compass";
 
 // Exact 4-circle dot menu icon from Figma design
 function FourDotsIcon({ size = 24, color = "#F5DEB3" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className="shrink-0">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={color}
+      className="shrink-0"
+    >
       <circle cx="7" cy="7" r="2.8" />
       <circle cx="17" cy="7" r="2.8" />
       <circle cx="7" cy="17" r="2.8" />
@@ -22,7 +29,7 @@ const navItems = [
   { label: "CONTACT US", path: "/contact" },
 ];
 
-function BottomNav() {
+function BottomNav({ showCompass = true }) {
   const [currentPath, setCurrentPath] = useState("/");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -65,10 +72,11 @@ function BottomNav() {
                     key={item.path}
                     href={item.path}
                     onClick={() => setMenuOpen(false)}
-                    className={`rounded-lg px-3 py-2.5 text-center text-xs font-bold uppercase tracking-wider no-underline transition-all text-[var(--theme-route-title)] ${isActive
-                      ? "bg-[var(--theme-route-box)] shadow-sm"
-                      : "hover:bg-white/10"
-                      }`}
+                    className={`rounded-lg px-3 py-2.5 text-center text-xs font-bold uppercase tracking-wider no-underline transition-all text-[var(--theme-route-title)] ${
+                      isActive
+                        ? "bg-[var(--theme-route-box)] shadow-sm"
+                        : "hover:bg-white/10"
+                    }`}
                   >
                     {item.label}
                   </a>
@@ -76,6 +84,13 @@ function BottomNav() {
               })}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Working Compass: Fixed position bottom-right */}
+      {showCompass && (
+        <div className="fixed bottom-[62px] md:bottom-[70px] right-4 sm:right-6 md:right-8 z-40 pointer-events-auto">
+          <Compass />
         </div>
       )}
 
@@ -110,7 +125,10 @@ function BottomNav() {
               className="flex items-center justify-center p-1 transition-transform hover:scale-105 cursor-pointer"
               title="Menu"
             >
-              <FourDotsIcon size={24} color="var(--theme-route-title, #F7E4CF)" />
+              <FourDotsIcon
+                size={24}
+                color="var(--theme-route-title, #F7E4CF)"
+              />
             </button>
           </div>
 
@@ -137,10 +155,11 @@ function BottomNav() {
                 <a
                   key={item.path}
                   href={item.path}
-                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
-                    ? "bg-[var(--theme-route-box)] shadow-sm"
-                    : "hover:bg-white/10"
-                    }`}
+                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${
+                    isActive
+                      ? "bg-[var(--theme-route-box)] shadow-sm"
+                      : "hover:bg-white/10"
+                  }`}
                 >
                   {item.label}
                 </a>
@@ -149,7 +168,7 @@ function BottomNav() {
           </div>
 
           {/* Right SolidTwin Logo with exact padding requested */}
-          <div className="flex items-center justify-end pr-[50px] py-[12.29px] pl-[119.39px] shrink-0">
+          <div className="flex items-center justify-end pr-[50px] py-[12.29px] pl-[72px] shrink-0">
             <img
               src="/UI IMG/bottom_logo.svg"
               alt="Powered by SolidTwin"

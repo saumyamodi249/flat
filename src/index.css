@@ -2,8 +2,8 @@
 
 :root {
   --theme-bottom: #004443;
+  --theme-blur-layer: #004443;
   --theme-route-box: #C09973;
-  --theme-route: var(--theme-route-box);
   --theme-route-title: #F7E4CF;
   --theme-UrbanDataLayers: #FFFFFF;
 }
