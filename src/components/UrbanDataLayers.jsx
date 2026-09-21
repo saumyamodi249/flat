@@ -1,43 +1,58 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchLayer } from '../api/UrbanDataLayers/urbanData';
+import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
 
 const LAYERS = [
   {
     id: 'roads',
     label: 'Roads',
-    imgSrc: '/urbandatalayer/road.svg',
+    imgSrc: '/UrbanDataLayers/road.svg',
   },
   {
     id: 'parks',
     label: 'Parks',
-    imgSrc: '/urbandatalayer/tree.svg',
+    imgSrc: '/UrbanDataLayers/tree.svg',
   },
   {
     id: 'education',
     label: 'Education',
-    imgSrc: '/urbandatalayer/Education.svg',
+    imgSrc: '/UrbanDataLayers/Education.svg',
   },
   {
     id: 'food',
     label: 'Fun & Food',
-    imgSrc: '/urbandatalayer/food.svg',
+    imgSrc: '/UrbanDataLayers/food.svg',
   },
 ];
 
 /**
  * UrbanDataLayers Component
- * - Default state: all tiles 50% transparent
- * - Selected state: 80% transparent
- * - No loading overlay effect on icons
+ * - Default state: tiles are transparent (no box)
+ * - Hover state: box appears with 50% transparency
+ * - Selected state: box appears with 50% transparency (#004443) and translate lift
  */
 function UrbanDataLayers({
   lat = 23.0225,
   lon = 72.5714,
   className = '',
+  activeLayer: controlledActiveLayer,
+  onLayerChange,
 }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  // Default to null so on open everything starts at 50%
-  const [activeLayer, setActiveLayer] = useState(null);
+  const [internalActiveLayer, setInternalActiveLayer] = useState(null);
+
+  const isControlled = controlledActiveLayer !== undefined;
+  const activeLayer = isControlled ? controlledActiveLayer : internalActiveLayer;
+
+  const handleActiveLayerUpdate = (nextLayer) => {
+    if (!isControlled) {
+      setInternalActiveLayer(nextLayer);
+    }
+    if (onLayerChange) {
+      onLayerChange(nextLayer);
+    }
+  };
+
   const [cache, setCache] = useState({});
 
   const abortControllersRef = useRef({});
@@ -78,12 +93,12 @@ function UrbanDataLayers({
       if (abortControllersRef.current[layerKey]) {
         abortControllersRef.current[layerKey].abort();
       }
-      setActiveLayer(null);
+      handleActiveLayerUpdate(null);
     } else {
       if (activeLayer && abortControllersRef.current[activeLayer]) {
         abortControllersRef.current[activeLayer].abort();
       }
-      setActiveLayer(layerKey);
+      handleActiveLayerUpdate(layerKey);
       loadLayer(layerKey);
     }
   };
@@ -119,38 +134,33 @@ function UrbanDataLayers({
       {/* Header: "Urban Data Layers" with collapse chevron */}
       <div
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="flex items-center justify-between px-5 pt-4 pb-3 cursor-pointer"
+        className="flex items-center justify-between p-4 cursor-pointer"
       >
-        <h2 className="text-[15px] sm:text-base font-semibold tracking-normal text-white">
+        <h2 className="text-[15px] sm:text-base font-semibold tracking-normal text-white pr-12.5">
           Urban Data Layers
         </h2>
         <button
           type="button"
           aria-expanded={!isCollapsed}
           aria-label={isCollapsed ? 'Expand layers' : 'Collapse layers'}
-          className="text-white hover:text-white/80 transition-transform p-1 cursor-pointer"
+          className="text-white hover:text-white/80 transition-transform px-[6px] py-[9px] cursor-pointer flex items-center justify-center"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={`w-4 h-4 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : 'rotate-0'
-              }`}
-          >
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
+          {isCollapsed ? (
+            <IoChevronDownOutline className="w-6 h-6 text-white" />
+          ) : (
+            <IoChevronUpOutline className="w-6 h-6 text-white" />
+          )}
         </button>
       </div>
 
-      {/* Thin horizontal divider line */}
-      <div className="mx-5 h-[1px] bg-white/20" />
+      {/* Thin horizontal divider line (only visible when expanded) */}
+      {!isCollapsed && (
+        <div className="mx-4 border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20" />
+      )}
 
       {/* Body: 2x2 Grid */}
       {!isCollapsed && (
-        <div className="px-4 py-4">
+        <div className="px-4 pb-4 pt-3">
           <div className="grid grid-cols-2 gap-4 sm:gap-3.5">
             {LAYERS.map((layer) => {
               const isActive = activeLayer === layer.id;
@@ -161,22 +171,23 @@ function UrbanDataLayers({
                   type="button"
                   onClick={() => handleToggleLayer(layer.id)}
                   aria-pressed={isActive}
-                  className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-200 cursor-pointer min-h-[98px] focus:outline-none ${isActive
-                    ? 'bg-[var(--theme-blur-layer)]/80 text-white scale-[1.02] shadow-inner'
-                    : 'bg-[var(--theme-blur-layer)]/50 hover:bg-[var(--theme-blur-layer)]/65 text-white/90'
+                  className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
+                    ? 'bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent'
+                    : 'bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent'
                     }`}
                 >
                   {/* Label on Top */}
-                  <span className="text-[13px] font-semibold tracking-tight text-center text-white mb-2">
+                  <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
                     {layer.label}
                   </span>
 
-                  {/* Clean Custom Image (no loading spinner overlay) */}
+                  {/* Clean Custom Image */}
                   <div className="relative flex items-center justify-center h-8">
                     <img
                       src={layer.imgSrc}
                       alt={layer.label}
-                      className="h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform group-hover:scale-105"
+                      className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-105'
+                        }`}
                       onError={(e) => {
                         if (!e.currentTarget.src.includes('UrbanDataLayers')) {
                           e.currentTarget.src = layer.imgSrc.replace(

@@ -6,14 +6,24 @@ import BottomNav from '../components/BottomNav';
 
 function MapPage() {
   const { coords, isApproximate } = useGeoLocation();
+  const [activeLayer, setActiveLayer] = useState(null);
 
   return (
-    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-[#1f3b45]">
-      {/* Background image */}
+    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-[var(--theme-bottom)]">
+      {/* Background images — Building.png (default) or Iscon circle.png (when layer active) */}
       <img
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className="absolute inset-0 w-full h-full object-cover select-none brightness-90"
+        className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
+          activeLayer ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      />
+      <img
+        src="/UI IMG/Iscon circle.png"
+        alt="Iscon Circle urban layer view"
+        className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
+          activeLayer ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
       />
 
       {/* Top Bar: Left Logo & Right Weather Strip */}
@@ -41,6 +51,8 @@ function MapPage() {
           <UrbanDataLayers
             lat={coords.lat}
             lon={coords.lon}
+            activeLayer={activeLayer}
+            onLayerChange={setActiveLayer}
           />
         </div>
       </div>
