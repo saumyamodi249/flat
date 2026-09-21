@@ -1,11 +1,30 @@
 @import "tailwindcss";
 
 :root {
+
+  /* Home */
   --theme-bottom: #004443;
   --theme-blur-layer: #004443;
   --theme-route-box: #C09973;
   --theme-route-title: #F7E4CF;
   --theme-UrbanDataLayers: #FFFFFF;
+  --theme-UrbanDataLayers-border: #FFFFFF;
+
+  /* Contact Us */
+
+  --theme-box-bg: #002E2D;
+  --theme-title: #F7E4CF;
+  --theme-description: #FFFFFF;
+  --theme-description-border: #E0E0E0;
+  --theme-description-data-fill: #D4D4D4;
+  --theme-submit-border: #C09973;
+  --theme-submit: #C09973;
+  --theme-terms-conditions: #FFFFFF;
+  --theme-terms-conditions-white: #FFFFFF;
+  --theme-terms-conditions-selected: #ADD8E6;
+  --theme-terms-conditions-light-blue: #ADD8E6;
+
+
 }
 
 /* Hide scrollbar for clean horizontal nav on mobile */
@@ -36,4 +55,27 @@
   .full-desktop-nav {
     display: none !important;
   }
+}
+
+/* Terms of Service & Privacy Policy */
+.theme-terms-policy-link {
+  color: var(--theme-terms-conditions-white);
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.theme-terms-policy-link:hover {
+  opacity: 0.3;
+}
+
+.theme-terms-policy-link:active,
+.theme-terms-policy-link:focus,
+.theme-terms-policy-link.selected {
+  color: var(--theme-terms-conditions-selected);
+}
+
+.theme-terms-policy-link::selection {
+  color: var(--theme-terms-conditions-selected);
 }
