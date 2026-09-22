@@ -1,33 +1,25 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import HomePage from './home/pages/HomePage'
-import InventoryPage from './inventory/pages/InventoryPage'
-import AmenitiesPage from './amenities/pages/AmenitiesPage'
-import GalleryPage from './gallery/pages/GalleryPage'
-import MapPage from './maps/pages/MapPage'
-import AboutPage from './about/pages/AboutPage'
-import TheProject from './about/components/TheProject'
-import Location from './about/components/Location'
-import Developer from './about/components/Developer'
-import ContactPage from './contact/pages/ContactPage'
+import Home from './home/Home'
+import Inventory from './inventory/Inventory'
+import Amenities from './amenities/Amenities'
+import Gallery from './gallery/Gallery'
+import Maps from './maps/Maps'
+import About from './about/About'
+import Contact from './contact/Contact'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/inventory" element={<InventoryPage />} />
-        <Route path="/amenities" element={<AmenitiesPage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/maps" element={<MapPage />} />
-        <Route path="/about" element={<AboutPage />}>
-          <Route index element={<Navigate to="project" replace />} />
-          <Route path="project" element={<TheProject />} />
-          <Route path="location" element={<Location />} />
-          <Route path="developer" element={<Developer />} />
-        </Route>
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/amenities" element={<Amenities />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/maps" element={<Maps />} />
+        <Route path="/about/*" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   )
