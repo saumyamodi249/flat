@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: 'Funnel Display', 'Poppins', sans-serif;
+  --font-funnel: 'Funnel Display', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+}
+
+*,
+*::before,
+*::after,
+html,
+body,
+input,
+button,
+textarea,
+select {
+  font-family: 'Funnel Display', 'Poppins', sans-serif;
+}
+
+.font-funnel {
+  font-family: 'Funnel Display', sans-serif !important;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+
 :root {
 
   /* Home */
@@ -21,8 +47,8 @@
   --theme-submit: #C09973;
   --theme-terms-conditions: #FFFFFF;
   --theme-terms-conditions-white: #FFFFFF;
-  --theme-terms-conditions-selected: #ADD8E6;
-  --theme-terms-conditions-light-blue: #ADD8E6;
+  --theme-terms-conditions-selected: #addef7;
+  --theme-terms-conditions-light-blue: #addef7;
 
 
 }
@@ -59,23 +85,25 @@
 
 /* Terms of Service & Privacy Policy */
 .theme-terms-policy-link {
-  color: var(--theme-terms-conditions-white);
+  color: var(--theme-terms-conditions-white, #FFFFFF);
   text-decoration: underline;
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
+/* Hover: 50% to 60% opacity when normal */
 .theme-terms-policy-link:hover {
-  opacity: 0.3;
+  opacity: 0.55;
 }
 
-.theme-terms-policy-link:active,
-.theme-terms-policy-link:focus,
-.theme-terms-policy-link.selected {
-  color: var(--theme-terms-conditions-selected);
+/* When selected: full 100% opacity light blue (hover won't dim it) */
+.theme-terms-policy-link.selected,
+.theme-terms-policy-link.selected:hover {
+  color: var(--theme-terms-conditions-selected, #addef7) !important;
+  opacity: 1 !important;
 }
 
 .theme-terms-policy-link::selection {
-  color: var(--theme-terms-conditions-selected);
+  color: var(--theme-terms-conditions-selected, #addef7);
 }
