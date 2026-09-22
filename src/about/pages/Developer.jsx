@@ -25,11 +25,11 @@ function Developer() {
         {/* 2nd Main Div: Row container for Image (left) and Text content (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start w-full">
           {/* Inside 2nd Div -> 1st Child: Image only */}
-          <div className="w-full h-64 sm:h-80 md:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[#0d2240] flex items-center justify-center p-4 shrink-0">
+          <div className="w-full h-64 sm:h-80 md:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[#0d2240] flex items-center justify-center shrink-0">
             <img
               src={data.image}
               alt={data.imageAlt}
-              className="w-full h-full object-contain select-none hover:scale-102 transition-transform duration-500 ease-out"
+              className="w-full h-full object-cover"
             />
           </div>
 

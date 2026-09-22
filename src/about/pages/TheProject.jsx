@@ -30,7 +30,7 @@ function TheProject() {
             <img
               src={data.image}
               alt={data.imageAlt}
-              className="w-full h-full object-cover object-center "
+              className="w-full h-full object-cover object-center"
             />
           </div>
 
