@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../../components/BottomNav";
 import { GiCancel } from "react-icons/gi";
 
 // ================= VALIDATION REGEX =================
-// Name: letters, numbers and spaces allowed
 const NAME_REGEX = /^[a-zA-Z0-9 ]+$/;
-
-// Email: standard email shape
 const EMAIL_SHAPE_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function ContactPage() {
@@ -21,7 +18,6 @@ function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
 
-  // Clear specific field error on change
   const clearError = (field) => {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
   };
@@ -32,18 +28,15 @@ function ContactPage() {
     clearError(name);
   };
 
-  // Validation logic
   const validate = () => {
     const nextErrors = {};
 
-    // Name validation
     if (!formData.name.trim()) {
       nextErrors.name = "Your name is required";
     } else if (!NAME_REGEX.test(formData.name.trim())) {
       nextErrors.name = "Name can contain only letters and numbers";
     }
 
-    // Email validation
     if (!formData.email.trim()) {
       nextErrors.email = "Email Id is required";
     } else if (!EMAIL_SHAPE_REGEX.test(formData.email.trim())) {
@@ -59,7 +52,6 @@ function ContactPage() {
 
     if (!validate()) return;
 
-    // Simulate submission
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
@@ -105,7 +97,7 @@ function ContactPage() {
               type="button"
               onClick={() => navigate("/home")}
               aria-label="Close Contact Us"
-              className="text-[var(--theme-title)] hover:opacity-75 transition-opacity cursor-pointer p-1"
+              className="text-[var(--theme-cancel)] hover:opacity-75 transition-opacity cursor-pointer p-1"
             >
               <GiCancel className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
@@ -254,7 +246,7 @@ function ContactPage() {
 
       {/* Bottom Navigation */}
       <div className="relative w-full z-40">
-        <BottomNav showCompass={false} />
+        <BottomNav />
       </div>
     </div>
   );

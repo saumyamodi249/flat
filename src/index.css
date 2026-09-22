@@ -49,6 +49,16 @@ select {
   --theme-terms-conditions-white: #FFFFFF;
   --theme-terms-conditions-selected: #addef7;
   --theme-terms-conditions-light-blue: #addef7;
+  --theme-cancel: #C09973;
+
+  /* About */
+  --theme-route-about-button-title-default-bg: #FFFFFF;
+  --theme-route-about-button-title-selected-bg: #F7E4CF;
+  --theme-route-about-button-bg: #C09973;
+  --theme-about-title-main: #C09973;
+  --theme-about-title: #F7E4CF;
+  --theme-about-description: #FFFFFF;
+
 
 
 }

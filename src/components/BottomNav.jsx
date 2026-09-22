@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import Compass from "./Compass";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // Exact 4-circle dot menu icon from Figma design
 function FourDotsIcon({ size = 24, color = "#F5DEB3" }) {
@@ -29,13 +29,10 @@ const navItems = [
   { label: "CONTACT US", path: "/contact" },
 ];
 
-function BottomNav({ showCompass = true }) {
-  const [currentPath, setCurrentPath] = useState("/");
+function BottomNav() {
+  const location = useLocation();
+  const currentPath = location.pathname;
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setCurrentPath(window.location.pathname);
-  }, []);
 
   return (
     <>
@@ -84,13 +81,6 @@ function BottomNav({ showCompass = true }) {
               })}
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Working Compass: Fixed position bottom-right */}
-      {showCompass && (
-        <div className="fixed bottom-[62px] md:bottom-[70px] right-4 sm:right-6 md:right-8 z-40 pointer-events-auto">
-          <Compass />
         </div>
       )}
 

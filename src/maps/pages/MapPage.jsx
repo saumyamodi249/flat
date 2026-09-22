@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import useGeoLocation from '../hooks/useGeoLocation';
-import WeatherCard from '../components/WeatherCard';
-import UrbanDataLayers from '../components/UrbanDataLayers';
-import BottomNav from '../components/BottomNav';
+import React, { useState } from "react";
+import useGeoLocation from "../../hooks/useGeoLocation";
+import WeatherCard from "../../home/components/WeatherCard";
+import UrbanDataLayers from "../../home/components/UrbanDataLayers";
+import BottomNav from "../../components/BottomNav";
+import { mapsData } from "../data";
 
 function MapPage() {
   const { coords, isApproximate } = useGeoLocation();
@@ -15,14 +16,14 @@ function MapPage() {
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
         className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
-          activeLayer ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
       />
       <img
         src="/UI IMG/Iscon circle.png"
         alt="Iscon Circle urban layer view"
         className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
-          activeLayer ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
 
@@ -57,12 +58,12 @@ function MapPage() {
         </div>
       </div>
 
-      {/* OSM & Open-Meteo attribution */}
+      {/* Attribution */}
       <div className="absolute bottom-[60px] left-4 z-20 text-[10px] text-white/60 select-none drop-shadow">
-        © OpenStreetMap contributors | Open-Meteo
+        {mapsData.attribution}
       </div>
 
-      {/* Bottom Nav with Compass */}
+      {/* Bottom Nav */}
       <div className="relative w-full z-40">
         <BottomNav />
       </div>

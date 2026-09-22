@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getWeather, formatLocalTime } from '../api/temptimeweather/weather';
+import { getWeather, formatLocalTime } from '../../api/temptimeweather/weather';
 
 /**
  * Sun / Weather icon matching the screenshot:

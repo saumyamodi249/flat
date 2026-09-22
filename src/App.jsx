@@ -1,12 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import HomePage from './pages/HomePage'
-import InventoryPage from './pages/InventoryPage'
-import AmenitiesPage from './pages/AmenitiesPage'
-import GalleryPage from './pages/GalleryPage'
-import MapPage from './pages/MapPage'
-import AboutPage from './pages/AboutPage'
-import ContactPage from './pages/ContactPage'
+import HomePage from './home/pages/HomePage'
+import InventoryPage from './inventory/pages/InventoryPage'
+import AmenitiesPage from './amenities/pages/AmenitiesPage'
+import GalleryPage from './gallery/pages/GalleryPage'
+import MapPage from './maps/pages/MapPage'
+import AboutPage from './about/pages/AboutPage'
+import TheProject from './about/components/TheProject'
+import Location from './about/components/Location'
+import Developer from './about/components/Developer'
+import ContactPage from './contact/pages/ContactPage'
 
 function App() {
   return (
@@ -18,7 +21,12 @@ function App() {
         <Route path="/amenities" element={<AmenitiesPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/maps" element={<MapPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about" element={<AboutPage />}>
+          <Route index element={<Navigate to="project" replace />} />
+          <Route path="project" element={<TheProject />} />
+          <Route path="location" element={<Location />} />
+          <Route path="developer" element={<Developer />} />
+        </Route>
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </BrowserRouter>

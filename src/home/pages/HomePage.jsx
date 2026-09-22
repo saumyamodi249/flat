@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
 import UrbanDataLayers from "../components/UrbanDataLayers";
-import useGeoLocation from "../hooks/useGeoLocation";
+import useGeoLocation from "../../hooks/useGeoLocation";
 
 function HomePage() {
   const { coords, isApproximate } = useGeoLocation();
@@ -57,7 +57,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Bottom Nav with Compass */}
+      {/* Bottom Nav */}
       <div className="relative w-full z-40">
         <BottomNav />
       </div>
