@@ -1,35 +1,13 @@
 import React, { useState } from "react";
-import {
-  IoLocationOutline,
-  IoLeafOutline,
-  IoSchoolOutline,
-  IoMedicalOutline,
-  IoGameControllerOutline,
-  IoRestaurantOutline,
-  IoBedOutline,
-  IoBagHandleOutline,
-} from "react-icons/io5";
-import { HiOutlineBriefcase } from "react-icons/hi";
-import { mapUI } from "../data";
-
-const CATEGORY_ICONS = {
-  all: IoLocationOutline,
-  business: HiOutlineBriefcase,
-  education: IoSchoolOutline,
-  hospital: IoMedicalOutline,
-  fun: IoGameControllerOutline,
-  food: IoRestaurantOutline,
-  hotel: IoBedOutline,
-  mall: IoBagHandleOutline,
-  parks: IoLeafOutline,
-};
+import { IoLocationOutline } from "react-icons/io5";
+import { mapUI, CATEGORY_ICONS } from "../data";
 
 function MapDetailCard({ place, onOpenStreetView }) {
   const [loading360, setLoading360] = useState(false);
 
   if (!place) return null;
 
-  const CategoryIcon = CATEGORY_ICONS[place.category] || IoLocationOutline;
+  const iconSrc = CATEGORY_ICONS[place.category] || "/map/icon/location.svg";
 
   const handleStreetViewClick = async () => {
     if (!onOpenStreetView) return;
@@ -50,11 +28,21 @@ function MapDetailCard({ place, onOpenStreetView }) {
 
       {/* Category & Subtitle */}
       <div className="flex items-center gap-[6px] mt-2.5 text-[var(--theme-map-text)]/80">
-        {place.icon ? (
-          <span className="text-sm leading-none shrink-0">{place.icon}</span>
-        ) : (
-          <CategoryIcon className="w-4 h-4 text-[var(--theme-map-border)] shrink-0" />
-        )}
+        <span
+          aria-hidden="true"
+          className="w-4 h-4 shrink-0 inline-block"
+          style={{
+            maskImage: `url("${iconSrc}")`,
+            WebkitMaskImage: `url("${iconSrc}")`,
+            maskSize: "contain",
+            WebkitMaskSize: "contain",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+            maskPosition: "center",
+            WebkitMaskPosition: "center",
+            backgroundColor: "var(--theme-icon-color, #C09973)",
+          }}
+        />
         <span className="text-xs font-bold text-[var(--theme-map-text)] capitalize">
           {place.categoryLabel || place.category}
         </span>

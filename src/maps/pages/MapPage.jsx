@@ -7,21 +7,21 @@ import { mapCategories } from "../data";
 
 function MapPage() {
   return (
-    <div className="relative flex flex-col justify-between min-h-screen w-full overflow-x-hidden overflow-y-auto select-none bg-[var(--theme-bottom)]">
+    <div className="relative flex flex-col justify-between min-h-screen w-full max-w-full overflow-y-auto overflow-x-hidden scrollbar-none bg-[var(--theme-bottom)] select-none">
       {/* Blurred background image */}
       <img
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className="fixed inset-0 w-full h-full object-cover blur-sm scale-105 select-none brightness-75 pointer-events-none"
+        className="fixed inset-0 w-full h-full object-cover blur-sm scale-105 select-none brightness-85 pointer-events-none"
       />
-      <div className="fixed inset-0 bg-black/45 pointer-events-none" />
+      <div className="fixed inset-0 bg-black/35 pointer-events-none" />
 
       {/* Top Header Navigation */}
       <TopNav title="3D Map" />
 
-      {/* Main Content Area */}
-      <main className="relative z-20 flex-1 flex flex-col justify-center items-center px-3 sm:px-6 md:px-10 py-3 sm:py-4 w-full max-w-[1440px] mx-auto">
-        <div className="w-full bg-[var(--theme-map-bg)]/95 backdrop-blur-md border border-[var(--theme-map-border)]/40 rounded-[10px] p-10 shadow-2xl flex flex-col gap-3.5">
+      {/* Main Content Area: Modal anchored to bottom matching About section */}
+      <main className="relative z-20 flex-1 flex flex-col justify-end items-center px-4 sm:px-[50px] pt-4 pb-[52px] md:pb-[56px] w-full max-w-full">
+        <div className="w-full max-w-8xl rounded-t-[10px] rounded-b-none backdrop-blur-md px-[40px] py-[30px] shadow-2xl border border-[var(--theme-map-border)]/40 border-b-0 bg-[var(--theme-map-bg)] flex flex-col gap-[20px] sm:gap-[24px] overflow-hidden">
           {/* Sub-Route Map Canvas (MapView) */}
           <Outlet />
 

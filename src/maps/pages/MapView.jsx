@@ -7,6 +7,7 @@ import {
   fetchNearbyPlaces,
   fetch360StreetView,
   reverseGeocodeLocation,
+  loadGoogleMapsSDK,
   loadLeafletSDK,
   BASE_PROPERTY_LOCATION,
   calculateDistanceKm,
@@ -73,9 +74,6 @@ function MapView() {
         });
 
         roadLayer.addTo(map);
-        setTimeout(() => {
-          if (map) map.invalidateSize();
-        }, 150);
 
         // 3. Create high-resolution Google-style Red Pin Marker
         const pinHtml = `
@@ -257,21 +255,23 @@ function MapView() {
         />
       </div>
 
-      {/* Bottom-Left: Map / Satellite Mode Toggle (Matches 3rd & 4th images design) */}
+      {/* Bottom-Left: Map / Satellite Mode Toggle (Enlarged with Map.svg and satellite.svg) */}
       <div className="absolute bottom-3.5 left-3.5 z-30 pointer-events-auto">
         <button
           type="button"
           onClick={handleToggleMapMode}
           title={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
           aria-label={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
-          className="w-14 h-14 sm:w-16 sm:h-16 rounded-[14px] border-2 border-white/90 overflow-hidden shadow-2xl relative group cursor-pointer hover:scale-105 active:scale-95 transition-all select-none bg-[#081b1a]"
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-[16px] border-2 border-white/90 overflow-hidden shadow-2xl relative group cursor-pointer hover:scale-105 active:scale-95 transition-all select-none bg-[#081b1a] flex flex-col justify-end"
         >
           {/* Thumbnail preview image (Shows Satellite thumb when on road, Map thumb when on satellite) */}
           <img
             src={mapMode === "road" ? mapUI.satelliteImg : mapUI.roadImg}
-            alt=""
-            className="w-full h-full object-cover scale-105 group-hover:scale-115 transition-transform duration-300"
+            alt={mapMode === "road" ? mapUI.satelliteAlt : mapUI.roadAlt}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
+
+
         </button>
       </div>
 

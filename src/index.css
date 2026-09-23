@@ -68,7 +68,11 @@ select {
   --theme-map-street-view: #002E2D;
   --theme-map-line: #C5C5C5;
   --theme-map-text: #FFFFFF;
-
+  --theme-icon-color: #C09973;
+  --theme-icon-selected-color: #F7E4CF;
+  --theme-map-left: #F7E4CF;
+  --theme-map-button-default-bg: #002E2D;
+  --theme-map-button-selected-bg: #C09973;
 
 }
 
@@ -192,7 +196,7 @@ div:has(> .dismissButton) {
 }
 
 /* Remove dark overlay tint that Google adds over the map in dev mode */
-.gm-style > div:first-child > div:last-child[style*="background-color"],
+.gm-style>div:first-child>div:last-child[style*="background-color"],
 .gm-style div[style*="background-color: rgba(0, 0, 0, 0.5)"],
 .gm-style div[style*="background-color: rgba(0, 0, 0, 0.4)"],
 .gm-style div[style*="background-color: rgba(0, 0, 0, 0.6)"] {

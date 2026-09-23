@@ -15,6 +15,38 @@ import { MAP_CATEGORIES } from "../api/maps/mapsApi";
 
 export const mapCategories = MAP_CATEGORIES;
 
+export const CATEGORY_ICONS = {
+  all: "/map/icon/location.svg",
+  parks: "/map/icon/home-eco.svg",
+  fun: "/map/icon/confetti.svg",
+  business: "/map/icon/hand-shake.svg",
+  education: "/map/icon/graduation-cap.svg",
+  hospital: "/map/icon/hospital.svg",
+  food: "/map/icon/cooking.svg",
+  hotel: "/map/icon/hotel.svg",
+  shopping: "/map/icon/shopping-bag.svg",
+  mall: "/map/icon/shopping-bag.svg",
+  banking: "/map/icon/building-bank.svg",
+  fuel: "/map/icon/gas-station.svg",
+  grocery: "/map/icon/shopping-cart.svg",
+  pharmacy: "/map/icon/pill.svg",
+  fitness: "/map/icon/barbell.svg",
+  religious: "/map/icon/building-church.svg",
+  transport: "/map/icon/tir.svg",
+  parking: "/map/icon/location.svg",
+  sports: "/map/icon/laurel-wreath.svg",
+  cafes: "/map/icon/coffee.svg",
+  entertainment: "/map/icon/video.svg",
+  services: "/map/icon/hammer.svg",
+  "pet-care": "/map/icon/paw.svg",
+  nature: "/map/icon/cannabis.svg",
+  government: "/map/icon/building-bank.svg",
+  police: "/map/icon/face-id.svg",
+  emergency: "/map/icon/ambulance.svg",
+  airport: "/map/icon/plane-tilt.svg",
+  "real-estate": "/map/icon/crane.svg",
+};
+
 // All static UI text & asset paths for the maps folder — single source of truth.
 // Place data (name, category, travel, address, lat, lng) comes from mapsApi.js
 // via fetchNearbyPlaces() / reverseGeocodeLocation() — NOT stored here.
@@ -24,8 +56,8 @@ export const mapUI = {
   toggleRoad: "Switch to Road Map view",
   satelliteAlt: "Satellite Layer",
   roadAlt: "Map Layer",
-  satelliteImg: "/UI IMG/real_sat_toggle.svg",
-  roadImg: "/UI IMG/real_map_toggle.svg",
+  satelliteImg: "/map/icon/satellite.svg",
+  roadImg: "/map/icon/Map.svg",
   zoomIn: "Zoom In",
   zoomOut: "Zoom Out",
   prevCategories: "Previous categories",

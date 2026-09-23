@@ -1,36 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  IoLocationOutline,
-  IoSchoolOutline,
-  IoMedicalOutline,
-  IoGameControllerOutline,
-  IoRestaurantOutline,
-  IoBedOutline,
-  IoBagHandleOutline,
-  IoLeafOutline,
-  IoChevronBack,
-  IoChevronForward,
-} from "react-icons/io5";
-import { HiOutlineBriefcase } from "react-icons/hi";
-
-const CATEGORY_ICONS = {
-  all: IoLocationOutline,
-  business: HiOutlineBriefcase,
-  education: IoSchoolOutline,
-  hospital: IoMedicalOutline,
-  fun: IoGameControllerOutline,
-  food: IoRestaurantOutline,
-  hotel: IoBedOutline,
-  mall: IoBagHandleOutline,
-  parks: IoLeafOutline,
-};
+import { CATEGORY_ICONS } from "../data";
 
 function CategoryFilterBar({ categories }) {
   const { category = "parks" } = useParams();
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const buttonRefs = useRef({});
+
+  // Active arrow selection state: "right" (default matching design) or "left"
+  const [selectedArrow, setSelectedArrow] = useState("right");
 
   // Scroll boundary state for showing/hiding arrows
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -128,10 +107,9 @@ function CategoryFilterBar({ categories }) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto scrollbar-none py-1 px-1 flex-1 cursor-grab active:cursor-grabbing select-none"
+        className="flex items-center gap-4 overflow-x-auto scrollbar-none flex-1 cursor-grab active:cursor-grabbing select-none"
       >
         {categories.map((cat) => {
-          const Icon = CATEGORY_ICONS[cat.id] || IoLocationOutline;
           const isActive = category === cat.id;
 
           return (
@@ -140,52 +118,75 @@ function CategoryFilterBar({ categories }) {
               ref={(el) => (buttonRefs.current[cat.id] = el)}
               type="button"
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border shrink-0 ${isActive
-                  ? "bg-[var(--theme-map-border)] text-[var(--theme-route-map-button-title-selected-bg)] border-[var(--theme-map-border)] font-semibold shadow-md scale-102"
-                  : "bg-[var(--theme-map-bg)]/70 hover:bg-[var(--theme-map-bg)] text-[var(--theme-route-map-button-title-default-bg)]/80 hover:text-[var(--theme-route-map-button-title-default-bg)] border-[var(--theme-map-border)]/30 hover:border-[var(--theme-map-border)]/60"
+              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
+                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] border-[var(--theme-map-button-selected-bg)]"
+                : "bg-[var(--theme-map-button-default-bg)] text-[var(--theme-route-map-button-title-default-bg)] border-[var(--theme-map-border)]/90"
                 }`}
             >
-              {cat.icon ? (
-                <span className="text-sm leading-none shrink-0">{cat.icon}</span>
-              ) : (
-                <Icon
-                  className={`w-4 h-4 shrink-0 ${isActive
-                      ? "text-[var(--theme-route-map-button-title-selected-bg)]"
-                      : "text-[var(--theme-route-map-button-title-default-bg)]/70"
-                    }`}
+              {CATEGORY_ICONS[cat.id] ? (
+                <span
+                  aria-hidden="true"
+                  className="w-4 h-4 shrink-0 inline-block transition-colors duration-200"
+                  style={{
+                    maskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
+                    WebkitMaskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
+                    maskSize: "contain",
+                    WebkitMaskSize: "contain",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskPosition: "center",
+                    WebkitMaskPosition: "center",
+                    backgroundColor: isActive
+                      ? "var(--theme-icon-selected-color, #F7E4CF)"
+                      : "var(--theme-icon-color, #C09973)",
+                  }}
                 />
-              )}
+              ) : null}
               <span>{cat.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Carousel Navigation Arrows (Removed when reaching start/end) */}
-      <div className="flex items-center gap-1.5 shrink-0 pl-1">
-        {canScrollLeft && (
-          <button
-            type="button"
-            onClick={() => handleScroll("left")}
-            aria-label="Previous categories"
-            title="Scroll left"
-            className="w-8 h-8 rounded-full border border-[var(--theme-map-border)]/40 bg-[var(--theme-map-bg)]/80 text-[var(--theme-route-map-button-title-default-bg)]/90 hover:text-[var(--theme-route-map-button-title-default-bg)] hover:border-[var(--theme-map-border)] hover:bg-[var(--theme-map-bg)] flex items-center justify-center transition-all cursor-pointer shadow animate-fadeIn"
-          >
-            <IoChevronBack className="w-4 h-4" />
-          </button>
-        )}
+      {/* Carousel Navigation Arrows (Exact 30x30 circles matching design) */}
+      <div className="flex items-center gap-2 shrink-0 pl-1">
+        <button
+          type="button"
+          onClick={() => {
+            handleScroll("left");
+            setSelectedArrow("left");
+          }}
+          aria-label="Previous categories"
+          title="Scroll left"
+          className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all cursor-pointer select-none shrink-0 ${
+            selectedArrow === "left"
+              ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
+              : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
+          }`}
+        >
+          <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
+            <path d="M8 2L2 8L8 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
 
-        {canScrollRight && (
-          <button
-            type="button"
-            onClick={() => handleScroll("right")}
-            aria-label="Next categories"
-            title="Scroll right"
-            className="w-8 h-8 rounded-full border border-[var(--theme-map-border)] bg-[var(--theme-map-border)] text-[var(--theme-route-map-button-title-selected-bg)] hover:brightness-110 flex items-center justify-center transition-all cursor-pointer shadow animate-fadeIn"
-          >
-            <IoChevronForward className="w-4 h-4" />
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => {
+            handleScroll("right");
+            setSelectedArrow("right");
+          }}
+          aria-label="Next categories"
+          title="Scroll right"
+          className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all cursor-pointer select-none shrink-0 ${
+            selectedArrow === "right"
+              ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
+              : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
+          }`}
+        >
+          <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
+            <path d="M2 2L8 8L2 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
     </div>
   );
