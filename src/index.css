@@ -59,6 +59,15 @@ select {
   --theme-about-title: #F7E4CF;
   --theme-about-description: #FFFFFF;
 
+  /* map */
+
+  --theme-map-bg: #002E2D;
+  --theme-map-border: #C09973;
+  --theme-route-map-button-title-selected-bg: #FFFFFF;
+  --theme-route-map-button-title-default-bg: #C09973;
+  --theme-map-street-view: #002E2D;
+  --theme-map-line: #C5C5C5;
+  --theme-map-text: #FFFFFF;
 
 
 }
@@ -129,4 +138,76 @@ select {
 
 .theme-terms-policy-link::selection {
   color: var(--theme-terms-conditions-selected, #addef7);
+}
+
+/* Universally hide Google Maps bottom bar (Keyboard shortcuts, Terms, Map data, Report error) and Google logo */
+.gm-style-cc,
+.gm-style-cc *,
+.gm-style a[href*="maps.google.com"],
+.gm-style a[href*="google.com/maps"],
+.gm-style a[aria-label*="Google"],
+.gm-style .gmnoprint,
+.gm-bundled-control,
+.gm-control-active,
+a[href*="maps.google.com"],
+a[href*="google.com/maps"],
+div[aria-label="Map data"],
+button[title="Keyboard shortcuts"],
+img[src*="google4"],
+img[src*="google_white"],
+img[src*="google_color"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Visually hide Google default white POI popup bubble (keeps text readable by extractor) */
+.gm-style-iw-c,
+.gm-style-iw-tc,
+.gm-style-iw-t,
+.gm-style-iw-a,
+.gm-style-iw,
+.gm-ui-hover-effect {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Suppress 'This page can't load Google Maps correctly' error modal & dismiss button */
+.gm-err-container,
+.gm-err-content,
+.gm-err-autocomplete,
+.dismissButton,
+div[style*="z-index: 1000000"],
+div:has(> .gm-err-container),
+div:has(> .dismissButton) {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Remove dark overlay tint that Google adds over the map in dev mode */
+.gm-style > div:first-child > div:last-child[style*="background-color"],
+.gm-style div[style*="background-color: rgba(0, 0, 0, 0.5)"],
+.gm-style div[style*="background-color: rgba(0, 0, 0, 0.4)"],
+.gm-style div[style*="background-color: rgba(0, 0, 0, 0.6)"] {
+  background-color: transparent !important;
+}
+
+/* Clean Google Map Tiles styling */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #081b1a !important;
+  font-family: inherit !important;
+}
+
+.leaflet-control-container .leaflet-routing-container,
+.leaflet-control-attribution {
+  display: none !important;
 }

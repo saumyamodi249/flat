@@ -1,72 +1,41 @@
-import React, { useState } from "react";
-import useGeoLocation from "../../hooks/useGeoLocation";
-import WeatherCard from "../../home/components/WeatherCard";
-import UrbanDataLayers from "../../home/components/UrbanDataLayers";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import TopNav from "../../components/TopNav";
 import BottomNav from "../../components/BottomNav";
-import { mapsData } from "../data";
+import CategoryFilterBar from "../components/CategoryFilterBar";
+import { mapCategories } from "../data";
 
 function MapPage() {
-  const { coords, isApproximate } = useGeoLocation();
-  const [activeLayer, setActiveLayer] = useState(null);
-
   return (
-    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-[var(--theme-bottom)]">
-      {/* Background images — Building.png (default) or Iscon circle.png (when layer active) */}
+    <div className="relative flex flex-col justify-between min-h-screen w-full overflow-x-hidden overflow-y-auto select-none bg-[var(--theme-bottom)]">
+      {/* Blurred background image */}
       <img
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
-          activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        className="fixed inset-0 w-full h-full object-cover blur-sm scale-105 select-none brightness-75 pointer-events-none"
       />
-      <img
-        src="/UI IMG/Iscon circle.png"
-        alt="Iscon Circle urban layer view"
-        className={`absolute inset-0 w-full h-full object-cover select-none brightness-90 transition-opacity duration-500 ease-in-out ${
-          activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      />
+      <div className="fixed inset-0 bg-black/45 pointer-events-none" />
 
-      {/* Top Bar: Left Logo & Right Weather Strip */}
-      <div className="relative z-30 flex flex-col sm:flex-row items-start sm:items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3">
-        <div className="flex items-center">
-          <img
-            src="/UI IMG/top_logo.svg"
-            alt="Riviera Select"
-            className="h-8 sm:h-10 object-contain drop-shadow"
-          />
+      {/* Top Header Navigation */}
+      <TopNav title="3D Map" />
+
+      {/* Main Content Area */}
+      <main className="relative z-20 flex-1 flex flex-col justify-center items-center px-3 sm:px-6 md:px-10 py-3 sm:py-4 w-full max-w-[1440px] mx-auto">
+        <div className="w-full bg-[var(--theme-map-bg)]/95 backdrop-blur-md border border-[var(--theme-map-border)]/40 rounded-[10px] p-10 shadow-2xl flex flex-col gap-3.5">
+          {/* Sub-Route Map Canvas (MapView) */}
+          <Outlet />
+
+          {/* Category Filter Bar at the Bottom */}
+          <div className="w-full pt-0.5">
+            <CategoryFilterBar categories={mapCategories} />
+          </div>
         </div>
+      </main>
 
-        <div className="self-end sm:self-auto">
-          <WeatherCard
-            lat={coords.lat}
-            lon={coords.lon}
-            isApproximate={isApproximate}
-          />
-        </div>
-      </div>
-
-      {/* Upper-Right Floating Urban Data Layers Panel */}
-      <div className="relative z-20 flex-1 flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none">
-        <div className="pointer-events-auto">
-          <UrbanDataLayers
-            lat={coords.lat}
-            lon={coords.lon}
-            activeLayer={activeLayer}
-            onLayerChange={setActiveLayer}
-          />
-        </div>
-      </div>
-
-      {/* Attribution */}
-      <div className="absolute bottom-[60px] left-4 z-20 text-[10px] text-white/60 select-none drop-shadow">
-        {mapsData.attribution}
-      </div>
-
-      {/* Bottom Nav */}
-      <div className="relative w-full z-40">
+      {/* Bottom Navigation */}
+      <footer className="relative w-full z-40">
         <BottomNav />
-      </div>
+      </footer>
     </div>
   );
 }

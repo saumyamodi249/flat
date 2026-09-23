@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="map-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8ece9" />
+      <stop offset="100%" stop-color="#dce3de" />
+    </linearGradient>
+  </defs>
+  <!-- Road Map Background -->
+  <rect width="120" height="120" fill="url(#map-bg)" />
+
+  <!-- Park / Green spaces -->
+  <path d="M 6 6 L 38 6 L 34 36 L 6 32 Z" fill="#cbe6cb" />
+  <path d="M 80 75 Q 110 70 114 114 L 75 114 Z" fill="#d2ecd2" />
+
+  <!-- Minor Local Streets -->
+  <path d="M 0 35 L 120 35" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 0 78 L 120 78" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 36 0 L 36 120" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 82 0 L 82 120" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- Secondary Road / Orange border -->
+  <path d="M 0 60 L 120 54" stroke="#f6c27e" stroke-width="5" />
+  <path d="M 0 60 L 120 54" stroke="#ffffff" stroke-width="2.5" />
+
+  <!-- Major Highway / Gold-Yellow -->
+  <path d="M 58 0 C 62 45, 52 80, 60 120" stroke="#f4b842" stroke-width="7" />
+  <path d="M 58 0 C 62 45, 52 80, 60 120" stroke="#fce289" stroke-width="4" />
+
+  <!-- Subtle overlay label badge -->
+  <rect x="0" y="86" width="120" height="34" fill="#1e2c24" opacity="0.85" />
+  <text x="60" y="108" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="0.5">Map</text>
+</svg>

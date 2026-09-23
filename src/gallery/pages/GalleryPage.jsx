@@ -1,10 +1,12 @@
 import React from "react";
 import BottomNav from "../../components/BottomNav";
+import TopNav from "../../components/TopNav";
 import { galleryData } from "../data";
 
 function GalleryPage() {
   return (
-    <div className="min-h-screen w-full bg-[var(--theme-route-title)] pb-16">
+    <div className="relative flex flex-col justify-between min-h-screen w-full bg-[var(--theme-route-title)] pb-16">
+      <TopNav title="Gallery" />
       <h1 className="text-2xl font-semibold text-[var(--theme-bottom)] text-center pt-6">
         {galleryData.title}
       </h1>
