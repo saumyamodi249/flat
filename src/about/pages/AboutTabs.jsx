@@ -4,7 +4,7 @@ import { aboutTabs } from "../data";
 
 function AboutTabs() {
   return (
-    <div className="flex items-center justify-center gap-1.5 sm:gap-3 md:gap-6 w-full max-w-full mb-[70px] select-none">
+    <div className="flex items-center justify-center gap-1.5 sm:gap-3 md:gap-6 w-full max-w-full mb-4 sm:mb-6 md:mb-8 select-none">
       {aboutTabs.map((tab) => (
         <NavLink
           key={tab.id}

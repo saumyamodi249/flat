@@ -7,15 +7,14 @@ function TheProject() {
   const data = aboutData.project;
 
   return (
-    /* Changed: Removed justify-between, h-full, and set a clean flex-col gap */
-    <div className="w-full max-w-full flex flex-col ">
+    <div className="w-full max-w-full flex flex-col h-full min-h-0">
       {/* Centered Tabs with zero extra bottom margin */}
-      <div className="flex justify-center w-full max-w-full">
+      <div className="flex justify-center w-full max-w-full shrink-0">
         <AboutTabs />
       </div>
 
-      {/* Main Content: Wrapper Container */}
-      <div className="flex flex-col w-full ">
+      {/* Inner Scrollable Container */}
+      <div className="w-full flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col">
         {/* 1st Main Div: Just Title */}
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-[30px] font-semibold tracking-normal text-[var(--theme-about-title-main)] uppercase">
@@ -51,11 +50,11 @@ function TheProject() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Site Details on all viewports */}
-      <div className="mt-[50px]">
-        <SiteDetails />
+        {/* Site Details on all viewports */}
+        <div className="mt-[50px]">
+          <SiteDetails details={data.siteDetails} />
+        </div>
       </div>
     </div>
   );

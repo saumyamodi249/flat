@@ -117,6 +117,10 @@ function MapView() {
           },
         };
 
+        setTimeout(() => {
+          if (!isCancelled && map) map.invalidateSize();
+        }, 200);
+
         map.on("dragstart", () => {
           hasUserInteracted.current = true;
         });
@@ -226,7 +230,7 @@ function MapView() {
 
 
   return (
-    <div className="relative w-full h-[54vh] sm:h-[62vh] lg:h-[66vh] min-h-[440px] rounded-[10px] overflow-hidden border border-[var(--theme-map-border)]/60 bg-[var(--theme-map-street-view)] shadow-2xl flex flex-col select-none">
+    <div className="relative w-full h-full flex-1 min-h-0 rounded-[10px] overflow-hidden border border-[var(--theme-map-border)]/60 bg-[var(--theme-map-street-view)] shadow-2xl flex flex-col select-none">
       {/* Real Interactive Google Map Container */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
         <div
