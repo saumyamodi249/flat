@@ -73,7 +73,21 @@ select {
   --theme-map-left: #F7E4CF;
   --theme-map-button-default-bg: #002E2D;
   --theme-map-button-selected-bg: #C09973;
+  --theme-map-linear-gradient: linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, #002E2D 100%);
 
+  /* amenity */
+
+  --theme-amenity-bg: #002E2D;
+  --theme-amenity-border: #C09973;
+  --theme-route-amenity-button-title-selected-bg: #FFFFFF;
+  --theme-route-amenity-button-title-default-bg: #C09973;
+  --theme-amenity-street-view: #002E2D;
+  --theme-amenity-line: #C5C5C5;
+  --theme-amenity-text: #FFFFFF;
+  --theme-amenity-left: #F7E4CF;
+  --theme-amenity-button-default-bg: #002E2D;
+  --theme-amenity-button-selected-bg: #C09973;
+  --theme-amenity-linear-gradient: linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, #002E2D 100%);
 }
 
 /* Universally hide scrollbars across all elements, window, and browser */

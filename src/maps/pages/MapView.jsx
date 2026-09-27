@@ -7,11 +7,8 @@ import {
   fetchNearbyPlaces,
   fetch360StreetView,
   reverseGeocodeLocation,
-  loadGoogleMapsSDK,
   loadLeafletSDK,
   BASE_PROPERTY_LOCATION,
-  calculateDistanceKm,
-  calculateTravelTimes,
 } from "../../api/maps/mapsApi";
 import { IoAdd, IoRemove } from "react-icons/io5";
 
@@ -171,13 +168,13 @@ function MapView() {
   }, []);
 
   // When route category changes:
-  // - If user has NOT interacted/panned away, pan to the first place in category.
-  // - If user HAS interacted, update card data while preserving user's current map center/zoom.
+  // Update card data and smoothly pan map to the first place in category
   useEffect(() => {
     const targetPlace = categoryPlaces[0] || BASE_PROPERTY_LOCATION;
     setSelectedPlace(targetPlace);
+    hasUserInteracted.current = false;
 
-    if (mapInstanceRef.current && !hasUserInteracted.current) {
+    if (mapInstanceRef.current) {
       mapInstanceRef.current.panTo({ lat: targetPlace.lat, lng: targetPlace.lng });
       if (markerRef.current) {
         if (typeof markerRef.current.setLatLng === "function") {
@@ -230,7 +227,7 @@ function MapView() {
 
 
   return (
-    <div className="relative w-full h-full flex-1 min-h-0 rounded-[10px] overflow-hidden border border-[var(--theme-map-border)]/60 bg-[var(--theme-map-street-view)] shadow-2xl flex flex-col select-none">
+    <div className="relative w-full h-full flex-1 min-h-0 rounded-[10px] overflow-hidden border border-[var(--theme-map-border)] bg-[var(--theme-map-street-view)] flex flex-col select-none">
       {/* Real Interactive Google Map Container */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
         <div

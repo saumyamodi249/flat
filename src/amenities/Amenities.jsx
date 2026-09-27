@@ -1,22 +1,20 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import AmenitiesPage from "./pages/AmenitiesPage";
-import Indoor from "./pages/Indoor";
-import Outdoor from "./pages/Outdoor";
-import Wellness from "./pages/Wellness";
+import AmenityPage from "./pages/AmenityPage";
+import AmenityView from "./pages/AmenityView";
 
 function Amenities() {
   return (
     <Routes>
-      <Route element={<AmenitiesPage />}>
-        <Route index element={<Navigate to="indoor" replace />} />
-        <Route path="indoor" element={<Indoor />} />
-        <Route path="outdoor" element={<Outdoor />} />
-        <Route path="wellness" element={<Wellness />} />
+      <Route element={<AmenityPage />}>
+        {/* Default route redirect to waiting-lounge matching reference design */}
+        <Route index element={<Navigate to="waiting-lounge" replace />} />
+        {/* All dynamic amenity category routes */}
+        <Route path=":category" element={<AmenityView />} />
       </Route>
     </Routes>
   );
 }
 
-export { AmenitiesPage, Indoor, Outdoor, Wellness };
+export { AmenityPage, AmenityView };
 export default Amenities;

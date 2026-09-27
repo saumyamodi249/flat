@@ -1,69 +1,392 @@
-// Pure text & data for the Amenities section
+// All 60 Riviera Select Amenities Data matching public/Amenity/
 
-export const amenitiesTabs = [
+export const AMENITIES_LIST = [
   {
-    id: "indoor",
-    label: "Indoor",
-    path: "/amenities/indoor",
+    id: "waiting-lounge",
+    label: "Waiting Lounge",
+    icon: "/Amenity/amenity-icon/waiting-lounge.svg",
+    photo: "/Amenity/amenity-photos/01_waiting_lounge.svg",
   },
   {
-    id: "outdoor",
-    label: "Outdoor",
-    path: "/amenities/outdoor",
+    id: "yoga-aerobics",
+    label: "Yoga & Aerobics",
+    icon: "/Amenity/amenity-icon/yoga-aerobics.svg",
+    photo: "/Amenity/amenity-photos/02_yoga_aerobics.svg",
   },
   {
-    id: "wellness",
-    label: "Wellness",
-    path: "/amenities/wellness",
+    id: "gymnasium",
+    label: "Gymnasium",
+    icon: "/Amenity/amenity-icon/gymnasium.svg",
+    photo: "/Amenity/amenity-photos/03_gymnasium.svg",
+  },
+  {
+    id: "spa",
+    label: "Spa",
+    icon: "/Amenity/amenity-icon/spa.svg",
+    photo: "/Amenity/amenity-photos/04_spa.svg",
+  },
+  {
+    id: "social-lounge",
+    label: "Social Lounge",
+    icon: "/Amenity/amenity-icon/social-lounge.svg",
+    photo: "/Amenity/amenity-photos/05_social_lounge.svg",
+  },
+  {
+    id: "salon",
+    label: "Salon",
+    icon: "/Amenity/amenity-icon/salon.svg",
+    photo: "/Amenity/amenity-photos/06_salon.svg",
+  },
+  {
+    id: "mini-home-theatre",
+    label: "Mini Home Theater",
+    icon: "/Amenity/amenity-icon/mini-home-theatre.svg",
+    photo: "/Amenity/amenity-photos/07_mini_home_theatre.svg",
+  },
+  {
+    id: "swimming-pool",
+    label: "Swimming Pool",
+    icon: "/Amenity/amenity-icon/swimming-pool.svg",
+    photo: "/Amenity/amenity-photos/08_swimming_pool.svg",
+  },
+  {
+    id: "kids-play-area",
+    label: "Kids Play Area",
+    icon: "/Amenity/amenity-icon/kids-play-area.svg",
+    photo: "/Amenity/amenity-photos/09_kids_play_area.svg",
+  },
+  {
+    id: "indoor-games",
+    label: "Indoor Games",
+    icon: "/Amenity/amenity-icon/indoor-games.svg",
+    photo: "/Amenity/amenity-photos/10_indoor_games.svg",
+  },
+  {
+    id: "outdoor-games",
+    label: "Outdoor Games",
+    icon: "/Amenity/amenity-icon/outdoor-games.svg",
+    photo: "/Amenity/amenity-photos/11_outdoor_games.svg",
+  },
+  {
+    id: "party-hall",
+    label: "Party Hall",
+    icon: "/Amenity/amenity-icon/party-hall.svg",
+    photo: "/Amenity/amenity-photos/12_party_hall.svg",
+  },
+  {
+    id: "banquet-hall",
+    label: "Banquet Hall",
+    icon: "/Amenity/amenity-icon/banquet-hall.svg",
+    photo: "/Amenity/amenity-photos/13_banquet_hall.svg",
+  },
+  {
+    id: "multipurpose-hall",
+    label: "Multipurpose Hall",
+    icon: "/Amenity/amenity-icon/multipurpose-hall.svg",
+    photo: "/Amenity/amenity-photos/14_multipurpose_hall.svg",
+  },
+  {
+    id: "clubhouse",
+    label: "Clubhouse",
+    icon: "/Amenity/amenity-icon/clubhouse.svg",
+    photo: "/Amenity/amenity-photos/15_clubhouse.svg",
+  },
+  {
+    id: "library",
+    label: "Library",
+    icon: "/Amenity/amenity-icon/library.svg",
+    photo: "/Amenity/amenity-photos/16_library.svg",
+  },
+  {
+    id: "co-working-space",
+    label: "Co-Working Space",
+    icon: "/Amenity/amenity-icon/co-working-space.svg",
+    photo: "/Amenity/amenity-photos/17_co_working_space.svg",
+  },
+  {
+    id: "business-lounge",
+    label: "Business Lounge",
+    icon: "/Amenity/amenity-icon/business-lounge.svg",
+    photo: "/Amenity/amenity-photos/18_business_lounge.svg",
+  },
+  {
+    id: "meeting-room",
+    label: "Meeting Room",
+    icon: "/Amenity/amenity-icon/meeting-room.svg",
+    photo: "/Amenity/amenity-photos/19_meeting_room.svg",
+  },
+  {
+    id: "cafe",
+    label: "Café",
+    icon: "/Amenity/amenity-icon/cafe.svg",
+    photo: "/Amenity/amenity-photos/20_caf.svg",
+  },
+  {
+    id: "restaurant",
+    label: "Restaurant",
+    icon: "/Amenity/amenity-icon/restaurant.svg",
+    photo: "/Amenity/amenity-photos/21_restaurant.svg",
+  },
+  {
+    id: "juice-bar",
+    label: "Juice Bar",
+    icon: "/Amenity/amenity-icon/juice-bar.svg",
+    photo: "/Amenity/amenity-photos/22_juice_bar.svg",
+  },
+  {
+    id: "rooftop-lounge",
+    label: "Rooftop Lounge",
+    icon: "/Amenity/amenity-icon/rooftop-lounge.svg",
+    photo: "/Amenity/amenity-photos/23_rooftop_lounge.svg",
+  },
+  {
+    id: "sky-garden",
+    label: "Sky Garden",
+    icon: "/Amenity/amenity-icon/sky-garden.svg",
+    photo: "/Amenity/amenity-photos/24_sky_garden.svg",
+  },
+  {
+    id: "terrace-garden",
+    label: "Terrace Garden",
+    icon: "/Amenity/amenity-icon/terrace-garden.svg",
+    photo: "/Amenity/amenity-photos/25_terrace_garden.svg",
+  },
+  {
+    id: "landscaped-garden",
+    label: "Landscaped Garden",
+    icon: "/Amenity/amenity-icon/landscaped-garden.svg",
+    photo: "/Amenity/amenity-photos/26_landscaped_garden.svg",
+  },
+  {
+    id: "walking-track",
+    label: "Walking Track",
+    icon: "/Amenity/amenity-icon/walking-track.svg",
+    photo: "/Amenity/amenity-photos/27_walking_track.svg",
+  },
+  {
+    id: "jogging-track",
+    label: "Jogging Track",
+    icon: "/Amenity/amenity-icon/jogging-track.svg",
+    photo: "/Amenity/amenity-photos/28_jogging_track.svg",
+  },
+  {
+    id: "cycling-track",
+    label: "Cycling Track",
+    icon: "/Amenity/amenity-icon/cycling-track.svg",
+    photo: "/Amenity/amenity-photos/29_cycling_track.svg",
+  },
+  {
+    id: "meditation-area",
+    label: "Meditation Area",
+    icon: "/Amenity/amenity-icon/meditation-area.svg",
+    photo: "/Amenity/amenity-photos/30_meditation_area.svg",
+  },
+  {
+    id: "fitness-studio",
+    label: "Fitness Studio",
+    icon: "/Amenity/amenity-icon/fitness-studio.svg",
+    photo: "/Amenity/amenity-photos/31_fitness_studio.svg",
+  },
+  {
+    id: "steam-room",
+    label: "Steam Room",
+    icon: "/Amenity/amenity-icon/steam-room.svg",
+    photo: "/Amenity/amenity-photos/32_steam_room.svg",
+  },
+  {
+    id: "sauna",
+    label: "Sauna",
+    icon: "/Amenity/amenity-icon/sauna.svg",
+    photo: "/Amenity/amenity-photos/33_sauna.svg",
+  },
+  {
+    id: "jacuzzi",
+    label: "Jacuzzi",
+    icon: "/Amenity/amenity-icon/jacuzzi.svg",
+    photo: "/Amenity/amenity-photos/34_jacuzzi.svg",
+  },
+  {
+    id: "children-s-pool",
+    label: "Children's Pool",
+    icon: "/Amenity/amenity-icon/children-s-pool.svg",
+    photo: "/Amenity/amenity-photos/35_children_s_pool.svg",
+  },
+  {
+    id: "senior-citizen-area",
+    label: "Senior Citizen Area",
+    icon: "/Amenity/amenity-icon/senior-citizen-area.svg",
+    photo: "/Amenity/amenity-photos/36_senior_citizen_area.svg",
+  },
+  {
+    id: "pet-park",
+    label: "Pet Park",
+    icon: "/Amenity/amenity-icon/pet-park.svg",
+    photo: "/Amenity/amenity-photos/37_pet_park.svg",
+  },
+  {
+    id: "bbq-area",
+    label: "BBQ Area",
+    icon: "/Amenity/amenity-icon/bbq-area.svg",
+    photo: "/Amenity/amenity-photos/38_bbq_area.svg",
+  },
+  {
+    id: "outdoor-seating",
+    label: "Outdoor Seating",
+    icon: "/Amenity/amenity-icon/outdoor-seating.svg",
+    photo: "/Amenity/amenity-photos/39_outdoor_seating.svg",
+  },
+  {
+    id: "gazebo",
+    label: "Gazebo",
+    icon: "/Amenity/amenity-icon/gazebo.svg",
+    photo: "/Amenity/amenity-photos/40_gazebo.svg",
+  },
+  {
+    id: "amphitheatre",
+    label: "Amphitheatre",
+    icon: "/Amenity/amenity-icon/amphitheatre.svg",
+    photo: "/Amenity/amenity-photos/41_amphitheatre.svg",
+  },
+  {
+    id: "cricket-practice-area",
+    label: "Cricket Practice Area",
+    icon: "/Amenity/amenity-icon/cricket-practice-area.svg",
+    photo: "/Amenity/amenity-photos/42_cricket_practice_area.svg",
+  },
+  {
+    id: "basketball-court",
+    label: "Basketball Court",
+    icon: "/Amenity/amenity-icon/basketball-court.svg",
+    photo: "/Amenity/amenity-photos/43_basketball_court.svg",
+  },
+  {
+    id: "tennis-court",
+    label: "Tennis Court",
+    icon: "/Amenity/amenity-icon/tennis-court.svg",
+    photo: "/Amenity/amenity-photos/44_tennis_court.svg",
+  },
+  {
+    id: "badminton-court",
+    label: "Badminton Court",
+    icon: "/Amenity/amenity-icon/badminton-court.svg",
+    photo: "/Amenity/amenity-photos/45_badminton_court.svg",
+  },
+  {
+    id: "squash-court",
+    label: "Squash Court",
+    icon: "/Amenity/amenity-icon/squash-court.svg",
+    photo: "/Amenity/amenity-photos/46_squash_court.svg",
+  },
+  {
+    id: "table-tennis",
+    label: "Table Tennis",
+    icon: "/Amenity/amenity-icon/table-tennis.svg",
+    photo: "/Amenity/amenity-photos/47_table_tennis.svg",
+  },
+  {
+    id: "car-parking",
+    label: "Car Parking",
+    icon: "/Amenity/amenity-icon/car-parking.svg",
+    photo: "/Amenity/amenity-photos/48_car_parking.svg",
+  },
+  {
+    id: "ev-charging",
+    label: "EV Charging",
+    icon: "/Amenity/amenity-icon/ev-charging.svg",
+    photo: "/Amenity/amenity-photos/49_ev_charging.svg",
+  },
+  {
+    id: "visitor-parking",
+    label: "Visitor Parking",
+    icon: "/Amenity/amenity-icon/visitor-parking.svg",
+    photo: "/Amenity/amenity-photos/50_visitor_parking.svg",
+  },
+  {
+    id: "bicycle-parking",
+    label: "Bicycle Parking",
+    icon: "/Amenity/amenity-icon/bicycle-parking.svg",
+    photo: "/Amenity/amenity-photos/51_bicycle_parking.svg",
+  },
+  {
+    id: "driver-s-lounge",
+    label: "Driver's Lounge",
+    icon: "/Amenity/amenity-icon/driver-s-lounge.svg",
+    photo: "/Amenity/amenity-photos/52_driver_s_lounge.svg",
+  },
+  {
+    id: "security-room",
+    label: "Security Room",
+    icon: "/Amenity/amenity-icon/security-room.svg",
+    photo: "/Amenity/amenity-photos/53_security_room.svg",
+  },
+  {
+    id: "reception-area",
+    label: "Reception Area",
+    icon: "/Amenity/amenity-icon/reception-area.svg",
+    photo: "/Amenity/amenity-photos/54_reception_area.svg",
+  },
+  {
+    id: "concierge-service",
+    label: "Concierge Service",
+    icon: "/Amenity/amenity-icon/concierge-service.svg",
+    photo: "/Amenity/amenity-photos/55_concierge_service.svg",
+  },
+  {
+    id: "parcel-delivery-room",
+    label: "Parcel Delivery Room",
+    icon: "/Amenity/amenity-icon/parcel-delivery-room.svg",
+    photo: "/Amenity/amenity-photos/56_parcel_delivery_room.svg",
+  },
+  {
+    id: "laundry-service",
+    label: "Laundry Service",
+    icon: "/Amenity/amenity-icon/laundry-service.svg",
+    photo: "/Amenity/amenity-photos/57_laundry_service.svg",
+  },
+  {
+    id: "ev-mobility-hub",
+    label: "EV Mobility Hub",
+    icon: "/Amenity/amenity-icon/ev-mobility-hub.svg",
+    photo: "/Amenity/amenity-photos/58_ev_mobility_hub.svg",
+  },
+  {
+    id: "water-feature",
+    label: "Water Feature",
+    icon: "/Amenity/amenity-icon/water-feature.svg",
+    photo: "/Amenity/amenity-photos/59_water_feature.svg",
+  },
+  {
+    id: "open-air-theatre",
+    label: "Open Air Theatre",
+    icon: "/Amenity/amenity-icon/open-air-theatre.svg",
+    photo: "/Amenity/amenity-photos/60_open_air_theatre.svg",
   },
 ];
 
-export const amenitiesData = {
-  indoor: {
-    title: "INDOOR AMENITIES",
-    subtitle: "Curated Spaces for Leisure & Recreation",
-    description:
-      "Step into a world of curated leisure where luxury meets everyday comfort. The indoor amenities at Riviera Select are tailored for both quiet relaxation and vibrant community gatherings. From an ultra-modern gymnasium and private screening theatre to executive conference lounges and interactive games arcades, every square foot is crafted to enhance your standard of living.",
-    features: [
-      { name: "Grand Clubhouse", desc: "Sprawling multi-level clubhouse with private lounge" },
-      { name: "Fitness Centre", desc: "State-of-the-art gym equipped with Technogym machinery" },
-      { name: "Private Mini Theatre", desc: "Acoustically treated cinema room for private screenings" },
-      { name: "Indoor Games Arena", desc: "Billiards, table tennis, and virtual golf simulator" },
-      { name: "Banquet & Party Hall", desc: "High-ceiling hall designed for memorable celebrations" },
-      { name: "Executive Business Lounge", desc: "Quiet co-working pods and video conference suites" },
-    ],
-    image: "/UI IMG/Building.png",
-  },
+export const amenityCategories = AMENITIES_LIST;
 
-  outdoor: {
-    title: "OUTDOOR AMENITIES",
-    subtitle: "Open Air Living Amidst Lush Greens",
-    description:
-      "Embrace open skies, verdant gardens, and world-class athletic zones designed to keep you invigorated. Riviera Select offers an expansive outdoor footprint complete with an infinity lap pool, championship-grade sports courts, fragrant sensory gardens, and dedicated safe play zones for children, providing a rejuvenating retreat right outside your doorway.",
-    features: [
-      { name: "Infinity Lap Pool", desc: "Temperature-controlled pool with sun deck cabanas" },
-      { name: "Tennis & Pickleball Courts", desc: "All-weather championship courts with floodlights" },
-      { name: "Kids Adventure Park", desc: "Interactive nature-themed play area with soft turfing" },
-      { name: "Jogging & Cycling Track", desc: "Continuous tree-lined track weaving through the campus" },
-      { name: "Botanical Zen Garden", desc: "Calm green sanctuary with water fountains and gazebos" },
-      { name: "Open Air Amphitheatre", desc: "Community amphitheatre for weekend cultural evenings" },
-    ],
-    image: "/UI IMG/Iscon circle.png",
-  },
+export const AMENITY_ICONS = Object.fromEntries(
+  AMENITIES_LIST.map((item) => [item.id, item.icon])
+);
 
-  wellness: {
-    title: "WELLNESS & ROOFTOP",
-    subtitle: "Rejuvenate Mind, Body, & Soul",
-    description:
-      "Perched high above the city, the wellness and rooftop facilities offer an ethereal sanctuary. Greet the morning sun with rooftop yoga, unwind in therapeutic sauna chambers, or enjoy sunset views from the sky-high observatory deck. Here, wellness is an elevated way of life.",
-    features: [
-      { name: "Sky Yoga Deck", desc: "Panoramic sunrise yoga deck with wooden pergolas" },
-      { name: "Spa & Steam Rooms", desc: "Holistic therapeutic zones with aromatherapy showers" },
-      { name: "Meditation Pavilion", desc: "Sound-isolated peaceful deck encircled by reflexology paths" },
-      { name: "Star Gazing Sky Lounge", desc: "High-powered telescope zone on the rooftop terrace" },
-      { name: "Herbal Green Zone", desc: "Medicinal and aromatic herb gardens providing clean oxygen" },
-      { name: "Sunset Horizon Deck", desc: "Comfortable glass-walled vantage point facing SG Highway" },
-    ],
-    image: "/UI IMG/Building.png",
-  },
+export const AMENITY_PHOTOS = Object.fromEntries(
+  AMENITIES_LIST.map((item) => [item.id, item.photo])
+);
+
+export function getAmenityById(id) {
+  if (!id) return AMENITIES_LIST[0];
+  const found = AMENITIES_LIST.find(
+    (item) => item.id.toLowerCase() === id.toLowerCase()
+  );
+  return found || AMENITIES_LIST[0];
+}
+
+export const amenityUI = {
+  loading: "Loading Amenity...",
+  prevAmenities: "Previous amenities",
+  scrollLeft: "Scroll left",
+  nextAmenities: "Next amenities",
+  scrollRight: "Scroll right",
 };
+
+export default AMENITIES_LIST;

@@ -1,14 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CATEGORY_ICONS } from "../data";
 
 function CategoryFilterBar({ categories }) {
-  const { category = "parks" } = useParams();
+  const { category = "waiting-lounge" } = useParams();
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const buttonRefs = useRef({});
 
-  // Active arrow selection state: "right" (default matching design) or "left"
+  // Active arrow selection state: "right" (default) or "left"
   const [selectedArrow, setSelectedArrow] = useState("right");
 
   // Scroll boundary state for showing/hiding arrows
@@ -25,9 +24,7 @@ function CategoryFilterBar({ categories }) {
   const checkScrollBounds = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    // Hide left arrow if at start (scrollLeft <= 4)
     setCanScrollLeft(scrollLeft > 4);
-    // Hide right arrow if at end / last option (scrollLeft >= maxScroll - 4)
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 4);
   };
 
@@ -93,14 +90,13 @@ function CategoryFilterBar({ categories }) {
   };
 
   const handleCategoryClick = (catId) => {
-    // If the user was dragging the bar, don't trigger button click
     if (draggedDistance.current > 5) return;
-    navigate(`/maps/${catId}`);
+    navigate(`/amenities/${catId}`);
   };
 
   return (
     <div className="relative flex items-center w-full max-w-full select-none">
-      {/* Scrollable & Draggable Category Route Buttons */}
+      {/* Scrollable & Draggable Amenity Route Buttons */}
       <div
         ref={scrollRef}
         onMouseDown={handleMouseDown}
@@ -118,18 +114,19 @@ function CategoryFilterBar({ categories }) {
               ref={(el) => (buttonRefs.current[cat.id] = el)}
               type="button"
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
-                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] border-[var(--theme-map-button-selected-bg)]"
-                : "bg-[var(--theme-map-button-default-bg)] text-[var(--theme-route-map-button-title-default-bg)] border-[var(--theme-map-border)]/90"
-                }`}
+              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${
+                isActive
+                  ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] border-[var(--theme-amenity-button-selected-bg)]"
+                  : "bg-[var(--theme-amenity-button-default-bg)] text-[var(--theme-route-amenity-button-title-default-bg)] border-[var(--theme-amenity-border)]/90 hover:border-[var(--theme-amenity-border)]"
+              }`}
             >
-              {CATEGORY_ICONS[cat.id] ? (
+              {cat.icon ? (
                 <span
                   aria-hidden="true"
                   className="w-4 h-4 shrink-0 inline-block transition-colors duration-200"
                   style={{
-                    maskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
-                    WebkitMaskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
+                    maskImage: `url("${cat.icon}")`,
+                    WebkitMaskImage: `url("${cat.icon}")`,
                     maskSize: "contain",
                     WebkitMaskSize: "contain",
                     maskRepeat: "no-repeat",
@@ -137,8 +134,8 @@ function CategoryFilterBar({ categories }) {
                     maskPosition: "center",
                     WebkitMaskPosition: "center",
                     backgroundColor: isActive
-                      ? "var(--theme-icon-selected-color, #F7E4CF)"
-                      : "var(--theme-icon-color, #C09973)",
+                      ? "var(--theme-amenity-left, #F7E4CF)"
+                      : "var(--theme-amenity-border, #C09973)",
                   }}
                 />
               ) : null}
@@ -148,14 +145,15 @@ function CategoryFilterBar({ categories }) {
         })}
       </div>
 
-      {/* Right Linear Gradient Fade Overlay with Navigation Arrows matching Figma */}
+      {/* Right Linear Gradient Fade Overlay with Navigation Arrows */}
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center justify-end pl-8 pr-0 pointer-events-none z-10 w-[140px]"
         style={{
-          background: "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-map-bg, #002E2D) 85%, var(--theme-map-bg, #002E2D) 100%)",
+          background:
+            "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-amenity-bg, #002E2D) 85%, var(--theme-amenity-bg, #002E2D) 100%)",
         }}
       >
-        {/* Carousel Navigation Arrows (Exact 30x30 circles matching design) */}
+        {/* Navigation Arrows */}
         <div className="flex items-center gap-2 shrink-0 pointer-events-auto">
           <button
             type="button"
@@ -164,12 +162,13 @@ function CategoryFilterBar({ categories }) {
               handleScroll("left");
               setSelectedArrow("left");
             }}
-            aria-label="Previous categories"
+            aria-label="Previous amenities"
             title="Scroll left"
-            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "left" && canScrollLeft
-                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
-                : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
-              }`}
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
+              selectedArrow === "left" && canScrollLeft
+                ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] shadow-sm"
+                : "border border-[var(--theme-amenity-left)] bg-transparent text-[var(--theme-amenity-left)]"
+            }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
               <path d="M8 2L2 8L8 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -183,12 +182,13 @@ function CategoryFilterBar({ categories }) {
               handleScroll("right");
               setSelectedArrow("right");
             }}
-            aria-label="Next categories"
+            aria-label="Next amenities"
             title="Scroll right"
-            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "right" && canScrollRight
-                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
-                : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
-              }`}
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
+              selectedArrow === "right" && canScrollRight
+                ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] shadow-sm"
+                : "border border-[var(--theme-amenity-left)] bg-transparent text-[var(--theme-amenity-left)]"
+            }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
               <path d="M2 2L8 8L2 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
