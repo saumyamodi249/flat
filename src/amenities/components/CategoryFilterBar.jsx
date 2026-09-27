@@ -114,16 +114,15 @@ function CategoryFilterBar({ categories }) {
               ref={(el) => (buttonRefs.current[cat.id] = el)}
               type="button"
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${
-                isActive
+              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
                   ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] border-[var(--theme-amenity-button-selected-bg)]"
                   : "bg-[var(--theme-amenity-button-default-bg)] text-[var(--theme-route-amenity-button-title-default-bg)] border-[var(--theme-amenity-border)]/90 hover:border-[var(--theme-amenity-border)]"
-              }`}
+                }`}
             >
               {cat.icon ? (
                 <span
                   aria-hidden="true"
-                  className="w-4 h-4 shrink-0 inline-block transition-colors duration-200"
+                  className="w-6 h-6 shrink-0 inline-block transition-colors duration-200"
                   style={{
                     maskImage: `url("${cat.icon}")`,
                     WebkitMaskImage: `url("${cat.icon}")`,
@@ -164,11 +163,10 @@ function CategoryFilterBar({ categories }) {
             }}
             aria-label="Previous amenities"
             title="Scroll left"
-            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
-              selectedArrow === "left" && canScrollLeft
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "left" && canScrollLeft
                 ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] shadow-sm"
                 : "border border-[var(--theme-amenity-left)] bg-transparent text-[var(--theme-amenity-left)]"
-            }`}
+              }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
               <path d="M8 2L2 8L8 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -184,11 +182,10 @@ function CategoryFilterBar({ categories }) {
             }}
             aria-label="Next amenities"
             title="Scroll right"
-            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
-              selectedArrow === "right" && canScrollRight
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "right" && canScrollRight
                 ? "bg-[var(--theme-amenity-button-selected-bg)] text-[var(--theme-amenity-left)] shadow-sm"
                 : "border border-[var(--theme-amenity-left)] bg-transparent text-[var(--theme-amenity-left)]"
-            }`}
+              }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
               <path d="M2 2L8 8L2 14" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />

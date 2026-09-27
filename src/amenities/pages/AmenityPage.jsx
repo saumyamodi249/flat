@@ -23,7 +23,7 @@ function AmenityPage() {
 
       {/* Main Content Area: Modal anchored to bottom matching Maps and About sections */}
       <main className="relative z-20 flex-1 flex flex-col items-center px-4 sm:px-[50px] pt-4 pb-[52px] md:pb-[56px] w-full max-w-full min-h-0 overflow-hidden">
-        <div className="w-full max-w-8xl h-full rounded-t-[10px] rounded-b-none backdrop-blur-md px-[40px] py-[30px] border-b-0 bg-[var(--theme-amenity-bg,#002E2D)] flex flex-col gap-[20px] sm:gap-[24px] min-h-0 overflow-hidden">
+        <div className="w-full max-w-8xl h-full rounded-t-[10px] rounded-b-none backdrop-blur-md px-[40px] py-[30px] border-b-0 bg-[var(--theme-amenity-bg,#002E2D)] flex flex-col gap-[30px] min-h-0 overflow-hidden">
           {/* Sub-Route Amenity Canvas (AmenityView) */}
           <div className="w-full flex-1 min-h-0 flex flex-col">
             <Outlet />

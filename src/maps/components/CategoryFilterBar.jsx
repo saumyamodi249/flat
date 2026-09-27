@@ -126,7 +126,7 @@ function CategoryFilterBar({ categories }) {
               {CATEGORY_ICONS[cat.id] ? (
                 <span
                   aria-hidden="true"
-                  className="w-4 h-4 shrink-0 inline-block transition-colors duration-200"
+                  className="w-6 h-6 shrink-0 inline-block transition-colors duration-200"
                   style={{
                     maskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
                     WebkitMaskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
@@ -167,8 +167,8 @@ function CategoryFilterBar({ categories }) {
             aria-label="Previous categories"
             title="Scroll left"
             className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "left" && canScrollLeft
-                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
-                : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
+              ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
+              : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
               }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
@@ -186,8 +186,8 @@ function CategoryFilterBar({ categories }) {
             aria-label="Next categories"
             title="Scroll right"
             className={`w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all select-none shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${selectedArrow === "right" && canScrollRight
-                ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
-                : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
+              ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] shadow-sm"
+              : "border border-[var(--theme-map-left)] bg-transparent text-[var(--theme-map-left)]"
               }`}
           >
             <svg width="10" height="14" viewBox="0 0 10 16" fill="none" className="stroke-current">
