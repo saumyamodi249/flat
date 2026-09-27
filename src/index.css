@@ -86,8 +86,15 @@ select {
   --theme-amenity-text: #FFFFFF;
   --theme-amenity-left: #F7E4CF;
   --theme-amenity-button-default-bg: #002E2D;
-  --theme-amenity-button-selected-bg: #C09973;
   --theme-amenity-linear-gradient: linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, #002E2D 100%);
+
+  /* Gallery */
+  --theme-gallery-bg: #002E2D;
+  --theme-gallery-border: #C09973;
+  --theme-gallery-tab-selected-bg: #C09973;
+  --theme-gallery-tab-selected-text: #FFFFFF;
+  --theme-gallery-tab-default-text: #FFFFFF;
+  --theme-gallery-tab-hover-text: #F7E4CF;
 }
 
 /* Universally hide scrollbars across all elements, window, and browser */
