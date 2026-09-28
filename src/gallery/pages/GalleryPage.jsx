@@ -22,7 +22,7 @@ function GalleryPage() {
 
       {/* Main Content Area: Modal anchored under top nav extending to bottom */}
       <main className="relative z-20 flex-1 flex flex-col items-center px-4 sm:px-[50px] pt-2 sm:pt-4 pb-[52px] md:pb-[56px] w-full max-w-full min-h-0 overflow-hidden">
-        <div className="w-full max-w-8xl h-full rounded-t-[10px] rounded-b-none backdrop-blur-md px-4 sm:px-[40px] pt-[20px] sm:pt-[30px] pb-4 border-b-0 bg-[var(--theme-gallery-bg,#002E2D)] flex flex-col gap-[20px] sm:gap-[24px] min-h-0 overflow-hidden">
+        <div className="w-full max-w-8xl h-full rounded-t-[10px] rounded-b-none backdrop-blur-md px-4 sm:px-[40px] pt-[20px] sm:pt-[30px] pb-4 border-b-0 bg-[var(--theme-gallery-bg)] flex flex-col min-h-0 overflow-hidden">
           {/* Centered Gallery Tabs matching AboutTabs */}
           <div className="flex justify-center w-full max-w-full shrink-0">
             <GalleryTabs />
