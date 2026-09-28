@@ -27,9 +27,8 @@ function GalleryView() {
             <div
               key={item.id}
               onClick={() => setSelectedItem(item)}
-              className={`relative overflow-hidden rounded-[10px] border border-white/10 bg-[#081b1a] shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border,#C09973)]/60 ${
-                item.rowSpan || "row-span-1"
-              } ${item.colSpan || "col-span-1"} min-h-[180px] md:min-h-0`}
+              className={`relative overflow-hidden rounded-[10px] border border-white/10  shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border,#C09973)]/60 ${item.rowSpan || "row-span-1"
+                } ${item.colSpan || "col-span-1"} min-h-[180px] md:min-h-0`}
             >
               <img
                 src={item.image}
@@ -40,7 +39,7 @@ function GalleryView() {
 
               {/* Subtle hover gradient overlay with photo title */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3.5 sm:p-4">
-                <span className="text-xs font-semibold text-[var(--theme-gallery-tab-hover-text,#F7E4CF)] tracking-wide uppercase">
+                <span className="text-xs font-semibold text-[var(--theme-gallery-tab-hover-text)] tracking-wide uppercase">
                   {item.category}
                 </span>
                 <h4 className="text-white text-sm sm:text-base font-medium truncate mt-0.5">

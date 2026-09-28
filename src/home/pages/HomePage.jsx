@@ -3,15 +3,21 @@ import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
 import UrbanDataLayers from "../components/UrbanDataLayers";
 import useGeoLocation from "../../hooks/useGeoLocation";
+import usePanZoom from "../../hooks/usePanZoom";
 
 function HomePage() {
   const { coords, isApproximate } = useGeoLocation();
   const [activeLayer, setActiveLayer] = useState(null);
+  const { ref: buildingImageRef } = usePanZoom({
+    minScale: 1,
+    maxScale: 10,
+  });
 
   return (
     <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-[var(--theme-bottom)]">
       {/* Background images — Building.png (default) or Iscon circle.png (when layer active) */}
       <img
+        ref={buildingImageRef}
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
         className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"

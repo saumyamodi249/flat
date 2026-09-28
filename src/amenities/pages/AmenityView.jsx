@@ -29,9 +29,8 @@ function AmenityView() {
             setIsLoaded(true);
             e.currentTarget.src = "/Amenity/amenity-photos/01_waiting_lounge.svg";
           }}
-          className={`w-full h-full object-cover select-none transition-opacity duration-300 ${
-            isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
-          }`}
+          className={`w-full h-full object-cover select-none transition-opacity duration-300 ${isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
+            }`}
         />
 
         {/* Loading state while switching amenity photos */}
