@@ -318,69 +318,12 @@ export const amenitiesData = [
   },
 ];
 
-// Helper to shuffle array (Fisher-Yates)
-function shuffleArray(array) {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-// Harmonic layout pattern for "All" gallery ensuring every row sums to 6 columns with ZERO gaps
-const ALL_GRID_SPANS = [
-  // Row 1: 4 + 2 = 6
-  "col-span-1 md:col-span-4",
-  "col-span-1 md:col-span-2",
-
-  // Row 2: 2 + 2 + 2 = 6
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-
-  // Row 3: 2 + 4 = 6
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-4",
-
-  // Row 4: 3 + 3 = 6
-  "col-span-1 md:col-span-3",
-  "col-span-1 md:col-span-3",
-
-  // Row 5: 2 + 2 + 2 = 6
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-
-  // Row 6: 4 + 2 = 6
-  "col-span-1 md:col-span-4",
-  "col-span-1 md:col-span-2",
-
-  // Row 7: 6 (Hero banner)
-  "col-span-1 md:col-span-6",
-
-  // Row 8: 3 + 3 = 6
-  "col-span-1 md:col-span-3",
-  "col-span-1 md:col-span-3",
-
-  // Row 9: 2 + 2 + 2 = 6
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-2",
-
-  // Row 10: 2 + 4 = 6
-  "col-span-1 md:col-span-2",
-  "col-span-1 md:col-span-4",
+// All Gallery items combined using their authentic default sizes/spans like exterior, interior, and amenities
+export const allGalleryData = [
+  ...exteriorData,
+  ...portfolioData,
+  ...amenitiesData,
 ];
-
-// All Gallery items combined: randomly shuffled images with randomized IDs and gap-free responsive spans
-export const allGalleryData = shuffleArray(
-  [...exteriorData, ...portfolioData, ...amenitiesData]
-).map((item, index) => ({
-  ...item,
-  id: Math.floor(Math.random() * 9000) + 1000,
-  className: ALL_GRID_SPANS[index % ALL_GRID_SPANS.length],
-}));
 
 // Backward compatibility references
 export const GALLERY_CATEGORIES = galleryTabs;

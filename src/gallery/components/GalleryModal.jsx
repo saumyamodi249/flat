@@ -27,10 +27,12 @@ function GalleryModal({ item, onClose }) {
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--theme-gallery-border)]/30 bg-[var(--theme-gallery-bg,#002E2D)] shrink-0">
           <div className="flex items-center gap-3">
             <h4 className="text-white font-semibold text-base flex items-center gap-2">
-              <span>{item.title}</span>
-              <span className="text-xs text-[var(--theme-gallery-border)] font-normal border border-[var(--theme-gallery-border)]/40 px-2.5 py-0.5 rounded-full capitalize">
-                {item.category}
-              </span>
+              <span>{item.title || item.category || "Riviera Select"}</span>
+              {item.category && (
+                <span className="text-xs text-[var(--theme-gallery-border)] font-normal border border-[var(--theme-gallery-border)]/40 px-2.5 py-0.5 rounded-full capitalize">
+                  {item.category}
+                </span>
+              )}
             </h4>
           </div>
 
