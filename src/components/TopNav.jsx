@@ -26,7 +26,7 @@ function TopNav({ title = "About", rightContent = null, onClose }) {
           <img
             src="/UI IMG/top_logo.svg"
             alt="Riviera Select"
-            className="h-8 object-contain drop-shadow"
+            className="h-12 object-contain drop-shadow"
           />
         </button>
       </div>

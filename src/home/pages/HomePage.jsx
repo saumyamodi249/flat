@@ -37,7 +37,7 @@ function HomePage() {
           <img
             src="/UI IMG/top_logo.svg"
             alt="Riviera Select"
-            className="h-8 sm:h-10 object-contain drop-shadow"
+            className="h-12 object-contain drop-shadow"
           />
         </div>
 

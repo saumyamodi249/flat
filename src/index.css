@@ -96,6 +96,24 @@ select {
   --theme-gallery-tab-selected-text: #FFFFFF;
   --theme-gallery-tab-default-text: #FFFFFF;
   --theme-gallery-tab-hover-text: #F7E4CF;
+
+
+  /* Inverntory */
+  --theme-inventory-img-bg:#04170f;
+  --theme-inventory-bg-main: #002E2D;
+  --theme-inventory-logo: #F7E4CF;
+  --theme-inventory-bg: red;
+  --theme-inventory-border: #C09973;
+  --theme-inventory-all-button: #0d494c;
+  --theme-inventory-tab-selected-bg: #C09973;
+  --theme-inventory-filter-border: #FFFFFF;
+  --theme-inventory-filter-text: #FFFFFF;
+  --theme-inventory-tab-selected-text: #F7E4CF;
+  --theme-inventory-tab-default-text: #FFFFFF;
+  --theme-inventory-tab-hover-text: #F7E4CF;
+  --theme-inventory-5tab:#CCCCCC;
+  --theme-inventory-heart:#F05B3D;
+
 }
 
 /* Universally hide scrollbars across all elements, window, and browser */
