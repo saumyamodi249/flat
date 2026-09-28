@@ -11,7 +11,7 @@ function GalleryTabs() {
           to={tab.path}
           className={({ isActive }) =>
             `text-center px-4 py-2 md:px-[25px] md:py-[12px] rounded-[10px] text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-200 cursor-pointer whitespace-nowrap shrink ${
-              isActive && tab.id === "interior"
+              isActive
                 ? "bg-[var(--theme-gallery-tab-selected-bg,#C09973)] text-white shadow-md"
                 : "text-white/80 hover:text-[var(--theme-gallery-tab-hover-text,#F7E4CF)]"
             }`

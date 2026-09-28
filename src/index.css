@@ -86,6 +86,7 @@ select {
   --theme-amenity-text: #FFFFFF;
   --theme-amenity-left: #F7E4CF;
   --theme-amenity-button-default-bg: #002E2D;
+  --theme-amenity-button-selected-bg: #C09973;
   --theme-amenity-linear-gradient: linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, #002E2D 100%);
 
   /* Gallery */
@@ -118,6 +119,31 @@ select {
 .scrollbar-none {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
+}
+
+/* Elegant visible scrollbar for gallery and scrollable areas */
+.custom-scroll {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(192, 153, 115, 0.6) transparent !important;
+  -ms-overflow-style: auto !important;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(192, 153, 115, 0.6) !important;
+  border-radius: 9999px !important;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(247, 228, 207, 0.9) !important;
 }
 
 /* Default: show full navigation, hide mobile club nav */
