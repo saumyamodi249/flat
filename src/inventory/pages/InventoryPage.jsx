@@ -1,10 +1,8 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { BiCompass } from "react-icons/bi";
-import { MdOutline360 } from "react-icons/md";
-import { IoLayersOutline } from "react-icons/io5";
 import BottomNav from "../../components/BottomNav";
+import InventoryPageDetail from "./InventoryPageDetail";
 import {
   inventoryUI,
   inventoryTableHeaders,
@@ -12,7 +10,6 @@ import {
   inventoryExposures,
   inventoryPropertyStatuses,
   inventoryAreaRange,
-  defaultFeaturedUnit,
   inventoryUnits,
 } from "../data";
 
@@ -24,9 +21,29 @@ function InventoryPage() {
   const [minArea, setMinArea] = useState("");
   const [maxArea, setMaxArea] = useState("");
   const [focusedThumb, setFocusedThumb] = useState("min");
-  const [units, setUnits] = useState(inventoryUnits);
-  const [selectedUnit, setSelectedUnit] = useState(defaultFeaturedUnit);
-  const [isFeaturedFavorite, setIsFeaturedFavorite] = useState(true);
+  // Keep favorite IDs in state, while dynamically pulling fresh data from inventoryUnits
+  const [favoriteUnitIds, setFavoriteUnitIds] = useState(() => {
+    return new Set(inventoryUnits.filter((u) => u.isFavorite).map((u) => u.id));
+  });
+
+  const units = useMemo(() => {
+    return inventoryUnits.map((u) => ({
+      ...u,
+      isFavorite: favoriteUnitIds.has(u.id),
+    }));
+  }, [favoriteUnitIds]);
+
+  const [selectedUnit, setSelectedUnit] = useState(inventoryUnits[0]);
+
+  // Active unit connected between table rows and detail card
+  const activeUnit = useMemo(() => {
+    const found = units.find(
+      (u) =>
+        u.id === selectedUnit?.id ||
+        (u.unitNo && selectedUnit?.unitNo && u.unitNo.toLowerCase() === selectedUnit.unitNo.toLowerCase())
+    );
+    return found || selectedUnit || units[0];
+  }, [units, selectedUnit]);
 
   // Computed range values and percentages for dual slider
   const currentMinVal = Math.max(
@@ -118,17 +135,24 @@ function InventoryPage() {
     };
   }, []);
 
-  // Toggle favorite for list item (only one unit can be favorited at a time)
+  // Toggle favorite for unit — only ONE favorite allowed at a time
   const toggleUnitFavorite = (id, e) => {
-    e.stopPropagation();
-    setUnits((prev) =>
-      prev.map((unit) => {
-        if (unit.id === id) {
-          return { ...unit, isFavorite: !unit.isFavorite };
-        }
-        return { ...unit, isFavorite: false };
-      })
-    );
+    if (e && typeof e.stopPropagation === "function") {
+      e.stopPropagation();
+    }
+    setFavoriteUnitIds((prev) => {
+      // If already favorite, remove it
+      if (prev.has(id)) {
+        return new Set();
+      }
+      // Otherwise clear all and set only this one
+      return new Set([id]);
+    });
+    // Auto-select the favorited unit so the detail card shows it
+    const targetUnit = units.find((u) => u.id === id);
+    if (targetUnit) {
+      setSelectedUnit(targetUnit);
+    }
   };
 
   // Reset Filters handler
@@ -138,7 +162,7 @@ function InventoryPage() {
     setSelectedStatus(inventoryPropertyStatuses[0]);
     setMinArea("");
     setMaxArea("");
-    setSelectedUnit(defaultFeaturedUnit);
+    setSelectedUnit(units[0]);
   };
 
   // Filtered unit list based on user selections
@@ -174,13 +198,18 @@ function InventoryPage() {
                 />
               </div>
 
-              {/* Wishlist Circle Button */}
+              {/* Wishlist Circle Button — toggles active unit favorite */}
               <button
                 type="button"
                 aria-label={inventoryUI.wishlistAria}
+                onClick={() => toggleUnitFavorite(activeUnit?.id)}
                 className="w-10 h-10 rounded-full border border-white/20 bg-black/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
               >
-                <FaRegHeart className="w-4 h-4" />
+                {activeUnit?.isFavorite ? (
+                  <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
+                ) : (
+                  <FaRegHeart className="w-4 h-4" />
+                )}
               </button>
             </div>
 
@@ -212,91 +241,21 @@ function InventoryPage() {
               />
             </div>
 
-            {/* Right Floating Unit Card */}
+            {/* Right Floating Unit Card (VIEW 1) */}
             <div className="absolute top-20 sm:top-24 right-6 sm:right-10 z-30 pointer-events-auto">
-              <div className="w-[280px] sm:w-[300px] rounded-[14px] border border-white/15 bg-[var(--theme-inventory-bg,#002E2D)]/85 backdrop-blur-md p-4 sm:p-5 shadow-2xl flex flex-col gap-3 text-[var(--theme-inventory-tab-default-text)]">
-                {/* Header row */}
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm sm:text-base font-semibold tracking-wide text-[var(--theme-inventory-tab-default-text)]">
-                    {selectedUnit?.unitNo || defaultFeaturedUnit.unitNo}
-                  </h3>
-                  <span className="text-xs font-semibold text-[#E65100]">
-                    {selectedUnit?.status || defaultFeaturedUnit.status}
-                  </span>
-                </div>
-
-                {/* Floor & Exposure */}
-                <div className="flex items-center justify-between text-xs sm:text-sm text-[var(--theme-inventory-tab-default-text)]">
-                  <span>{selectedUnit?.floor || defaultFeaturedUnit.floor}</span>
-                  <span className="flex items-center gap-1.5">
-                    <BiCompass className="w-4 h-4 text-[var(--theme-inventory-tab-default-text)]" />
-                    <span>{selectedUnit?.exposure || defaultFeaturedUnit.exposure}</span>
-                  </span>
-                </div>
-
-                {/* Area & Heart */}
-                <div className="flex items-center justify-between text-xs sm:text-sm text-[var(--theme-inventory-tab-default-text)]">
-                  <span>
-                    {typeof selectedUnit?.area === "number"
-                      ? `${selectedUnit.area} ${inventoryUI.sqFtUnit}`
-                      : (selectedUnit?.area || defaultFeaturedUnit.area)}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setIsFeaturedFavorite(!isFeaturedFavorite)}
-                    className="cursor-pointer"
-                  >
-                    <FaHeart
-                      className={`w-4 h-4 ${isFeaturedFavorite ? "text-[#E65100]" : "text-[var(--theme-inventory-tab-default-text)]"}`}
-                    />
-                  </button>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col gap-2 pt-1">
-                  <button
-                    type="button"
-                    className="w-full py-2 px-3 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                  >
-                    <MdOutline360 className="w-4 h-4 text-[var(--theme-inventory-border,#C09973)]" />
-                    <span>{inventoryUI.viewPropertyText}</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full py-2 px-3 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                  >
-                    <IoLayersOutline className="w-4 h-4 text-[var(--theme-inventory-border,#C09973)]" />
-                    <span>{inventoryUI.floorPlanText}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom-Right Compass Widget */}
-            <div className="absolute bottom-6 right-6 sm:right-10 z-20 pointer-events-none">
-              <div className="w-12 h-12 rounded-full border border-white/30 bg-black/60 backdrop-blur-md shadow-2xl flex items-center justify-center">
-                <div className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="rotate-[-35deg]"
-                  >
-                    <polygon points="12,2 15,12 12,10 9,12" fill="#E65100" />
-                    <polygon points="12,22 15,12 12,14 9,12" fill="#CCCCCC" />
-                  </svg>
-                </div>
-              </div>
+              <InventoryPageDetail
+                unit={activeUnit}
+                onToggleFavorite={toggleUnitFavorite}
+              />
             </div>
           </div>
         ) : (
           /* VIEW 2: FILTER OPEN VIEW (40% Filter Panel + 60% Building Area) */
           <div className="relative w-full h-full flex flex-col lg:flex-row overflow-hidden">
             {/* LEFT FILTER PANEL (40% Width) */}
-            <div className="w-full lg:w-[35%] h-full flex flex-col pt-[30px] overflow-y-auto scrollbar-none z-30 bg-[var(--theme-inventory-bg-main,#071B11)] border-r border-white/10">
-              {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left */}
-              <div className="flex items-center justify-between mb-[50px] px-[30px]">
+            <div className="w-full lg:w-[35%] h-[100dvh] lg:h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main,#071B11)] border-r border-white/10">
+              {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Sticky) */}
+              <div className="shrink-0 flex items-center justify-between px-[30px] pt-[30px] pb-[20px]">
                 <img
                   src={inventoryUI.logoSrc}
                   alt={inventoryUI.logoAlt}
@@ -312,8 +271,10 @@ function InventoryPage() {
                 </button>
               </div>
 
-              {/* ONE MAIN DIV (containing 3 divs as requested) */}
-              <div className="flex-1 flex flex-col gap-6">
+              {/* Scrollable Inner Content */}
+              <div className="flex-1 min-h-0 overflow-y-auto scrollbar-none">
+                {/* ONE MAIN DIV (containing 3 divs as requested) */}
+                <div className="flex flex-col gap-6">
                 {/* Filter Controls Container with px-[50px] */}
                 <div className="px-[50px] flex flex-col gap-4 sm:gap-5">
                   {/* DIV 1: Filter Header & Property Selector Buttons */}
@@ -533,7 +494,7 @@ function InventoryPage() {
                   {/* Table Rows */}
                   <div className="w-full flex flex-col max-h-[240px] overflow-y-auto scrollbar-none">
                     {filteredUnits.map((u) => {
-                      const isSelected = selectedUnit?.unitNo === u.unitNo;
+                      const isSelected = activeUnit?.unitNo === u.unitNo;
                       return (
                         <div
                           key={u.id}
@@ -541,7 +502,9 @@ function InventoryPage() {
                           className={`w-full grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 rounded-lg cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
                             }`}
                         >
-                          <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">{u.unitNo}</span>
+                          <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">
+                            {u.unitNo ? u.unitNo.replace(/^Unit\s*(?:No\.?)?\s*/i, "") : ""}
+                          </span>
                           <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.type}</span>
                           <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.exposure}</span>
                           <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.area}</span>
@@ -564,6 +527,7 @@ function InventoryPage() {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
 
             {/* RIGHT BUILDING AREA (60% Width) */}
@@ -573,9 +537,14 @@ function InventoryPage() {
                 <button
                   type="button"
                   aria-label={inventoryUI.wishlistAria}
+                  onClick={() => toggleUnitFavorite(activeUnit?.id)}
                   className="w-10 h-10 rounded-full border border-white/20 bg-black/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
                 >
-                  <FaRegHeart className="w-4 h-4" />
+                  {activeUnit?.isFavorite ? (
+                    <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
+                  ) : (
+                    <FaRegHeart className="w-4 h-4" />
+                  )}
                 </button>
               </div>
 
@@ -588,82 +557,12 @@ function InventoryPage() {
                 />
               </div>
 
-              {/* Right Floating Unit Card */}
+              {/* Right Floating Unit Card (VIEW 2) */}
               <div className="absolute top-16 sm:top-20 right-6 sm:right-10 z-30 pointer-events-auto">
-                <div className="w-[260px] sm:w-[280px] rounded-[14px] border border-white/15 bg-[var(--theme-inventory-bg,#002E2D)]/85 backdrop-blur-md p-4 shadow-2xl flex flex-col gap-3 text-[var(--theme-inventory-tab-default-text)]">
-                  {/* Header row */}
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold tracking-wide text-[var(--theme-inventory-tab-default-text)]">
-                      {selectedUnit?.unitNo || defaultFeaturedUnit.unitNo}
-                    </h3>
-                    <span className="text-xs font-semibold text-[#E65100]">
-                      {selectedUnit?.status || defaultFeaturedUnit.status}
-                    </span>
-                  </div>
-
-                  {/* Floor & Exposure */}
-                  <div className="flex items-center justify-between text-xs text-[var(--theme-inventory-tab-default-text)]">
-                    <span>{selectedUnit?.floor || defaultFeaturedUnit.floor}</span>
-                    <span className="flex items-center gap-1.5">
-                      <BiCompass className="w-4 h-4 text-[var(--theme-inventory-tab-default-text)]" />
-                      <span>{selectedUnit?.exposure || defaultFeaturedUnit.exposure}</span>
-                    </span>
-                  </div>
-
-                  {/* Area & Heart */}
-                  <div className="flex items-center justify-between text-xs text-[var(--theme-inventory-tab-default-text)]">
-                    <span>
-                      {typeof selectedUnit?.area === "number"
-                        ? `${selectedUnit.area} ${inventoryUI.sqFtUnit}`
-                        : (selectedUnit?.area || defaultFeaturedUnit.area)}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setIsFeaturedFavorite(!isFeaturedFavorite)}
-                      className="cursor-pointer"
-                    >
-                      <FaHeart
-                        className={`w-3.5 h-3.5 ${isFeaturedFavorite ? "text-[#E65100]" : "text-[var(--theme-inventory-tab-default-text)]"}`}
-                      />
-                    </button>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-col gap-2 pt-0.5">
-                    <button
-                      type="button"
-                      className="w-full py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                    >
-                      <MdOutline360 className="w-4 h-4 text-[var(--theme-inventory-border,#C09973)]" />
-                      <span>{inventoryUI.viewPropertyText}</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                    >
-                      <IoLayersOutline className="w-4 h-4 text-[var(--theme-inventory-border,#C09973)]" />
-                      <span>{inventoryUI.floorPlanText}</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom-Right Compass Widget */}
-              <div className="absolute bottom-6 right-6 sm:right-10 z-20 pointer-events-none">
-                <div className="w-12 h-12 rounded-full border border-white/30 bg-black/60 backdrop-blur-md shadow-2xl flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="rotate-[-35deg]"
-                    >
-                      <polygon points="12,2 15,12 12,10 9,12" fill="#E65100" />
-                      <polygon points="12,22 15,12 12,10 9,12" fill="#CCCCCC" />
-                    </svg>
-                  </div>
-                </div>
+                <InventoryPageDetail
+                  unit={activeUnit}
+                  onToggleFavorite={toggleUnitFavorite}
+                />
               </div>
             </div>
           </div>
