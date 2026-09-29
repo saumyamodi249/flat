@@ -517,45 +517,44 @@ function InventoryPage() {
                 </div>
 
                 {/* DIV 3: Unit List Table */}
-                <div className="w-full flex flex-col gap-4 px-5">
+                <div className="w-full flex flex-col gap-3 ">
                   {/* Table Header */}
-                  <div className="w-full grid grid-cols-5 gap-x-25 text-normal text-[var(--theme-inventory-5tab)] font-medium items-center justify-items-center px-1">
+                  <div className="w-full grid grid-cols-5 text-sm sm:text-base text-[var(--theme-inventory-5tab)] font-medium items-center ">
                     {inventoryTableHeaders.map((header) => (
                       <span key={header.key} className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">
                         {header.label}
                       </span>
                     ))}
                     <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-heart)]">
-                      <FaHeart className="w-3.5 h-3.5" />
+                      <FaHeart className="w-4 h-4" />
                     </span>
                   </div>
 
                   {/* Table Rows */}
-                  <div className="w-full flex flex-col gap-2 max-h-[220px] overflow-y-auto scrollbar-none">
+                  <div className="w-full flex flex-col max-h-[240px] overflow-y-auto scrollbar-none">
                     {filteredUnits.map((u) => {
                       const isSelected = selectedUnit?.unitNo === u.unitNo;
                       return (
                         <div
                           key={u.id}
                           onClick={() => setSelectedUnit(u)}
-                          className={`w-full grid grid-cols-5 gap-x-25 text-normal
-                            font-normal text-[var(--theme-inventory-tab-default-text)] items-center justify-items-center py-2 px-1 rounded-md cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
+                          className={`w-full grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 rounded-lg cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
                             }`}
                         >
                           <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">{u.unitNo}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] whitespace-nowrap">{u.type}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] whitespace-nowrap">{u.exposure}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] whitespace-nowrap">{u.area}</span>
+                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.type}</span>
+                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.exposure}</span>
+                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.area}</span>
                           <span className="col-span-1 text-center flex items-center justify-center">
                             <button
                               type="button"
                               onClick={(e) => toggleUnitFavorite(u.id, e)}
-                              className="text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] cursor-pointer flex items-center justify-center"
+                              className="text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] cursor-pointer flex items-center justify-center transition-transform hover:scale-110 active:scale-125"
                             >
                               {u.isFavorite ? (
-                                <FaHeart className="w-3.5 h-3.5 text-[var(--theme-inventory-heart)]" />
+                                <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
                               ) : (
-                                <FaRegHeart className="w-3.5 h-3.5 text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)]" />
+                                <FaRegHeart className="w-4 h-4 text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)]" />
                               )}
                             </button>
                           </span>
