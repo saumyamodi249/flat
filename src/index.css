@@ -99,7 +99,7 @@ select {
 
 
   /* Inverntory */
-  --theme-inventory-img-bg:#04170f;
+  --theme-inventory-img-bg: #04170f;
   --theme-inventory-bg-main: #002E2D;
   --theme-inventory-logo: #F7E4CF;
   --theme-inventory-border: #C09973;
@@ -110,21 +110,21 @@ select {
   --theme-inventory-tab-selected-text: #F7E4CF;
   --theme-inventory-tab-default-text: #FFFFFF;
   --theme-inventory-tab-hover-text: #F7E4CF;
-  --theme-inventory-5tab:#CCCCCC;
-  --theme-inventory-heart:#F05B3D;
+  --theme-inventory-5tab: #CCCCCC;
+  --theme-inventory-heart: #F05B3D;
 
   --theme-InventoryDetail-box-bg: #04170f;
-  --theme-InventoryDetail-box-border:#696969;
-  --theme-InventoryDetail-sold:#F05B3D;
-  --theme-InventoryDetail-Available:#2ECC71;
---theme-InventoryDetail-Reserved:#F1C40F;
---theme-InventoryDetail-Leased:#3498DB; 
-  --theme-InventoryDetail-inner-border:#C5C5C5;
+  --theme-InventoryDetail-box-border: #696969;
+  --theme-InventoryDetail-sold: #F05B3D;
+  --theme-InventoryDetail-Available: #2ECC71;
+  --theme-InventoryDetail-Reserved: #F1C40F;
+  --theme-InventoryDetail-Leased: #3498DB;
+  --theme-InventoryDetail-inner-border: #C5C5C5;
   --theme-InventoryDetail-tab-selected-text: #F7E4CF;
   --theme-InventoryDetail-tab-default-text: #FFFFFF;
   --theme-InventoryDetail-tab-hover-text: #F7E4CF;
-  --theme-InventoryDetail-inner-box-border:#C09973;
- 
+  --theme-InventoryDetail-inner-box-border: #C09973;
+
 
 }
 

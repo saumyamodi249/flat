@@ -275,258 +275,258 @@ function InventoryPage() {
               <div className="flex-1 min-h-0 overflow-y-auto scrollbar-none">
                 {/* ONE MAIN DIV (containing 3 divs as requested) */}
                 <div className="flex flex-col gap-6">
-                {/* Filter Controls Container with px-[50px] */}
-                <div className="px-[50px] flex flex-col gap-4 sm:gap-5">
-                  {/* DIV 1: Filter Header & Property Selector Buttons */}
-                  <div className="flex flex-col gap-8">
-                    {/* Sub-Div 1: Filter SVG + Title and Reset Filters Button */}
-                    <div className="flex items-center justify-between">
-                      {/* Div A: SVG and Filter text */}
-                      <div className="flex items-center gap-2.5">
-                        <img
-                          src={inventoryUI.filterIconSrc}
-                          alt={inventoryUI.filterTitle}
-                          className="w-6 h-6 object-contain"
-                        />
-                        <span className="text-[var(--theme-inventory-tab-default-text)] text-2xl  font-medium tracking-wide">
-                          {inventoryUI.filterTitle}
+                  {/* Filter Controls Container with px-[50px] */}
+                  <div className="px-[50px] flex flex-col gap-4 sm:gap-5">
+                    {/* DIV 1: Filter Header & Property Selector Buttons */}
+                    <div className="flex flex-col gap-8">
+                      {/* Sub-Div 1: Filter SVG + Title and Reset Filters Button */}
+                      <div className="flex items-center justify-between">
+                        {/* Div A: SVG and Filter text */}
+                        <div className="flex items-center gap-2.5">
+                          <img
+                            src={inventoryUI.filterIconSrc}
+                            alt={inventoryUI.filterTitle}
+                            className="w-6 h-6 object-contain"
+                          />
+                          <span className="text-[var(--theme-inventory-tab-default-text)] text-2xl  font-medium tracking-wide">
+                            {inventoryUI.filterTitle}
+                          </span>
+                        </div>
+
+                        {/* Div B: Reset Filters button */}
+                        <div>
+                          <button
+                            type="button"
+                            onClick={handleResetFilters}
+                            className="px-4 py-[10px] rounded-[10px] border border-[var(--theme-inventory-border)] text-sm font-medium text-[var(--theme-inventory-tab-selected-bg)] hover:text-[var(--theme-inventory-tab-hover-text)]"
+                          >
+                            {inventoryUI.resetFiltersText}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Sub-Div 2: Property Type */}
+                      <div className="flex flex-col gap-4">
+                        <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
+                          {inventoryUI.propertyTypeLabel}
                         </span>
-                      </div>
-
-                      {/* Div B: Reset Filters button */}
-                      <div>
-                        <button
-                          type="button"
-                          onClick={handleResetFilters}
-                          className="px-4 py-[10px] rounded-[10px] border border-[var(--theme-inventory-border)] text-sm font-medium text-[var(--theme-inventory-tab-selected-bg)] hover:text-[var(--theme-inventory-tab-hover-text)]"
-                        >
-                          {inventoryUI.resetFiltersText}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Sub-Div 2: Property Type */}
-                    <div className="flex flex-col gap-4">
-                      <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
-                        {inventoryUI.propertyTypeLabel}
-                      </span>
-                      <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
-                        {inventoryPropertyTypes.map((type) => (
-                          <button
-                            key={type}
-                            type="button"
-                            onClick={() => setSelectedPropertyType(type)}
-                            className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedPropertyType === type
-                              ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                              : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
-                              }`}
-                          >
-                            {type}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Sub-Div 3: Exposure */}
-                    <div className="flex flex-col gap-4">
-                      <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
-                        {inventoryUI.exposureLabel}
-                      </span>
-                      <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
-                        {inventoryExposures.map((exp) => (
-                          <button
-                            key={exp}
-                            type="button"
-                            onClick={() => setSelectedExposure(exp)}
-                            className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedExposure === exp
-                              ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                              : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
-                              }`}
-                          >
-                            {exp}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Sub-Div 4: Property Status */}
-                    <div className="flex flex-col gap-4">
-                      <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
-                        {inventoryUI.propertyStatusLabel}
-                      </span>
-                      <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
-                        {inventoryPropertyStatuses.map((status) => (
-                          <button
-                            key={status}
-                            type="button"
-                            onClick={() => setSelectedStatus(status)}
-                            className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedStatus === status
-                              ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                              : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
-                              }`}
-                          >
-                            {status}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* DIV 2: Area Size Range */}
-                  <div className="flex flex-col gap-6">
-                    {/* 1st Div: Area Size Label and 2 Small Boxes for Min / Max */}
-                    <div className="flex flex-col gap-4">
-                      <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
-                        {inventoryUI.areaSizeLabel}
-                      </span>
-                      <div className="grid grid-cols-2 gap-4">
-                        {/* Min Box */}
-                        <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-1 border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
-                          <input
-                            type="number"
-                            placeholder={inventoryUI.minPlaceholder}
-                            value={minArea}
-                            onChange={(e) => setMinArea(e.target.value)}
-                            className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
-                          />
-                        </div>
-                        {/* Max Box */}
-                        <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
-                          <input
-                            type="number"
-                            placeholder={inventoryUI.maxPlaceholder}
-                            value={maxArea}
-                            onChange={(e) => setMaxArea(e.target.value)}
-                            className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 2nd Div: Range Limit Line with labels min & max */}
-                    <div className="flex flex-col gap-1">
-                      <div className="flex justify-between text-xs font-semibold text-[var(--theme-inventory-tab-default-text)]">
-                        <span>{inventoryAreaRange.minLabel}</span>
-                        <span>{inventoryAreaRange.maxLabel}</span>
-                      </div>
-
-                      <div
-                        ref={sliderTrackRef}
-                        onPointerDown={handleTrackPointerDown}
-                        className="relative w-full flex items-center h-7 select-none touch-none cursor-pointer"
-                      >
-                        {/* Base Track */}
-                        <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden relative pointer-events-none">
-                          {/* Active Highlight Track */}
-                          <div
-                            className="h-full bg-white rounded-full"
-                            style={{
-                              marginLeft: `calc(8px + (100% - 16px) * ${minPercent})`,
-                              width: `calc((100% - 16px) * ${Math.max(0, maxPercent - minPercent)})`,
-                            }}
-                          />
-                        </div>
-
-                        {/* Min Thumb (Left Side Handle - Draggable) */}
-                        <div
-                          role="slider"
-                          aria-label="Minimum Area"
-                          aria-valuemin={inventoryAreaRange.min}
-                          aria-valuemax={currentMaxVal}
-                          aria-valuenow={currentMinVal}
-                          tabIndex={0}
-                          onPointerDown={(e) => startDragging("min", e)}
-                          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${focusedThumb === "min" ? "z-40" : "z-30"
-                            }`}
-                          style={{
-                            left: `calc(8px + (100% - 16px) * ${minPercent})`,
-                          }}
-                        >
-                          <img
-                            src={inventoryUI.sliderCircleSrc}
-                            alt=""
-                            className="w-4 h-4 pointer-events-none select-none drop-shadow hover:scale-110 active:scale-125 transition-transform"
-                            draggable={false}
-                          />
-                        </div>
-
-                        {/* Max Thumb (Right Side Handle - Draggable) */}
-                        <div
-                          role="slider"
-                          aria-label="Maximum Area"
-                          aria-valuemin={currentMinVal}
-                          aria-valuemax={inventoryAreaRange.max}
-                          aria-valuenow={currentMaxVal}
-                          tabIndex={0}
-                          onPointerDown={(e) => startDragging("max", e)}
-                          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${focusedThumb === "max" ? "z-40" : "z-30"
-                            }`}
-                          style={{
-                            left: `calc(8px + (100% - 16px) * ${maxPercent})`,
-                          }}
-                        >
-                          <img
-                            src={inventoryUI.sliderCircleSrc}
-                            alt=""
-                            className="w-4 h-4 pointer-events-none select-none drop-shadow hover:scale-110 active:scale-125 transition-transform"
-                            draggable={false}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* DIV 3: Unit List Table */}
-                <div className="w-full flex flex-col gap-3 ">
-                  {/* Table Header */}
-                  <div className="w-full grid grid-cols-5 text-sm sm:text-base text-[var(--theme-inventory-5tab)] font-medium items-center ">
-                    {inventoryTableHeaders.map((header) => (
-                      <span key={header.key} className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">
-                        {header.label}
-                      </span>
-                    ))}
-                    <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-heart)]">
-                      <FaHeart className="w-4 h-4" />
-                    </span>
-                  </div>
-
-                  {/* Table Rows */}
-                  <div className="w-full flex flex-col max-h-[240px] overflow-y-auto scrollbar-none">
-                    {filteredUnits.map((u) => {
-                      const isSelected = activeUnit?.unitNo === u.unitNo;
-                      return (
-                        <div
-                          key={u.id}
-                          onClick={() => setSelectedUnit(u)}
-                          className={`w-full grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 rounded-lg cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
-                            }`}
-                        >
-                          <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">
-                            {u.unitNo ? u.unitNo.replace(/^Unit\s*(?:No\.?)?\s*/i, "") : ""}
-                          </span>
-                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.type}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.exposure}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.area}</span>
-                          <span className="col-span-1 text-center flex items-center justify-center">
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
+                          {inventoryPropertyTypes.map((type) => (
                             <button
+                              key={type}
                               type="button"
-                              onClick={(e) => toggleUnitFavorite(u.id, e)}
-                              className="text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] cursor-pointer flex items-center justify-center transition-transform hover:scale-110 active:scale-125"
+                              onClick={() => setSelectedPropertyType(type)}
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedPropertyType === type
+                                ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
+                                : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                                }`}
                             >
-                              {u.isFavorite ? (
-                                <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
-                              ) : (
-                                <FaRegHeart className="w-4 h-4 text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)]" />
-                              )}
+                              {type}
                             </button>
-                          </span>
+                          ))}
                         </div>
-                      );
-                    })}
+                      </div>
+
+                      {/* Sub-Div 3: Exposure */}
+                      <div className="flex flex-col gap-4">
+                        <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
+                          {inventoryUI.exposureLabel}
+                        </span>
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
+                          {inventoryExposures.map((exp) => (
+                            <button
+                              key={exp}
+                              type="button"
+                              onClick={() => setSelectedExposure(exp)}
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedExposure === exp
+                                ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
+                                : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                                }`}
+                            >
+                              {exp}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Sub-Div 4: Property Status */}
+                      <div className="flex flex-col gap-4">
+                        <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
+                          {inventoryUI.propertyStatusLabel}
+                        </span>
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-[10px] bg-[var(--theme-inventory-all-button)]">
+                          {inventoryPropertyStatuses.map((status) => (
+                            <button
+                              key={status}
+                              type="button"
+                              onClick={() => setSelectedStatus(status)}
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedStatus === status
+                                ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
+                                : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                                }`}
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* DIV 2: Area Size Range */}
+                    <div className="flex flex-col gap-6">
+                      {/* 1st Div: Area Size Label and 2 Small Boxes for Min / Max */}
+                      <div className="flex flex-col gap-4">
+                        <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
+                          {inventoryUI.areaSizeLabel}
+                        </span>
+                        <div className="grid grid-cols-2 gap-4">
+                          {/* Min Box */}
+                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-1 border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
+                            <input
+                              type="number"
+                              placeholder={inventoryUI.minPlaceholder}
+                              value={minArea}
+                              onChange={(e) => setMinArea(e.target.value)}
+                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
+                            />
+                          </div>
+                          {/* Max Box */}
+                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
+                            <input
+                              type="number"
+                              placeholder={inventoryUI.maxPlaceholder}
+                              value={maxArea}
+                              onChange={(e) => setMaxArea(e.target.value)}
+                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 2nd Div: Range Limit Line with labels min & max */}
+                      <div className="flex flex-col gap-1">
+                        <div className="flex justify-between text-xs font-semibold text-[var(--theme-inventory-tab-default-text)]">
+                          <span>{inventoryAreaRange.minLabel}</span>
+                          <span>{inventoryAreaRange.maxLabel}</span>
+                        </div>
+
+                        <div
+                          ref={sliderTrackRef}
+                          onPointerDown={handleTrackPointerDown}
+                          className="relative w-full flex items-center h-7 select-none touch-none cursor-pointer"
+                        >
+                          {/* Base Track */}
+                          <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden relative pointer-events-none">
+                            {/* Active Highlight Track */}
+                            <div
+                              className="h-full bg-white rounded-full"
+                              style={{
+                                marginLeft: `calc(8px + (100% - 16px) * ${minPercent})`,
+                                width: `calc((100% - 16px) * ${Math.max(0, maxPercent - minPercent)})`,
+                              }}
+                            />
+                          </div>
+
+                          {/* Min Thumb (Left Side Handle - Draggable) */}
+                          <div
+                            role="slider"
+                            aria-label="Minimum Area"
+                            aria-valuemin={inventoryAreaRange.min}
+                            aria-valuemax={currentMaxVal}
+                            aria-valuenow={currentMinVal}
+                            tabIndex={0}
+                            onPointerDown={(e) => startDragging("min", e)}
+                            className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${focusedThumb === "min" ? "z-40" : "z-30"
+                              }`}
+                            style={{
+                              left: `calc(8px + (100% - 16px) * ${minPercent})`,
+                            }}
+                          >
+                            <img
+                              src={inventoryUI.sliderCircleSrc}
+                              alt=""
+                              className="w-4 h-4 pointer-events-none select-none drop-shadow hover:scale-110 active:scale-125 transition-transform"
+                              draggable={false}
+                            />
+                          </div>
+
+                          {/* Max Thumb (Right Side Handle - Draggable) */}
+                          <div
+                            role="slider"
+                            aria-label="Maximum Area"
+                            aria-valuemin={currentMinVal}
+                            aria-valuemax={inventoryAreaRange.max}
+                            aria-valuenow={currentMaxVal}
+                            tabIndex={0}
+                            onPointerDown={(e) => startDragging("max", e)}
+                            className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${focusedThumb === "max" ? "z-40" : "z-30"
+                              }`}
+                            style={{
+                              left: `calc(8px + (100% - 16px) * ${maxPercent})`,
+                            }}
+                          >
+                            <img
+                              src={inventoryUI.sliderCircleSrc}
+                              alt=""
+                              className="w-4 h-4 pointer-events-none select-none drop-shadow hover:scale-110 active:scale-125 transition-transform"
+                              draggable={false}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* DIV 3: Unit List Table */}
+                  <div className="w-full flex flex-col gap-3 ">
+                    {/* Table Header */}
+                    <div className="w-full grid grid-cols-5 text-sm sm:text-base text-[var(--theme-inventory-5tab)] font-medium items-center ">
+                      {inventoryTableHeaders.map((header) => (
+                        <span key={header.key} className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">
+                          {header.label}
+                        </span>
+                      ))}
+                      <span className="col-span-1 text-center flex items-center justify-center text-[var(--theme-inventory-heart)]">
+                        <FaHeart className="w-4 h-4" />
+                      </span>
+                    </div>
+
+                    {/* Table Rows */}
+                    <div className="w-full flex flex-col max-h-[240px] overflow-y-auto scrollbar-none mb-15">
+                      {filteredUnits.map((u) => {
+                        const isSelected = activeUnit?.unitNo === u.unitNo;
+                        return (
+                          <div
+                            key={u.id}
+                            onClick={() => setSelectedUnit(u)}
+                            className={`w-full grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 rounded-lg cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
+                              }`}
+                          >
+                            <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">
+                              {u.unitNo ? u.unitNo.replace(/^Unit\s*(?:No\.?)?\s*/i, "") : ""}
+                            </span>
+                            <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.type}</span>
+                            <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.exposure}</span>
+                            <span className="col-span-1 text-center flex items-center justify-center whitespace-nowrap">{u.area}</span>
+                            <span className="col-span-1 text-center flex items-center justify-center">
+                              <button
+                                type="button"
+                                onClick={(e) => toggleUnitFavorite(u.id, e)}
+                                className="text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] cursor-pointer flex items-center justify-center transition-transform hover:scale-110 active:scale-125"
+                              >
+                                {u.isFavorite ? (
+                                  <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
+                                ) : (
+                                  <FaRegHeart className="w-4 h-4 text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)]" />
+                                )}
+                              </button>
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
 
