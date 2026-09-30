@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { CiCircleChevRight, CiCircleChevLeft, CiCircleChevDown } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import BottomNav from "../../components/BottomNav";
 import InventoryPageDetail from "./InventoryPageDetail";
 import {
@@ -15,6 +16,25 @@ import {
 
 function InventoryPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [showFlatsCarousel, setShowFlatsCarousel] = useState(false);
+  const [isDesktopOrTablet, setIsDesktopOrTablet] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 640;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktopOrTablet(window.innerWidth >= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const showDesktopFilterView = isFilterOpen && isDesktopOrTablet;
+
   const [selectedPropertyType, setSelectedPropertyType] = useState(inventoryPropertyTypes[0]);
   const [selectedExposure, setSelectedExposure] = useState(inventoryExposures[0]);
   const [selectedStatus, setSelectedStatus] = useState(inventoryPropertyStatuses[0]);
@@ -25,6 +45,12 @@ function InventoryPage() {
   const [favoriteUnitIds, setFavoriteUnitIds] = useState(() => {
     return new Set(inventoryUnits.filter((u) => u.isFavorite).map((u) => u.id));
   });
+
+  // Carousel dragging refs for horizontal scroll on mobile
+  const carouselRef = useRef(null);
+  const isDraggingCarousel = useRef(false);
+  const startXCarousel = useRef(0);
+  const scrollLeftCarousel = useRef(0);
 
   const units = useMemo(() => {
     return inventoryUnits.map((u) => ({
@@ -165,6 +191,73 @@ function InventoryPage() {
     setSelectedUnit(units[0]);
   };
 
+  // Show Flats button handler (from Image 2 -> Image 3)
+  const handleShowFlats = () => {
+    setIsMobileFilterOpen(false);
+    setShowFlatsCarousel(true);
+  };
+
+  // Clear all button handler (Image 2)
+  const handleClearAll = () => {
+    setSelectedPropertyType(inventoryPropertyTypes[0] || "Office");
+    setSelectedExposure(inventoryExposures[0] || "N");
+    setSelectedStatus(inventoryPropertyStatuses[0] || "All");
+    setMinArea("");
+    setMaxArea("");
+    setShowFlatsCarousel(false);
+    setSelectedUnit(units[0]);
+  };
+
+  // Carousel dragging handlers for mobile left/right drag bar
+  const handlePointerDown = (e) => {
+    if (!carouselRef.current) return;
+    isDraggingCarousel.current = true;
+    startXCarousel.current = e.pageX - carouselRef.current.offsetLeft;
+    scrollLeftCarousel.current = carouselRef.current.scrollLeft;
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingCarousel.current || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startXCarousel.current) * 1.5;
+    carouselRef.current.scrollLeft = scrollLeftCarousel.current - walk;
+  };
+
+  const handlePointerUp = () => {
+    isDraggingCarousel.current = false;
+  };
+
+  const handlePointerLeave = () => {
+    isDraggingCarousel.current = false;
+  };
+
+  // Carousel units list (displayed when Show Flats is clicked)
+  const carouselUnits = useMemo(() => {
+    let list = units.filter((u) => {
+      if (selectedStatus && selectedStatus !== "All" && u.status?.toLowerCase() !== selectedStatus.toLowerCase()) {
+        return false;
+      }
+      if (selectedExposure && !u.exposure?.includes(selectedExposure)) {
+        return false;
+      }
+      return true;
+    });
+
+    if (list.length === 0) {
+      list = [...units];
+    }
+
+    // Place A-801 first to match Image 3 if present
+    const a801Index = list.findIndex((u) => u.unitNo === "A-801");
+    if (a801Index > 0) {
+      const a801 = list.splice(a801Index, 1)[0];
+      list.unshift(a801);
+    }
+
+    return list;
+  }, [units, selectedStatus, selectedExposure]);
+
   // Filtered unit list based on user selections
   const filteredUnits = useMemo(() => {
     return units.filter((u) => {
@@ -185,11 +278,11 @@ function InventoryPage() {
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-[var(--theme-inventory-img-bg)] select-none">
       {/* Main Content Area */}
       <main className="relative flex-1 min-h-0 w-full flex flex-col overflow-hidden">
-        {/* VIEW 1: INTRO VIEW (Filter closed) */}
-        {!isFilterOpen ? (
+        {/* VIEW 1: INTRO VIEW (Always shown on mobile; shown on desktop/tablet when filter is closed) */}
+        {!showDesktopFilterView ? (
           <div className="relative w-full h-full flex flex-col justify-between overflow-hidden">
-            {/* Top Bar: Logo & Wishlist button */}
-            <div className="relative z-30 flex items-center justify-between px-[30px] pt-[30px]">
+            {/* Top Bar (Desktop): Logo & Wishlist button */}
+            <div className="relative z-30 hidden sm:flex items-center justify-between px-[30px] pt-[30px]">
               <div className="flex items-center">
                 <img
                   src={inventoryUI.logoSrc}
@@ -213,12 +306,54 @@ function InventoryPage() {
               </button>
             </div>
 
-            {/* Left Floating Filters Button */}
-            <div className="absolute top-20 left-12 z-30">
+            {/* Top Bar (Mobile matching Image 1): Phone Logo (left) + Center Filters Pill + Right Heart Button */}
+            <div className="relative z-30 flex sm:hidden items-center justify-between px-5 pt-[25px]">
+              <div className="flex items-center">
+                <img
+                  src="/UI IMG/phone logo.svg"
+                  alt="Riviera"
+                  className="h-8 w-8 object-contain drop-shadow"
+                />
+              </div>
+
+              {/* Center Filters Button (Matching laptop size, padding, and typography) */}
+              <button
+                type="button"
+                onClick={() => setIsMobileFilterOpen(true)}
+                className="flex items-center gap-[10px] px-4 py-[10px] rounded-full border border-[var(--theme-inventory-filter-border)] text-[var(--theme-inventory-tab-default-text)] cursor-pointer hover:bg-white/5 active:scale-95 transition-all shadow-sm bg-[var(--theme-bg-blur)]/25 backdrop-blur-md"
+              >
+                <img
+                  src={inventoryUI.filterIconSrc}
+                  alt={inventoryUI.filterButtonText}
+                  className="w-6 h-6 object-contain text-[var(--theme-inventory-filter-text)]"
+                />
+                <span className="text-normal font-medium tracking-wide text-[var(--theme-inventory-filter-text)]">
+                  {inventoryUI.filterButtonText}
+                </span>
+                <CiCircleChevDown className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--theme-inventory-filter-text)]" />
+              </button>
+
+              {/* Right Wishlist Heart Button (1st Image) */}
+              <button
+                type="button"
+                aria-label={inventoryUI.wishlistAria}
+                onClick={() => toggleUnitFavorite(activeUnit?.id)}
+                className="w-10 h-10 rounded-full border border-white/30 bg-black/25 backdrop-blur-md flex items-center justify-center text-white hover:text-white transition-all cursor-pointer shadow-lg active:scale-90"
+              >
+                {activeUnit?.isFavorite ? (
+                  <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart,#FF4D4F)]" />
+                ) : (
+                  <FaRegHeart className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+
+            {/* Left Floating Filters Button (Desktop only) */}
+            <div className="hidden sm:block absolute top-20 left-12 z-30">
               <button
                 type="button"
                 onClick={() => setIsFilterOpen(true)}
-                className="flex items-center mt-[60px] gap-[10px] px-4 py-[10px] rounded-full border border-[var(--theme-inventory-filter-border)] text-[var(--theme-inventory-tab-default-text)]"
+                className="flex items-center mt-[60px] gap-[10px] px-4 py-[10px] rounded-full border border-[var(--theme-inventory-filter-border)] text-[var(--theme-inventory-tab-default-text)] cursor-pointer hover:bg-white/5 transition-colors"
               >
                 <img
                   src={inventoryUI.filterIconSrc}
@@ -233,29 +368,190 @@ function InventoryPage() {
             </div>
 
             {/* Central 3D Building Perspective on Wireframe Floor */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+            <div className={`absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4 pt-14 sm:pt-0 ${showFlatsCarousel ? "pb-[230px]" : "pb-10"} sm:pb-0 transition-all duration-300`}>
               <img
                 src={inventoryUI.buildingSrc}
                 alt={inventoryUI.buildingAlt}
-                className="w-auto h-[78%] sm:h-[84%] max-w-[95%] object-contain drop-shadow-2xl"
+                className="w-auto h-[85%] sm:h-[84%] max-h-[48vh] sm:max-h-none max-w-[92%] sm:max-w-[95%] object-contain drop-shadow-2xl"
               />
             </div>
 
-            {/* Right Floating Unit Card (VIEW 1) */}
-            <div className="absolute top-20 sm:top-24 right-6 sm:right-10 z-30 pointer-events-auto">
+            {/* Desktop Unit Card: Top-right */}
+            <div className="hidden sm:block absolute sm:top-24 sm:right-10 z-30 pointer-events-auto">
               <InventoryPageDetail
                 unit={activeUnit}
                 onToggleFavorite={toggleUnitFavorite}
               />
             </div>
+
+            {/* Mobile Unit Cards: Only visible after user clicks "Show Flats" */}
+            {showFlatsCarousel && (
+              <div className="sm:hidden absolute bottom-[62px] left-0 right-0 z-30 pointer-events-auto animate-fadeIn">
+                <div
+                  ref={carouselRef}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerLeave={handlePointerLeave}
+                  className="w-full flex gap-3 overflow-x-auto scrollbar-none px-4 snap-x cursor-grab active:cursor-grabbing select-none"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
+                  {carouselUnits.map((u) => (
+                    <div key={u.id} className="w-[280px] shrink-0 snap-center">
+                      <InventoryPageDetail
+                        unit={u}
+                        onToggleFavorite={toggleUnitFavorite}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Filter Modal (Image 1 & Image 2) */}
+            {isMobileFilterOpen && (
+              <div
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="fixed inset-0 z-50 flex items-start sm:hidden"
+              >
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-full bg-[#04241B] border-b border-white/10 p-5 shadow-2xl flex flex-col text-white"
+                >
+                  {/* Top Header: Filter Icon + Title + Close Button */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={inventoryUI.filterIconSrc}
+                        alt="Filter"
+                        className="w-5 h-5 object-contain"
+                      />
+                      <span className="text-base font-semibold text-white tracking-wide">
+                        Filter
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsMobileFilterOpen(false)}
+                      className="w-7 h-7 rounded-full border border-[var(--theme-inventory-cancel)] text-[var(--theme-inventory-cancel)] flex items-center justify-center cursor-pointer transition-colors active:scale-90 bg-transparent hover:bg-white/5"
+                      aria-label="Close Filter"
+                    >
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" />
+                        <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="w-full h-[0.5px] bg-white/20 mt-3 mb-4.5" />
+
+                  {/* Section 1: Property Type (One Single Line) */}
+                  <div className="flex flex-col gap-4 mb-5">
+                    <span className="text-white text-sm font-medium">Property Type</span>
+                    <div className="flex items-center gap-2.5 sm:gap-7 whitespace-nowrap">
+                      {inventoryPropertyTypes.map((type) => {
+                        const isSelected = selectedPropertyType === type;
+                        return (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => setSelectedPropertyType(type)}
+                            className={`py-2 px-2.5 rounded-[10px] text-sm font-medium transition-colors duration-150 cursor-pointer whitespace-nowrap ${isSelected
+                              ? "bg-[#B88A58] text-white shadow-sm"
+                              : "text-white/80 hover:text-white"
+                              }`}
+                          >
+                            {type}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Section 2: Exposure (One Single Line) */}
+                  <div className="flex flex-col gap-4 mb-5">
+                    <span className="text-white text-sm font-medium">Exposure</span>
+                    <div className="flex items-center gap-2.5 sm:gap-7 whitespace-nowrap">
+                      {inventoryExposures.map((exp) => {
+                        const isSelected = selectedExposure === exp;
+                        return (
+                          <button
+                            key={exp}
+                            type="button"
+                            onClick={() => setSelectedExposure(exp)}
+                            className={`w-9 h-9 flex items-center justify-center rounded-[10px] text-sm font-medium transition-colors duration-150 cursor-pointer ${isSelected
+                              ? "bg-[#B88A58] text-white shadow-sm"
+                              : "text-white/80 hover:text-white"
+                              }`}
+                          >
+                            {exp}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Section 3: Property Status (One Single Line) */}
+                  <div className="flex flex-col gap-4 mb-15">
+                    <span className="text-white text-sm font-medium">Property Status</span>
+                    <div className="flex items-center gap-2.5 sm:gap-7 whitespace-nowrap">
+                      {inventoryPropertyStatuses.map((status) => {
+                        const isSelected = selectedStatus === status;
+                        return (
+                          <button
+                            key={status}
+                            type="button"
+                            onClick={() => setSelectedStatus(status)}
+                            className={`py-1.5 px-3 rounded-[10px] text-sm font-medium transition-colors duration-150 cursor-pointer whitespace-nowrap ${isSelected
+                              ? "bg-[#B88A58] text-white shadow-sm"
+                              : "text-white/80 hover:text-white"
+                              }`}
+                          >
+                            {status}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Bottom Actions: Show Flats + Clear all (Image 2) */}
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handleShowFlats}
+                      className="border border-[#C09973]/70 bg-[#07241A] hover:bg-[#0c3325] active:scale-95 text-white px-6 py-3 rounded-[10px] text-sm font-medium cursor-pointer transition-all shadow-md"
+                    >
+                      Show Flats
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleClearAll}
+                      className="border border-[#C09973]/70 bg-[#07241A] hover:bg-[#0c3325] active:scale-95 text-white px-6 py-3 rounded-[10px] text-sm font-medium cursor-pointer transition-all shadow-md"
+                    >
+                      Clear all
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           /* VIEW 2: FILTER OPEN VIEW (40% Filter Panel + 60% Building Area) */
           <div className="relative w-full h-full flex flex-col lg:flex-row overflow-hidden">
             {/* LEFT FILTER PANEL (40% Width) */}
             <div className="w-full lg:w-[35%] h-[100dvh] lg:h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main,#071B11)] border-r border-white/10">
-              {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Sticky) */}
-              <div className="shrink-0 flex items-center justify-between px-[30px] pt-[30px] pb-[20px]">
+              {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Desktop & Tablet only) */}
+              <div className="shrink-0 hidden sm:flex items-center justify-between sm:px-[30px] sm:pt-[30px] sm:pb-[20px]">
                 <img
                   src={inventoryUI.logoSrc}
                   alt={inventoryUI.logoAlt}
@@ -267,7 +563,7 @@ function InventoryPage() {
                   className="cursor-pointer text-[var(--theme-inventory-filter-text)]"
                   aria-label={inventoryUI.collapseFilterAria}
                 >
-                  <CiCircleChevLeft className="w-8 h-8 mt-[20px]" />
+                  <CiCircleChevLeft className="w-8 h-8 sm:mt-[20px]" />
                 </button>
               </div>
 
@@ -275,8 +571,8 @@ function InventoryPage() {
               <div className="flex-1 min-h-0 overflow-y-auto scrollbar-none">
                 {/* ONE MAIN DIV (containing 3 divs as requested) */}
                 <div className="flex flex-col gap-6">
-                  {/* Filter Controls Container with px-[50px] */}
-                  <div className="px-[50px] flex flex-col gap-4 sm:gap-5">
+                  {/* Filter Controls Container with responsive padding */}
+                  <div className="px-5 sm:px-[50px] flex flex-col gap-4 sm:gap-5">
                     {/* DIV 1: Filter Header & Property Selector Buttons */}
                     <div className="flex flex-col gap-8">
                       {/* Sub-Div 1: Filter SVG + Title and Reset Filters Button */}
@@ -293,16 +589,15 @@ function InventoryPage() {
                           </span>
                         </div>
 
-                        {/* Div B: Reset Filters button */}
-                        <div>
-                          <button
-                            type="button"
-                            onClick={handleResetFilters}
-                            className="px-4 py-[10px] rounded-[10px] border border-[var(--theme-inventory-border)] text-sm font-medium text-[var(--theme-inventory-tab-selected-bg)] hover:text-[var(--theme-inventory-tab-hover-text)]"
-                          >
-                            {inventoryUI.resetFiltersText}
-                          </button>
-                        </div>
+                        {/* Div B: Cancel Icon Button */}
+                        <button
+                          type="button"
+                          onClick={() => setIsFilterOpen(false)}
+                          className="text-[var(--theme-inventory-cancel)] hover:opacity-80 active:scale-90 transition-all cursor-pointer flex items-center justify-center"
+                          aria-label="Close Filter"
+                        >
+                          <IoCloseCircleOutline className="w-8 h-8" />
+                        </button>
                       </div>
 
                       {/* Sub-Div 2: Property Type */}
@@ -316,7 +611,7 @@ function InventoryPage() {
                               key={type}
                               type="button"
                               onClick={() => setSelectedPropertyType(type)}
-                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedPropertyType === type
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-sm font-medium transition-all ${selectedPropertyType === type
                                 ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
                                 : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
                                 }`}
@@ -338,7 +633,7 @@ function InventoryPage() {
                               key={exp}
                               type="button"
                               onClick={() => setSelectedExposure(exp)}
-                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedExposure === exp
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-sm font-medium transition-all ${selectedExposure === exp
                                 ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
                                 : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
                                 }`}
@@ -360,7 +655,7 @@ function InventoryPage() {
                               key={status}
                               type="button"
                               onClick={() => setSelectedStatus(status)}
-                              className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all ${selectedStatus === status
+                              className={`flex-1 py-2 px-4 rounded-[10px] text-sm font-medium transition-all ${selectedStatus === status
                                 ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
                                 : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
                                 }`}
@@ -381,23 +676,23 @@ function InventoryPage() {
                         </span>
                         <div className="grid grid-cols-2 gap-4">
                           {/* Min Box */}
-                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-1 border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
+                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-1 border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-sm">
                             <input
                               type="number"
                               placeholder={inventoryUI.minPlaceholder}
                               value={minArea}
                               onChange={(e) => setMinArea(e.target.value)}
-                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
+                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-sm"
                             />
                           </div>
                           {/* Max Box */}
-                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-xs sm:text-sm">
+                          <div className="flex items-center px-4 py-[9px] rounded-[10px] border border-[var(--theme-inventory-filter-border)]/50 bg-[var(--theme-inventory-all-button)] text-[var(--theme-inventory-tab-default-text)] text-sm">
                             <input
                               type="number"
                               placeholder={inventoryUI.maxPlaceholder}
                               value={maxArea}
                               onChange={(e) => setMaxArea(e.target.value)}
-                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-xs sm:text-sm"
+                              className="w-full bg-transparent outline-none text-[var(--theme-inventory-tab-default-text)] placeholder-white/50 text-sm"
                             />
                           </div>
                         </div>

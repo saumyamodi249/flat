@@ -124,8 +124,8 @@ export const inventoryUnits = [
     type: "Duplex",
     exposure: "N,W",
     area: 2500,
-    floor: "8th Floor",
-    status: "Sold",
+    floor: "4th Floor",
+    status: "Available",
     isFavorite: true,
   },
   {

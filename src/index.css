@@ -115,7 +115,9 @@ select {
   --theme-inventory-tab-hover-text: #F7E4CF;
   --theme-inventory-5tab: #CCCCCC;
   --theme-inventory-heart: #F05B3D;
+  --theme-inventory-cancel:#F7E4CF;
 
+  
   --theme-InventoryDetail-box-bg: #04170f;
   --theme-InventoryDetail-box-border: #696969;
   --theme-InventoryDetail-sold: #F05B3D;

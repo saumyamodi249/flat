@@ -35,7 +35,7 @@ function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" 
 
   return (
     <div
-      className={`w-[260px] sm:w-[280px] lg:w-[300px] max-w-full rounded-[10px] border border-[var(--theme-InventoryDetail-box-border)] bg-[var(--theme-InventoryDetail-box-bg)]/90 backdrop-blur-md p-4 flex flex-col text-[var(--theme-InventoryDetail-tab-default-text)] transition-all duration-300 ${className}`}
+      className={`w-full sm:w-[280px] lg:w-[300px] max-w-full rounded-[10px] border border-[var(--theme-InventoryDetail-box-border)] bg-[var(--theme-InventoryDetail-box-bg)]/90 backdrop-blur-md p-3.5 sm:p-4 flex flex-col text-[var(--theme-InventoryDetail-tab-default-text)] transition-all duration-300 ${className}`}
     >
 
       {/* 1st Div: Unit No + Status */}
@@ -56,7 +56,7 @@ function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" 
       <div className="w-full" style={{ borderTop: "0.5px solid var(--theme-InventoryDetail-inner-border)" }}></div>
 
       {/* 3rd Div: Floor/Exposure + Area/Heart */}
-      <div className="flex flex-col gap-4 my-4">
+      <div className="flex flex-col gap-3 sm:gap-4 my-3 sm:my-4">
 
         {/* 3rd > 1st Div: Floor + Exposure */}
         <div className="flex items-center justify-between">
@@ -98,25 +98,23 @@ function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" 
 
       </div>
 
-      {/* 4th Div: Action Buttons */}
-      <div className="flex flex-col gap-2">
-
+      {/* 4th Div: Action Buttons (Side-by-side on mobile matching Image 1, vertical on desktop) */}
+      <div className="flex flex-row sm:flex-col gap-2.5 sm:gap-2">
         {/* 4th > 1st Div: View Property */}
-        <div className="flex items-center justify-center gap-2 px-[33.5px] py-3 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
-          <img src="/Inventory/360 View.svg" alt="360 View" className="h-6 w-6" />
-          <span className="text-[16px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)]">
+        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-2 sm:px-4 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
+          <img src="/Inventory/360 View.svg" alt="360 View" className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="text-xs sm:text-[15px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
             {inventoryUI.viewPropertyText || "View Property"}
           </span>
         </div>
 
         {/* 4th > 2nd Div: Floor Plan */}
-        <div className="flex items-center justify-center gap-2 px-[50px] py-3 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
-          <img src="/Inventory/floor-plan.svg" alt="Floor Plan" className="h-6 w-6" />
-          <span className="text-[16px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)]">
+        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-2 sm:px-4 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
+          <img src="/Inventory/floor-plan.svg" alt="Floor Plan" className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="text-xs sm:text-[15px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
             {inventoryUI.floorPlanText || "Floor Plan"}
           </span>
         </div>
-
       </div>
 
     </div>
