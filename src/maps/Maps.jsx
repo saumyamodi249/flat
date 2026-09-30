@@ -7,8 +7,8 @@ function Maps() {
   return (
     <Routes>
       <Route element={<MapPage />}>
-        {/* Default route redirect to parks */}
-        <Route index element={<Navigate to="parks" replace />} />
+        {/* Default route redirect to all matching Image 1 */}
+        <Route index element={<Navigate to="all" replace />} />
         {/* All dynamic category routes */}
         <Route path=":category" element={<MapView />} />
       </Route>

@@ -19,6 +19,7 @@ const mobileMenuSections = [
     { label: "About", path: "/about" },
     { label: "Amenities", path: "/amenities" },
     { label: "Gallery", path: "/gallery" },
+    { label: "Maps", path: "/maps" },
     { label: "Contact Us", path: "/contact" },
   ],
   [

@@ -107,7 +107,7 @@ function CategoryFilterBar({ categories }) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        className="flex items-center gap-4 overflow-x-auto scrollbar-none w-full cursor-grab active:cursor-grabbing select-none pr-[90px]"
+        className="flex items-center gap-2.5 sm:gap-4 overflow-x-auto scrollbar-none w-full cursor-grab active:cursor-grabbing select-none pr-[88px] sm:pr-[120px]"
       >
         {categories.map((cat) => {
           const isActive = category === cat.id;
@@ -118,7 +118,7 @@ function CategoryFilterBar({ categories }) {
               ref={(el) => (buttonRefs.current[cat.id] = el)}
               type="button"
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
+              className={`flex items-center gap-[10px] px-[12px] py-[6px] lg:px-4 lg:py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
                 ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] border-[var(--theme-map-button-selected-bg)]"
                 : "bg-[var(--theme-map-button-default-bg)] text-[var(--theme-route-map-button-title-default-bg)] border-[var(--theme-map-border)]/90"
                 }`}
@@ -126,7 +126,7 @@ function CategoryFilterBar({ categories }) {
               {CATEGORY_ICONS[cat.id] ? (
                 <span
                   aria-hidden="true"
-                  className="w-6 h-6 shrink-0 inline-block transition-colors duration-200"
+                  className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 inline-block transition-colors duration-200"
                   style={{
                     maskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
                     WebkitMaskImage: `url("${CATEGORY_ICONS[cat.id]}")`,
@@ -150,9 +150,9 @@ function CategoryFilterBar({ categories }) {
 
       {/* Right Linear Gradient Fade Overlay with Navigation Arrows matching Figma */}
       <div
-        className="absolute right-0 top-0 bottom-0 flex items-center justify-end pl-8 pr-0 pointer-events-none z-10 w-[140px]"
+        className="absolute right-0 top-0 bottom-0 flex items-center justify-end pl-3 pr-0 pointer-events-none z-10 w-[84px] sm:w-[120px]"
         style={{
-          background: "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-map-bg, #002E2D) 85%, var(--theme-map-bg, #002E2D) 100%)",
+          background: "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 30%, var(--theme-map-bg, #002E2D) 75%, var(--theme-map-bg, #002E2D) 100%)",
         }}
       >
         {/* Carousel Navigation Arrows (Exact 30x30 circles matching design) */}
@@ -199,5 +199,4 @@ function CategoryFilterBar({ categories }) {
     </div>
   );
 }
-
 export default CategoryFilterBar;

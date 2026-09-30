@@ -19,6 +19,7 @@ function MapView() {
   const [mapMode, setMapMode] = useState("road");
   const [showStreetView, setShowStreetView] = useState(false);
   const [streetViewData, setStreetViewData] = useState(null);
+  const [isDetailCardVisible, setIsDetailCardVisible] = useState(true);
 
   const [isMapReady, setIsMapReady] = useState(false);
 
@@ -145,6 +146,7 @@ function MapView() {
             if (locationData && !genericNames.includes(locationData.name.trim().toLowerCase())) {
               hasUserInteracted.current = true;
               setSelectedPlace(locationData);
+              setIsDetailCardVisible(true);
               marker.setLatLng([clickedLat, clickedLng]);
             }
           } catch (err) {
@@ -172,6 +174,7 @@ function MapView() {
   useEffect(() => {
     const targetPlace = categoryPlaces[0] || BASE_PROPERTY_LOCATION;
     setSelectedPlace(targetPlace);
+    setIsDetailCardVisible(true);
     hasUserInteracted.current = false;
 
     if (mapInstanceRef.current) {
@@ -227,7 +230,7 @@ function MapView() {
 
 
   return (
-    <div className="relative w-full h-full flex-1 min-h-0 rounded-[10px] overflow-hidden border border-[var(--theme-map-border)] bg-[var(--theme-map-street-view)] flex flex-col select-none">
+    <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-map-border)] bg-[var(--theme-map-street-view)] flex flex-col select-none shadow-md">
       {/* Real Interactive Google Map Container */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
         <div
@@ -248,54 +251,60 @@ function MapView() {
         )}
       </div>
 
-      {/* Floating Place Detail Card (Top-Right) */}
-      <div className="absolute top-3.5 right-3.5 z-30 block max-w-[calc(100%-24px)] sm:max-w-none animate-fadeIn pointer-events-auto">
-        <MapDetailCard
-          place={selectedPlace}
-          onOpenStreetView={handleOpen360StreetView}
-        />
-      </div>
+      {/* Floating Place Detail Card (Centered horizontally on mobile matching Image 1) */}
+      {isDetailCardVisible && (
+        <div className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 sm:left-auto sm:right-3.5 sm:translate-x-0 z-30 w-[calc(100%-24px)] max-w-[340px] sm:w-[325px] animate-fadeIn pointer-events-auto">
+          <MapDetailCard
+            place={selectedPlace}
+            onOpenStreetView={handleOpen360StreetView}
+            onClose={() => setIsDetailCardVisible(false)}
+          />
+        </div>
+      )}
 
-      {/* Bottom-Left: Map / Satellite Mode Toggle (Enlarged with Map.svg and satellite.svg) */}
-      <div className="absolute bottom-3.5 left-3.5 z-30 pointer-events-auto">
+      {/* Bottom-Left: Map / Satellite Mode Toggle matching Image 1 */}
+      <div className="absolute bottom-2.5 left-2.5 sm:bottom-3.5 sm:left-3.5 z-30 pointer-events-auto">
         <button
           type="button"
           onClick={handleToggleMapMode}
           title={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
           aria-label={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
-          className="w-20 h-20 sm:w-24 sm:h-24 rounded-[16px] border-2 border-white/90 overflow-hidden shadow-2xl relative group cursor-pointer hover:scale-105 active:scale-95 transition-all select-none bg-[#081b1a] flex flex-col justify-end"
+          className="w-[62px] h-[62px] sm:w-20 sm:h-20 rounded-[12px] sm:rounded-[14px] border-2 border-white/80 overflow-hidden shadow-2xl relative group cursor-pointer hover:scale-105 active:scale-95 transition-all select-none bg-[#081b1a] flex items-center justify-center"
         >
-          {/* Thumbnail preview image (Shows Satellite thumb when on road, Map thumb when on satellite) */}
+          {/* Thumbnail preview image */}
           <img
             src={mapMode === "road" ? mapUI.satelliteImg : mapUI.roadImg}
             alt={mapMode === "road" ? mapUI.satelliteAlt : mapUI.roadAlt}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
-
-
+          {/* Overlay gradient & title text */}
+          <div className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors" />
+          <span className="relative z-10 text-[11px] sm:text-xs font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] tracking-wide">
+            {mapMode === "road" ? "Satellite" : "Map"}
+          </span>
         </button>
       </div>
 
-      {/* Zoom In & Out Controls (Bottom-Right) */}
-      <div className="absolute bottom-3.5 right-3.5 z-30 flex flex-col bg-[var(--theme-map-bg)]/95 backdrop-blur-md border border-[var(--theme-map-border)]/40 rounded-[8px] overflow-hidden shadow-2xl pointer-events-auto">
+      {/* Zoom In & Out Controls (Bottom-Right matching Image 1) */}
+      <div className="absolute bottom-2.5 right-2.5 sm:bottom-3.5 sm:right-3.5 z-30 flex flex-col bg-[#002E2D]/95 backdrop-blur-md border border-white/20 rounded-[8px] overflow-hidden shadow-2xl pointer-events-auto">
         <button
           type="button"
           onClick={handleZoomIn}
           aria-label={mapUI.zoomIn}
           title={mapUI.zoomIn}
-          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-[var(--theme-map-text)] hover:text-[var(--theme-route-map-button-title-selected-bg)] hover:bg-[var(--theme-map-border)]/20 active:bg-[var(--theme-map-border)]/30 transition-all cursor-pointer"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/10 active:bg-white/20 transition-all cursor-pointer"
         >
           <IoAdd className="w-5 h-5" />
         </button>
 
-        <div className="w-full h-[1px] bg-[var(--theme-map-border)]/30" />
+        <div className="w-full h-[1px] bg-white/20" />
 
         <button
           type="button"
           onClick={handleZoomOut}
           aria-label={mapUI.zoomOut}
           title={mapUI.zoomOut}
-          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-[var(--theme-map-text)] hover:text-[var(--theme-route-map-button-title-selected-bg)] hover:bg-[var(--theme-map-border)]/20 active:bg-[var(--theme-map-border)]/30 transition-all cursor-pointer"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/10 active:bg-white/20 transition-all cursor-pointer"
         >
           <IoRemove className="w-5 h-5" />
         </button>

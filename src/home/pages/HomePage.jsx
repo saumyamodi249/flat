@@ -21,12 +21,13 @@ function HomePage() {
 
   return (
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full overflow-hidden bg-[var(--theme-bottom)] select-none">
-      {/* Background image — Always Building.png */}
+      {/* Background image — Always Building.png with pan and zoom */}
       <img
         ref={buildingImageRef}
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out opacity-100 ${isSubpageActive ? "blur-[3px] scale-105 opacity-65 brightness-65 pointer-events-none" : ""
+        draggable={false}
+        className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter,opacity] duration-500 ease-in-out opacity-100 ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""
           }`}
       />
 
@@ -103,7 +104,7 @@ function HomePage() {
       {/* ================= DESKTOP FLOATING URBAN DATA LAYERS — Only on Home page ================= */}
       {!isSubpageActive && (
         <div
-          className="relative z-10 flex-1 hidden md:flex justify-end items-start px-4 sm:px-[30px] pt-5 transition-all duration-300"
+          className="relative z-10 flex-1 hidden md:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none transition-all duration-300"
         >
           <div className="pointer-events-auto">
             <UrbanDataLayers
