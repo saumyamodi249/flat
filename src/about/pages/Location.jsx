@@ -25,7 +25,7 @@ function Location() {
         {/* 2nd Main Div: Row container for Map (left) and Text content (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start w-full">
           {/* Inside 2nd Div -> 1st Child: Map only */}
-          <div className="w-full h-64 sm:h-80 md:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-black/20 shrink-0">
+          <div className="w-full h-64 sm:h-80 md:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[var(--theme-bg-blur)]/20 shrink-0">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d771.391519637442!2d72.61096364588012!3d23.119886328808533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e82296f9e7abf%3A0x9f0fa0efc3bcb29e!2sCluster_chandkheda%2016%2C%208%2C%20Sardar%20Patel%20Ring%20Rd%2C%20nr.%20Tapovan%20Circle%2C%20Nigam%20Nagar%2C%20Chandkheda%2C%20Ahmedabad%2C%20Gujarat%20382424!5e0!3m2!1sen!2sin!4v1790148770082!5m2!1sen!2sin"
               className="block w-full h-full border-0 rounded-[8px]"

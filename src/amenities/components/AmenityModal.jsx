@@ -17,7 +17,7 @@ function AmenityModal({ amenity, onClose }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn cursor-pointer"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--theme-bg-blur)]/85 backdrop-blur-md animate-fadeIn cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -45,7 +45,7 @@ function AmenityModal({ amenity, onClose }) {
         </div>
 
         {/* Modal Fullscreen Image Content */}
-        <div className="relative flex-1 w-full h-full bg-black overflow-hidden flex items-center justify-center">
+        <div className="relative flex-1 w-full h-full bg-[var(--theme-bg-blur)] overflow-hidden flex items-center justify-center">
           <img
             src={amenity.img || amenity.photo}
             alt={amenity.label}

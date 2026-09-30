@@ -28,6 +28,7 @@ select {
 
 :root {
 
+  --theme-bg-blur:#000000;
   /* Home */
   --theme-bottom: #004443;
   --theme-blur-layer: #004443;
@@ -86,6 +87,7 @@ select {
   --theme-amenity-line: #C5C5C5;
   --theme-amenity-text: #FFFFFF;
   --theme-amenity-left: #F7E4CF;
+  --theme-amenity-img-bg-border:#C09973;
   --theme-amenity-button-default-bg: #002E2D;
   --theme-amenity-button-selected-bg: #C09973;
   --theme-amenity-linear-gradient: linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, #002E2D 100%);

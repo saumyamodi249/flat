@@ -12,17 +12,17 @@ export const galleryTabs = [
  */
 export const SPANS = {
   // Standard Column Spans
-  col2: "col-span-1 md:col-span-1 lg:col-span-2",
-  col3: "col-span-1 md:col-span-1.5 lg:col-span-3",
-  col4: "col-span-1 md:col-span-2 lg:col-span-4",
-  col6: "col-span-1 md:col-span-3 lg:col-span-6",
+  col2: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1",
+  col3: "col-span-1 md:col-span-1.5 lg:col-span-3 row-span-1",
+  col4: "col-span-1 md:col-span-2 lg:col-span-4 row-span-1",
+  col6: "col-span-1 md:col-span-3 lg:col-span-6 row-span-1",
   col6_row2: "col-span-1 md:col-span-3 lg:col-span-6 row-span-1 md:row-span-2 lg:row-span-2",
 
-  // Proportional Heights (for 6-row layout)
+  // Proportional Heights (for 6-row layout and 3-col mobile grid)
   thirdPiece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 md:row-span-1 lg:row-span-2",
   halfPiece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 md:row-span-2 lg:row-span-3",
-  twoThirdsPiece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 md:row-span-2 lg:row-span-4",
-  full1Piece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 md:row-span-3 lg:row-span-6",
+  twoThirdsPiece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-2 md:row-span-2 lg:row-span-4",
+  full1Piece: "col-span-1 md:col-span-1 lg:col-span-2 row-span-2 md:row-span-3 lg:row-span-6",
 };
 
 // Exterior Gallery Data (7 authentic Riviera assets)
@@ -318,8 +318,39 @@ export const amenitiesData = [
   },
 ];
 
+// Curated items to match user's reference mockup at the top of the All gallery
+const showcaseItems = [
+  // 1. Column 1 (Row 1-2): Tall Garden Villa
+  { ...exteriorData[2], id: "showcase-1" },
+  // 2. Column 2 (Row 1): Pool Deck Pergola
+  { ...amenitiesData[2], id: "showcase-2" },
+  // 3. Column 3 (Row 1): Sunset Pool Deck
+  { ...amenitiesData[3], id: "showcase-3" },
+  // 4. Column 2 (Row 2): Balcony Seating Lounge
+  { ...amenitiesData[4], id: "showcase-4" },
+  // 5. Column 3 (Row 2): Sky Balcony Lounge Angle 2
+  { ...amenitiesData[6], id: "showcase-5" },
+  // 6. Column 1 (Row 3): Curved Living Room Sofa
+  { ...portfolioData[0], id: "showcase-6" },
+  // 7. Column 2 (Row 3): High-rise terrace with breakfast tray
+  { ...amenitiesData[5], id: "showcase-7" },
+  // 8. Column 3 (Row 3): Gym & Fitness Studio
+  { ...portfolioData[2], id: "showcase-8" },
+  // 9. Column 1 (Row 4): Tower Front Elevation
+  { ...exteriorData[3], id: "showcase-9" },
+  // 10. Column 2 (Row 4): Garden Entrance Gate
+  { ...exteriorData[5], id: "showcase-10" },
+  // 11. Column 3 (Row 4-5): Tower Perspective Looking Up
+  { ...amenitiesData[1], id: "showcase-11" },
+  // 12. Column 1 (Row 5): Sunset Tower Facade
+  { ...exteriorData[1], id: "showcase-12" },
+  // 13. Column 2 (Row 5): Night View Elevation
+  { ...exteriorData[6], id: "showcase-13" },
+];
+
 // All Gallery items combined using their authentic default sizes/spans like exterior, interior, and amenities
 export const allGalleryData = [
+  ...showcaseItems,
   ...exteriorData,
   ...portfolioData,
   ...amenitiesData,

@@ -13,13 +13,19 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* Base Home Layout (Home Page is the persistent background across mobile/tablet/laptop) */}
+        <Route element={<Home />}>
+          <Route path="/home" element={null} />
+          <Route path="/amenities/*" element={<Amenities />} />
+          <Route path="/gallery/*" element={<Gallery />} />
+          <Route path="/maps/*" element={<Maps />} />
+          <Route path="/about/*" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
+
+        {/* Inventory is independent */}
         <Route path="/inventory/*" element={<Inventory />} />
-        <Route path="/amenities/*" element={<Amenities />} />
-        <Route path="/gallery/*" element={<Gallery />} />
-        <Route path="/maps/*" element={<Maps />} />
-        <Route path="/about/*" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   )

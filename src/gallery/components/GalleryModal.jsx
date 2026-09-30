@@ -17,7 +17,7 @@ function GalleryModal({ item, onClose }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn cursor-pointer"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--theme-bg-blur)]/85 backdrop-blur-md animate-fadeIn cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -47,7 +47,7 @@ function GalleryModal({ item, onClose }) {
         </div>
 
         {/* Modal Image Display */}
-        <div className="relative flex-1 w-full h-full bg-black overflow-hidden flex items-center justify-center p-2">
+        <div className="relative flex-1 w-full h-full bg-[var(--theme-bg-blur)] overflow-hidden flex items-center justify-center p-2">
           <img
             src={item.image}
             alt={item.title}

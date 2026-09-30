@@ -17,7 +17,7 @@ function AmenityView() {
   }, [category]);
 
   return (
-    <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-amenity-border)]/50 bg-[#081b1a] flex flex-col select-none shadow-md">
+    <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-amenity-img-bg-border)] bg-[#081b1a] flex flex-col select-none shadow-md">
       {/* High-Resolution Amenity Photo matching reference design */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
         <img
@@ -29,8 +29,9 @@ function AmenityView() {
             setIsLoaded(true);
             e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
           }}
-          className={`w-full h-full object-cover select-none transition-opacity duration-300 ${isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
-            }`}
+          className={`w-full h-full object-cover select-none transition-opacity duration-300 ${
+            isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
+          }`}
         />
 
         {/* Loading state while switching amenity photos */}

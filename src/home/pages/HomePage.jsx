@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
 import UrbanDataLayers, { LAYERS } from "../components/UrbanDataLayers";
@@ -7,6 +8,8 @@ import usePanZoom from "../../hooks/usePanZoom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 function HomePage() {
+  const location = useLocation();
+  const isSubpageActive = location.pathname !== "/home" && location.pathname !== "/";
   const { coords, isApproximate } = useGeoLocation();
   const [activeLayer, setActiveLayer] = useState(null);
   const [isUrbanDrawerOpen, setIsUrbanDrawerOpen] = useState(false);
@@ -22,19 +25,22 @@ function HomePage() {
         ref={buildingImageRef}
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
+        className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
+          } ${isSubpageActive ? "blur-[3px] scale-105 opacity-65 brightness-65 pointer-events-none" : ""}`}
       />
       <img
         src="/UI IMG/Iscon circle.png"
         alt="Iscon Circle urban layer view"
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
+        className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
+          } ${isSubpageActive ? "blur-[3px] scale-105 opacity-65 brightness-65 pointer-events-none" : ""}`}
       />
 
       {/* ================= TOP BAR ================= */}
       {/* 1. Mobile Top Bar (Screen 1 & 3: phone logo + Weather Pill + filter chain) */}
-      <div className="relative z-30 flex md:hidden items-start justify-between px-5 pt-[30px] w-full">
+      <div
+        className={`relative flex md:hidden items-start justify-between px-5 pt-[30px] w-full transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
+          }`}
+      >
         {/* Mobile Left: phone logo */}
         <div className="h-[42px] flex items-center">
           <img
@@ -72,7 +78,10 @@ function HomePage() {
       </div>
 
       {/* 2. Desktop Top Bar (Preserved 100% untouched for Laptop/Desktop) */}
-      <div className="relative z-30 hidden md:flex flex-row items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3">
+      <div
+        className={`relative hidden md:flex flex-row items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3 transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
+          }`}
+      >
         {/* Top logo */}
         <div className="flex items-center">
           <img
@@ -94,8 +103,11 @@ function HomePage() {
       </div>
 
       {/* ================= DESKTOP FLOATING URBAN DATA LAYERS ================= */}
-      <div className="relative z-20 flex-1 hidden md:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none">
-        <div className="pointer-events-auto">
+      <div
+        className={`relative z-10 flex-1 hidden md:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none transition-all duration-300 ${isSubpageActive ? "blur-[2px] opacity-40" : ""
+          }`}
+      >
+        <div className={isSubpageActive ? "pointer-events-none" : "pointer-events-auto"}>
           <UrbanDataLayers
             lat={coords.lat}
             lon={coords.lon}
@@ -105,9 +117,13 @@ function HomePage() {
         </div>
       </div>
 
+      {/* Atmospheric dark overlay sitting at z-20 above all home elements */}
+      {isSubpageActive && (
+        <div className="fixed inset-0 z-20 bg-[var(--theme-bg-blur)]/20 backdrop-blur-[2px] pointer-events-none transition-all duration-300" />
+      )}
 
       {/* ================= MOBILE URBAN DATA LAYERS DRAWER (Screen 3) ================= */}
-      {isUrbanDrawerOpen && (
+      {!isSubpageActive && isUrbanDrawerOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           {/* Backdrop overlay to click outside (transparent so it does not darken the drawer) */}
           <div
@@ -176,10 +192,19 @@ function HomePage() {
         </div>
       )}
 
-      {/* Bottom Nav */}
-      <div className="relative w-full z-40 shrink-0">
-        <BottomNav />
-      </div>
+      {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About, Contact) */}
+      {isSubpageActive && (
+        <div className="fixed inset-0 z-30 flex flex-col pointer-events-auto">
+          <Outlet />
+        </div>
+      )}
+
+      {/* Bottom Nav on Home */}
+      {!isSubpageActive && (
+        <div className="relative w-full z-40 shrink-0">
+          <BottomNav />
+        </div>
+      )}
     </div>
   );
 }

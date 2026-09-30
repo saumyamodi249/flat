@@ -5,14 +5,7 @@ import TopNav from "../../components/TopNav";
 
 function AboutPage() {
   return (
-    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-[var(--theme-bottom)] select-none">
-      {/* Blurred background image */}
-      <img
-        src="/UI IMG/Building.png"
-        alt="Riviera Select property"
-        className="fixed inset-0 w-full h-full object-cover blur-sm scale-105 select-none brightness-85 pointer-events-none"
-      />
-      <div className="fixed inset-0 bg-black/35 pointer-events-none" />
+    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-transparent select-none">
 
       {/* Top Header Bar */}
       <div className="shrink-0 w-full">

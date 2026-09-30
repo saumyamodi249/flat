@@ -203,7 +203,7 @@ function InventoryPage() {
                 type="button"
                 aria-label={inventoryUI.wishlistAria}
                 onClick={() => toggleUnitFavorite(activeUnit?.id)}
-                className="w-10 h-10 rounded-full border border-white/20 bg-black/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
+                className="w-10 h-10 rounded-full border border-white/20 bg-[var(--theme-bg-blur)]/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
               >
                 {activeUnit?.isFavorite ? (
                   <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
@@ -538,7 +538,7 @@ function InventoryPage() {
                   type="button"
                   aria-label={inventoryUI.wishlistAria}
                   onClick={() => toggleUnitFavorite(activeUnit?.id)}
-                  className="w-10 h-10 rounded-full border border-white/20 bg-black/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
+                  className="w-10 h-10 rounded-full border border-white/20 bg-[var(--theme-bg-blur)]/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
                 >
                   {activeUnit?.isFavorite ? (
                     <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />

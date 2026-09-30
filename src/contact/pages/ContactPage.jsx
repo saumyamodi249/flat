@@ -61,15 +61,7 @@ function ContactPage() {
   };
 
   return (
-    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-[var(--theme-bottom)]">
-      {/* Blurred background image matching the design */}
-      <img
-        src="/UI IMG/Building.png"
-        alt="Riviera Select property"
-        className="absolute inset-0 w-full h-full object-cover blur-sm scale-105 select-none brightness-85 transition-all duration-700"
-      />
-      {/* Soft atmospheric overlay */}
-      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-transparent">
 
       {/* Top Bar: Left Logo */}
       <div className="absolute top-5 sm:top-7 left-5 sm:left-8 z-30 flex items-center">

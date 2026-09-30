@@ -37,7 +37,7 @@ function BottomNav() {
       {/* Mobile Drawer when grid menu is tapped (Screen 2: Menu) */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-xl flex flex-col justify-between p-5 club-mobile-nav"
+          className="fixed inset-0 z-50 bg-[var(--theme-bg-blur)]/30 backdrop-blur-xl flex flex-col justify-between p-5 club-mobile-nav"
           onClick={() => setMenuOpen(false)}
         >
           {/* Top Row: Close icon on the right */}
