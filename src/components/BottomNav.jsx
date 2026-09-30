@@ -1,23 +1,8 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
-// Exact 4-circle dot menu icon from Figma design
-function FourDotsIcon({ size = 24, color = "#F5DEB3" }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill={color}
-      className="shrink-0"
-    >
-      <circle cx="7" cy="7" r="2.8" />
-      <circle cx="17" cy="7" r="2.8" />
-      <circle cx="7" cy="17" r="2.8" />
-      <circle cx="17" cy="17" r="2.8" />
-    </svg>
-  );
-}
+
 
 const navItems = [
   { label: "HOME", path: "/home" },
@@ -29,6 +14,19 @@ const navItems = [
   { label: "CONTACT US", path: "/contact" },
 ];
 
+const mobileMenuSections = [
+  [
+    { label: "About", path: "/about" },
+    { label: "Amenities", path: "/amenities" },
+    { label: "Gallery", path: "/gallery" },
+    { label: "Contact Us", path: "/contact" },
+  ],
+  [
+    { label: "Privacy", path: "/contact" },
+    { label: "Terms", path: "/contact" },
+  ],
+];
+
 function BottomNav() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -36,51 +34,62 @@ function BottomNav() {
 
   return (
     <>
-      {/* Mobile Drawer when grid menu is tapped */}
+      {/* Mobile Drawer when grid menu is tapped (Screen 2: Menu) */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 club-mobile-nav"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-xl flex flex-col justify-between p-5 club-mobile-nav"
           onClick={() => setMenuOpen(false)}
         >
+          {/* Top Row: Close icon on the right */}
+          <div className="flex justify-end w-full pt-2">
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              className="w-8 h-8 rounded-full border border-[var(--theme-UrbanDataLayers-border)] flex items-center justify-center text-[var(--theme-UrbanDataLayers)] hover:text-[var(--theme-route-title)] hover:border-[var(--theme-route-title)] hover:bg-[var(--theme-route-box)]/20 cursor-pointer transition-colors"
+              aria-label="Close menu"
+            >
+              <IoClose className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Center Content: Riviera Select Logo + Vertical Menu List Cards */}
           <div
-            className="absolute bottom-[60px] right-4 left-4 rounded-xl border border-[var(--theme-route-box)]/30 bg-[var(--theme-bottom)] p-4 shadow-2xl"
+            className="flex flex-col items-center w-full max-w-[350px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <span className="text-xs uppercase tracking-widest text-[var(--theme-route-title)] font-semibold">
-                Menu
-              </span>
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="text-[var(--theme-route-title)] text-lg px-2 cursor-pointer"
-              >
-                ✕
-              </button>
+            {/* Top Logo */}
+            <div className="flex justify-center">
+              <img
+                src="/UI IMG/Riviera_logo.svg"
+                alt="Riviera Select"
+                className="h-12 w-auto object-contain drop-shadow"
+              />
             </div>
-            <div className="grid grid-cols-2 gap-2 pt-3">
-              {navItems.map((item) => {
-                const isActive =
-                  item.path === "/home"
-                    ? currentPath === "/" || currentPath === "/home"
-                    : currentPath.startsWith(item.path);
 
-                return (
-                  <a
-                    key={item.path}
-                    href={item.path}
-                    onClick={() => setMenuOpen(false)}
-                    className={`rounded-lg px-3 py-2.5 text-center text-xs font-bold uppercase tracking-wider no-underline transition-all text-[var(--theme-route-title)] ${
-                      isActive
-                        ? "bg-[var(--theme-route-box)] shadow-sm"
-                        : "hover:bg-white/10"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
+            {/* Menu Boxes Container */}
+            <div className="flex flex-col gap-[10px] w-full mt-[50px]">
+              {mobileMenuSections.map((section, idx) => (
+                <div
+                  key={idx}
+                  className="w-full rounded-[10px] bg-[var(--theme-bottom)] border border-[var(--theme-UrbanDataLayers-border)]/20 backdrop-blur-md overflow-hidden shadow-2xl flex flex-col divide-y divide-[var(--theme-UrbanDataLayers-border)]/15 text-[var(--theme-route-title)]"
+                >
+                  {section.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.path}
+                      onClick={() => setMenuOpen(false)}
+                      className="py-4 px-[14px] text-center text-sm font-medium text-[var(--theme-route-title)] hover:bg-[var(--theme-route-box)]/25 transition-colors no-underline block"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
+
+          {/* Bottom spacing */}
+          <div className="h-6" />
         </div>
       )}
 
@@ -99,11 +108,10 @@ function BottomNav() {
                 <a
                   key={item.path}
                   href={item.path}
-                  className={`h-full flex items-center justify-center px-4 text-xs font-bold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${
-                    isActive
-                      ? "bg-[var(--theme-route-box)] shadow-sm"
-                      : "hover:bg-white/10"
-                  }`}
+                  className={`h-full flex items-center justify-center px-4 text-xs font-bold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
+                    ? "bg-[var(--theme-route-box)] shadow-sm"
+                    : "hover:bg-[var( --theme-home-white-text)]/90"
+                    }`}
                 >
                   {item.label}
                 </a>
@@ -114,10 +122,12 @@ function BottomNav() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="flex items-center justify-center p-1 transition-transform hover:scale-105 cursor-pointer"
               title="Menu"
+              aria-label="Open Menu"
             >
-              <FourDotsIcon
-                size={24}
-                color="var(--theme-route-title, #F7E4CF)"
+              <img
+                src="/UI IMG/4dots.svg"
+                alt="Menu"
+                className="h-6 w-6 object-contain"
               />
             </button>
           </div>
@@ -145,11 +155,10 @@ function BottomNav() {
                 <a
                   key={item.path}
                   href={item.path}
-                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${
-                    isActive
-                      ? "bg-[var(--theme-route-box)] shadow-sm"
-                      : "hover:bg-white/10"
-                  }`}
+                  className={`h-full flex items-center justify-center px-5 py-[10px] text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
+                    ? "bg-[var(--theme-route-box)] shadow-sm"
+                    : "hover:bg-[var( --theme-home-white-text)]/10"
+                    }`}
                 >
                   {item.label}
                 </a>

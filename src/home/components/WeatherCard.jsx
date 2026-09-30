@@ -87,7 +87,7 @@ function ThermometerIcon({ className = 'w-5 h-5' }) {
  * Frosted dark-teal glass pill using var(--theme-blur-layer):
  * [ ☀️ Partly Cloudy | 🕒 5:54PM 🌡️ 31°C ]
  */
-function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, className = '' }) {
+function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, className = '', variant = 'desktop' }) {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -151,14 +151,42 @@ function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, clas
   }, [weather?.timezone]);
 
   const activeData = weather || {
-    tempC: 31,
+    tempC: 15,
     condition: 'Partly Cloudy',
     iconKey: 'clear',
     isDay: true,
     place: 'Ahmedabad',
   };
 
-  const formattedTime = (displayTime || '5:54 PM').replace(/\s+/g, '');
+  const formattedTime = (displayTime || '9:00 AM').replace(/\s+/g, '');
+
+  if (variant === 'mobile') {
+    return (
+      <div className={`flex flex-col items-center select-none ${className}`}>
+        {/* Top Pill: Clock + Time | Thermometer + Temp */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#004443]/80 backdrop-blur-md border border-white/20 text-white shadow-md">
+          <div className="flex items-center gap-1.5">
+            <ClockIcon className="w-3.5 h-3.5 shrink-0" />
+            <span className="text-xs font-semibold tracking-tight">{formattedTime}</span>
+          </div>
+          <div className="h-3 w-[1px] bg-white/40 shrink-0" />
+          <div className="flex items-center gap-1">
+            <ThermometerIcon className="w-3.5 h-3.5 shrink-0" />
+            <span className="text-xs font-semibold">{activeData.tempC}°C</span>
+          </div>
+        </div>
+        {/* Bottom Label: Sun + Condition */}
+        <div className="flex items-center gap-1 mt-1 text-white text-xs font-medium drop-shadow">
+          <WeatherStatusIcon
+            iconKey={activeData.iconKey}
+            isDay={activeData.isDay}
+            className="w-3.5 h-3.5 shrink-0"
+          />
+          <span>{activeData.condition}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

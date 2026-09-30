@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchLayer } from '../../api/UrbanDataLayers/urbanData';
 import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
 
-const LAYERS = [
+export const LAYERS = [
   {
     id: 'roads',
     label: 'Roads',
