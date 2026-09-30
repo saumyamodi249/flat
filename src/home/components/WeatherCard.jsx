@@ -164,23 +164,23 @@ function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, clas
     return (
       <div className={`flex flex-col items-center select-none ${className}`}>
         {/* Top Pill: Clock + Time | Thermometer + Temp */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#004443]/80 backdrop-blur-md border border-white/20 text-white shadow-md">
+        <div className="inline-flex items-center gap-2 p-[10px] rounded-full bg-[var(--theme-blur-layer)]/50 backdrop-blur-md border border-[var(--theme-UrbanDataLayers-border)] text-[var(--theme-UrbanDataLayers-border)] shadow-md">
           <div className="flex items-center gap-1.5">
-            <ClockIcon className="w-3.5 h-3.5 shrink-0" />
-            <span className="text-xs font-semibold tracking-tight">{formattedTime}</span>
+            <ClockIcon className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-medium tracking-tight">{formattedTime}</span>
           </div>
-          <div className="h-3 w-[1px] bg-white/40 shrink-0" />
+          <div className="h-3 w-[1px] bg-[var(--theme-UrbanDataLayers-border)]/40 shrink-0" />
           <div className="flex items-center gap-1">
-            <ThermometerIcon className="w-3.5 h-3.5 shrink-0" />
-            <span className="text-xs font-semibold">{activeData.tempC}°C</span>
+            <ThermometerIcon className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-medium">{activeData.tempC}°C</span>
           </div>
         </div>
         {/* Bottom Label: Sun + Condition */}
-        <div className="flex items-center gap-1 mt-1 text-white text-xs font-medium drop-shadow">
+        <div className="flex items-center gap-1 mt-9 text-white text-xs font-medium drop-shadow">
           <WeatherStatusIcon
             iconKey={activeData.iconKey}
             isDay={activeData.isDay}
-            className="w-3.5 h-3.5 shrink-0"
+            className="w-6 h-6 shrink-0"
           />
           <span>{activeData.condition}</span>
         </div>

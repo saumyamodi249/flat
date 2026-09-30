@@ -4,6 +4,7 @@ import WeatherCard from "../components/WeatherCard";
 import UrbanDataLayers, { LAYERS } from "../components/UrbanDataLayers";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import usePanZoom from "../../hooks/usePanZoom";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 function HomePage() {
   const { coords, isApproximate } = useGeoLocation();
@@ -21,27 +22,25 @@ function HomePage() {
         ref={buildingImageRef}
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${
-          activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
       />
       <img
         src="/UI IMG/Iscon circle.png"
         alt="Iscon Circle urban layer view"
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${
-          activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ease-in-out ${activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
       />
 
       {/* ================= TOP BAR ================= */}
       {/* 1. Mobile Top Bar (Screen 1 & 3: phone logo + Weather Pill + filter chain) */}
-      <div className="relative z-30 flex md:hidden items-center justify-between px-5 pt-4 w-full">
+      <div className="relative z-30 flex md:hidden items-start justify-between px-5 pt-[30px] w-full">
         {/* Mobile Left: phone logo */}
-        <div className="flex items-center">
+        <div className="h-[42px] flex items-center">
           <img
             src="/UI IMG/phone logo.svg"
             alt="Riviera"
-            className="h-8 w-auto object-contain drop-shadow"
+            className="h-[25px] w-[25px] object-contain drop-shadow"
           />
         </div>
 
@@ -56,12 +55,12 @@ function HomePage() {
         </div>
 
         {/* Mobile Right: filter chain button (toggles Urban Data Layers bottom drawer) */}
-        <div className="flex items-center">
+        <div className="h-[42px] flex items-center">
           <button
             type="button"
             onClick={() => setIsUrbanDrawerOpen((prev) => !prev)}
             aria-label="Open Urban Data Layers"
-            className="cursor-pointer p-1 active:scale-90 transition-transform"
+            className="cursor-pointer p-1 active:scale-90 transition-transform flex items-center justify-center"
           >
             <img
               src="/UI IMG/filter chain.svg"
@@ -109,12 +108,15 @@ function HomePage() {
 
       {/* ================= MOBILE URBAN DATA LAYERS DRAWER (Screen 3) ================= */}
       {isUrbanDrawerOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs md:hidden"
-          onClick={() => setIsUrbanDrawerOpen(false)}
-        >
+        <div className="fixed inset-0 z-40 md:hidden">
+          {/* Backdrop overlay to click outside (transparent so it does not darken the drawer) */}
           <div
-            className="absolute bottom-[52px] left-0 right-0 rounded-t-2xl border-t border-white/15 bg-[var(--theme-bottom)]/95 backdrop-blur-md p-5 pb-6 shadow-2xl"
+            className="absolute inset-0"
+            onClick={() => setIsUrbanDrawerOpen(false)}
+          />
+
+          <div
+            className="absolute z-10 bottom-[52px] left-0 right-0 rounded-none bg-[var(--theme-blur-layer)]/50 backdrop-blur-md p-5 pb-6 shadow-2xl shadow-teal-950/50 text-[var(--theme-UrbanDataLayers-border)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header: Title + Close Icon */}
@@ -125,43 +127,19 @@ function HomePage() {
               <button
                 type="button"
                 onClick={() => setIsUrbanDrawerOpen(false)}
-                className="w-6 h-6 rounded-full border border-white/40 flex items-center justify-center text-white/80 hover:text-white cursor-pointer"
+                className="text-white hover:text-white/80 cursor-pointer flex items-center justify-center transition-colors"
                 aria-label="Close Urban Data Layers"
               >
-                ✕
+                <IoCloseCircleOutline className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Row 1: 3 Items (Roads, Parks, Education) */}
-            <div className="grid grid-cols-3 gap-3 pt-3">
-              {LAYERS.slice(0, 3).map((layer) => {
-                const isActive = activeLayer === layer.id;
-                return (
-                  <button
-                    key={layer.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveLayer(isActive ? null : layer.id);
-                    }}
-                    className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 cursor-pointer ${isActive
-                      ? "bg-[#04332d] border border-[#C09973]/60 shadow-lg text-white"
-                      : "bg-transparent text-white/80 hover:bg-white/5"
-                      }`}
-                  >
-                    <span className="text-xs font-medium mb-2">{layer.label}</span>
-                    <img
-                      src={layer.imgSrc}
-                      alt={layer.label}
-                      className="w-6 h-6 object-contain"
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            {/* Thin horizontal divider line matching laptop version */}
+            <div className="border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20 my-2" />
 
-            {/* Row 2: 1 Item (Fun & Food) */}
-            <div className="grid grid-cols-3 gap-3 pt-2">
-              {LAYERS.slice(3, 4).map((layer) => {
+            {/* Body: 2x2 Grid exactly like laptop version */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-3.5 pt-1">
+              {LAYERS.map((layer) => {
                 const isActive = activeLayer === layer.id;
                 return (
                   <button
@@ -170,17 +148,26 @@ function HomePage() {
                     onClick={() => {
                       setActiveLayer(isActive ? null : layer.id);
                     }}
-                    className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 cursor-pointer ${isActive
-                      ? "bg-[#04332d] border border-[#C09973]/60 shadow-lg text-white"
-                      : "bg-transparent text-white/80 hover:bg-white/5"
+                    aria-pressed={isActive}
+                    className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
+                      ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
+                      : "bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent"
                       }`}
                   >
-                    <span className="text-xs font-medium mb-2">{layer.label}</span>
-                    <img
-                      src={layer.imgSrc}
-                      alt={layer.label}
-                      className="w-6 h-6 object-contain"
-                    />
+                    {/* Label on Top */}
+                    <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
+                      {layer.label}
+                    </span>
+
+                    {/* Custom Image */}
+                    <div className="relative flex items-center justify-center h-8">
+                      <img
+                        src={layer.imgSrc}
+                        alt={layer.label}
+                        className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"
+                          }`}
+                      />
+                    </div>
                   </button>
                 );
               })}
