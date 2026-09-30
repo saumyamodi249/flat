@@ -47,7 +47,7 @@ function AmenityModal({ amenity, onClose }) {
         {/* Modal Fullscreen Image Content */}
         <div className="relative flex-1 w-full h-full bg-black overflow-hidden flex items-center justify-center">
           <img
-            src={amenity.photo}
+            src={amenity.img || amenity.photo}
             alt={amenity.label}
             className="w-full h-full object-cover select-none"
           />

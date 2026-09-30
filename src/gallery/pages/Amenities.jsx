@@ -19,7 +19,7 @@ function Amenities() {
                 className="w-full h-full object-cover select-none"
                 loading="lazy"
                 onError={(e) => {
-                  e.currentTarget.src = "/Amenity/amenity-photos/01_waiting_lounge.svg";
+                  e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
                 }}
               />
             </div>

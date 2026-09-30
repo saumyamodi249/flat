@@ -17,17 +17,17 @@ function AmenityView() {
   }, [category]);
 
   return (
-    <div className="relative w-full h-full flex-1 min-h-0 rounded-[10px] overflow-hidden border border-[var(--theme-amenity-border)]/40 bg-[#081b1a] flex flex-col select-none">
+    <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-amenity-border)]/50 bg-[#081b1a] flex flex-col select-none shadow-md">
       {/* High-Resolution Amenity Photo matching reference design */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
         <img
           key={currentAmenity.id}
-          src={currentAmenity.photo}
+          src={currentAmenity.img || currentAmenity.photo}
           alt={currentAmenity.label}
           onLoad={() => setIsLoaded(true)}
           onError={(e) => {
             setIsLoaded(true);
-            e.currentTarget.src = "/Amenity/amenity-photos/01_waiting_lounge.svg";
+            e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
           }}
           className={`w-full h-full object-cover select-none transition-opacity duration-300 ${isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
             }`}
