@@ -17,15 +17,15 @@ function Developer() {
       <div className="w-full flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col">
         {/* 1st Main Div: Just Title */}
         <div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-[30px] font-semibold tracking-normal text-[var(--theme-about-title-main)] uppercase">
+          <h2 className="text-lg sm:text-3xl lg:text-4xl mb-2.5 sm:mb-[30px] lg:mb-[30px] font-semibold tracking-normal text-[var(--theme-about-title-main)] uppercase">
             {data.title}
           </h2>
         </div>
 
         {/* 2nd Main Div: Row container for Image (left) and Text content (right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 sm:gap-6 lg:gap-10 items-start w-full">
           {/* Inside 2nd Div -> 1st Child: Image only */}
-          <div className="w-full h-64 sm:h-80 md:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[#0d2240] flex items-center justify-center shrink-0">
+          <div className="w-full h-44 sm:h-72 md:h-80 lg:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[#0d2240] flex items-center justify-center shrink-0">
             <img
               src={data.image}
               alt={data.imageAlt}
@@ -34,17 +34,17 @@ function Developer() {
           </div>
 
           {/* Inside 2nd Div -> 2nd Child: Right Column with Title & Description */}
-          <div className="flex flex-col space-y-3 sm:space-y-4">
+          <div className="flex flex-col space-y-[10px]  sm:space-y-4">
             {/* 2nd Child -> 1st sub-div: Subtitle */}
             <div>
-              <h3 className="text-3xl font-semibold text-[var(--theme-about-title)] tracking-wide">
+              <h3 className="text-base lg:text-3xl font-semibold text-[var(--theme-about-title)] tracking-wide">
                 {data.subtitle}
               </h3>
             </div>
 
             {/* 2nd Child -> 2nd sub-div: Description */}
             <div>
-              <p className="text-lg text-[var(--theme-about-description)] font-light leading-relaxed whitespace-pre-line">
+              <p className="text-base sm:text-base lg:text-lg text-[var(--theme-about-description)] font-light leading-relaxed whitespace-pre-line">
                 {data.description}
               </p>
             </div>
@@ -52,7 +52,7 @@ function Developer() {
         </div>
 
         {/* Site Details on all viewports */}
-        <div className="mt-[50px]">
+        <div className="mt-2.5 sm:mt-6 lg:mt-[50px]">
           <SiteDetails details={data.siteDetails} />
         </div>
       </div>

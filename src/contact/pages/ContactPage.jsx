@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/BottomNav";
-import { GiCancel } from "react-icons/gi";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 // ================= VALIDATION REGEX =================
 const NAME_REGEX = /^[a-zA-Z0-9 ]+$/;
@@ -61,10 +61,10 @@ function ContactPage() {
   };
 
   return (
-    <div className="relative flex flex-col justify-between h-screen w-full overflow-hidden bg-transparent">
+    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-transparent select-none">
 
-      {/* Top Bar: Left Logo */}
-      <div className="absolute top-5 sm:top-7 left-5 sm:left-8 z-30 flex items-center">
+      {/* Top Bar: Left Logo (Desktop & Tablet only matching Image 1) */}
+      <div className="hidden sm:flex absolute top-5 sm:top-7 left-5 sm:left-8 z-30 items-center">
         <div
           className="flex items-center cursor-pointer"
           onClick={() => navigate("/home")}
@@ -72,32 +72,53 @@ function ContactPage() {
           <img
             src="/UI IMG/top_logo.svg"
             alt="Riviera Select"
-            className="h-8 sm:h-10 object-contain drop-shadow"
+            className="h-10 sm:h-12 object-contain drop-shadow"
           />
         </div>
       </div>
 
-      {/* Main Content Area: Centered Contact Modal */}
-      <div className="relative z-20 flex-1 flex items-center justify-center px-4 overflow-hidden">
-        <div className="w-full max-w-xl rounded-2xl backdrop-blur-md p-6 sm:p-8 shadow-2xl border border-white/10 transition-all bg-[var(--theme-box-bg)] transform scale-[0.85] origin-center">
-          {/* Modal Header */}
-          <div className="flex items-center justify-between w-full pb-3 sm:pb-4">
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-wide text-[var(--theme-title)]">
-              Contact Us
-            </h1>
+      {/* Main Content Area: Modal centered on desktop/tablet (Image 1), anchored to bottom on mobile */}
+      <main className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-4 pb-[52px] sm:pb-0 w-full max-w-full min-h-0 overflow-hidden">
+        <div className="w-full max-w-lg sm:max-w-xl rounded-t-[20px] rounded-b-none sm:rounded-2xl backdrop-blur-md px-5 sm:px-8 pt-5 sm:pt-7 pb-4 sm:pb-7 shadow-2xl border-b-0 sm:border border-white/10 bg-[var(--theme-box-bg)] flex flex-col min-h-0">
+          
+          {/* --- MOBILE HEADER (< sm) --- */}
+          <div className="flex sm:hidden items-center justify-between w-full shrink-0">
+            <img
+              src="/UI IMG/Riviera_logo.svg"
+              alt="Riviera Select"
+              className="h-8 object-contain"
+            />
             <button
               type="button"
               onClick={() => navigate("/home")}
               aria-label="Close Contact Us"
-              className="text-[var(--theme-cancel)] hover:opacity-75 transition-opacity cursor-pointer p-1"
+              className="text-[var(--theme-cancel)] cursor-pointer p-0.5"
             >
-              <GiCancel className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IoCloseCircleOutline className="w-6 h-6" />
+            </button>
+          </div>
+          <h2 className="block sm:hidden text-base font-semibold text-white my-4 tracking-wide">
+            Contact Us
+          </h2>
+
+          {/* --- DESKTOP & TABLET HEADER (>= sm matching Image 1) --- */}
+          <div className="hidden sm:flex items-center justify-between w-full shrink-0 mb-5">
+            <h2 className="text-2xl sm:text-[26px] font-semibold text-white tracking-normal">
+              Contact Us
+            </h2>
+            <button
+              type="button"
+              onClick={() => navigate("/home")}
+              aria-label="Close Contact Us"
+              className="text-[var(--theme-cancel)] cursor-pointer p-0.5"
+            >
+              <IoCloseCircleOutline className="w-7 h-7" />
             </button>
           </div>
 
           {isSubmitted ? (
             <div className="py-10 text-center flex flex-col items-center justify-center space-y-3">
-              <div className="w-12 h-12 rounded-full border border-[var(--theme-submit-border)]/10 flex items-center justify-center text-[var(--theme-submit)]">
+              <div className="w-12 h-12 rounded-full border border-[#C09973]/20 flex items-center justify-center text-[#C09973]">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -112,10 +133,10 @@ function ContactPage() {
                   />
                 </svg>
               </div>
-              <h2 className="text-lg font-semibold text-[var(--theme-title)]">
+              <h2 className="text-lg font-semibold text-white">
                 Thank you for reaching out!
               </h2>
-              <p className="text-xs text-[var(--theme-description)] opacity-80 max-w-xs">
+              <p className="text-sm text-white/70 max-w-xs">
                 We have received your message and our team will get in touch
                 with you shortly.
               </p>
@@ -124,11 +145,11 @@ function ContactPage() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              className="space-y-3 sm:space-y-3.5 pt-2 sm:pt-3"
+              className="flex flex-col space-y-2.5 sm:space-y-3.5"
             >
               {/* Field 1: Your Name */}
-              <div className="flex flex-col space-y-2">
-                <label className="text-md font-normal text-[var(--theme-description)] tracking-wide">
+              <div className="flex flex-col space-y-2 sm:space-y-1.5">
+                <label className="text-base font-normal text-white">
                   Your Name*
                 </label>
                 <input
@@ -137,20 +158,19 @@ function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  className={`w-full rounded-[10px] border bg-transparent px-4 py-[13px] text-md text-[var(--theme-description)] placeholder:text-[var(--theme-description-data-fill)] outline-none focus:outline-none focus:ring-0 transition-colors ${
-                    errors.name
-                      ? "border-[#FF4D4F]"
-                      : "border-[var(--theme-description-border)] focus:border-[var(--theme-description-border)]"
-                  }`}
+                  className={`w-full rounded-[8px] border bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.name
+                    ? "border-[#FF4D4F]"
+                    : "border-white/20 focus:border-white/50"
+                    }`}
                 />
                 {errors.name && (
-                  <p className="mt-1 text-xs text-[#FF4D4F]">{errors.name}</p>
+                  <p className="text-xs text-[#FF4D4F]">{errors.name}</p>
                 )}
               </div>
 
               {/* Field 2: Email Id */}
-              <div className="flex flex-col space-y-2">
-                <label className="text-md font-normal text-[var(--theme-description)] tracking-wide">
+              <div className="flex flex-col space-y-2 sm:space-y-1.5">
+                <label className="text-base font-normal text-white">
                   Email Id*
                 </label>
                 <input
@@ -159,20 +179,19 @@ function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your Email Id"
-                  className={`w-full rounded-[10px] border bg-transparent px-4 py-[13px] text-md text-[var(--theme-description)] placeholder:text-[var(--theme-description-data-fill)] outline-none focus:outline-none focus:ring-0 transition-colors ${
-                    errors.email
-                      ? "border-[#FF4D4F]"
-                      : "border-[var(--theme-description-border)] focus:border-[var(--theme-description-border)]"
-                  }`}
+                  className={`w-full rounded-[8px] border bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.email
+                    ? "border-[#FF4D4F]"
+                    : "border-white/20 focus:border-white/50"
+                    }`}
                 />
                 {errors.email && (
-                  <p className="mt-1 text-xs text-[#FF4D4F]">{errors.email}</p>
+                  <p className="text-xs text-[#FF4D4F]">{errors.email}</p>
                 )}
               </div>
 
               {/* Field 3: Message */}
-              <div className="flex flex-col space-y-2">
-                <label className="text-md font-normal text-[var(--theme-description)] tracking-wide">
+              <div className="flex flex-col space-y-2 sm:space-y-1.5">
+                <label className="text-base font-normal text-white">
                   Message
                 </label>
                 <textarea
@@ -181,26 +200,24 @@ function ContactPage() {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Enter your message"
-                  className="w-full rounded-[10px] border border-[var(--theme-description-border)] bg-transparent px-4 py-[13px] text-md text-[var(--theme-description)] placeholder:text-[var(--theme-description-data-fill)] outline-none focus:outline-none focus:ring-0 focus:border-[var(--theme-description-border)] resize-none overflow-y-auto scrollbar-none"
+                  className="w-full rounded-[8px] border border-white/20 focus:border-white/50 bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none resize-none transition-colors"
                 />
               </div>
 
-              {/* Submit Button */}
-              <div className="pt-2">
+              {/* Submit Button (16px margin above) */}
+              <div className="mt-4">
                 <button
                   type="submit"
-                  className="w-full rounded-[10px] border border-[var(--theme-submit-border)]/75 bg-transparent py-5 px-[190px] text-sm font-semibold uppercase tracking-widest text-[var(--theme-submit)] cursor-pointer shadow-sm"
+                  className="w-full rounded-[8px] border border-[#C09973]/80 bg-transparent py-2.5 sm:py-3 text-sm lg:text-base font-semibold uppercase tracking-widest text-[#C09973] hover:bg-[#C09973]/10 cursor-pointer shadow-sm transition-colors"
                 >
                   LET'S CONNECT
                 </button>
               </div>
 
-              {/* Terms and Privacy Policy notice */}
-              <div className="px-2 pt-1 text-center text-xs font-normal  leading-relaxed text-[var(--theme-terms-conditions)]/50">
+              {/* Terms and Privacy Policy notice (desktop & tablet) */}
+              <div className="hidden sm:block px-2 pt-3 text-center text-xs font-normal leading-relaxed text-white/50">
                 By providing us with your information you are consenting to the
-                collection and use of
-                <br className="hidden sm:inline" /> information in accordance
-                with our{" "}
+                collection and use of information in accordance with our{" "}
                 <a
                   href="#terms"
                   onClick={(e) => {
@@ -209,9 +226,8 @@ function ContactPage() {
                       prev === "terms" ? null : "terms",
                     );
                   }}
-                  className={`theme-terms-policy-link underline font-medium cursor-pointer transition-all duration-200 ${
-                    selectedPolicy === "terms" ? "selected" : ""
-                  }`}
+                  className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "terms" ? "text-white" : "hover:text-white"
+                    }`}
                 >
                   Terms of Service
                 </a>{" "}
@@ -224,9 +240,8 @@ function ContactPage() {
                       prev === "privacy" ? null : "privacy",
                     );
                   }}
-                  className={`theme-terms-policy-link underline font-medium cursor-pointer transition-all duration-200 ${
-                    selectedPolicy === "privacy" ? "selected" : ""
-                  }`}
+                  className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "privacy" ? "text-white" : "hover:text-white"
+                    }`}
                 >
                   Privacy Policy
                 </a>
@@ -234,12 +249,12 @@ function ContactPage() {
             </form>
           )}
         </div>
-      </div>
+      </main>
 
       {/* Bottom Navigation */}
-      <div className="relative w-full z-40">
+      <footer className="relative w-full z-40 shrink-0">
         <BottomNav />
-      </div>
+      </footer>
     </div>
   );
 }
