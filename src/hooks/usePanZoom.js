@@ -48,8 +48,6 @@ export default function usePanZoom({
     originY: initialY,
   });
 
-  // Track active touch pointers for multi-touch pinch-to-zoom
-  const activePointers = useRef(new Map());
   const pinchData = useRef({
     startDistance: 0,
     startScale: initialScale,
@@ -103,6 +101,7 @@ export default function usePanZoom({
     el.style.transformOrigin = "0 0";
     el.style.willChange = "transform";
     el.style.touchAction = "none";
+    el.style.webkitTouchCallout = "none";
     el.style.userSelect = "none";
     el.style.webkitUserSelect = "none";
     el.style.cursor = "grab";
@@ -112,11 +111,106 @@ export default function usePanZoom({
     state.current.y = initial.y;
     applyTransform();
 
-    // Prevent default browser image dragging
+    // Prevent default browser drag on image
     const onDragStart = (e) => e.preventDefault();
     el.addEventListener("dragstart", onDragStart);
 
-    // ================= MOUSE WHEEL ZOOM =================
+    // ================= REAL MOBILE & TABLET TOUCH HANDLERS =================
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) {
+        // Handle double-tap to reset on touch devices
+        if (resetOnDoubleClick) {
+          const now = Date.now();
+          if (now - lastTapRef.current < 300) {
+            reset();
+            lastTapRef.current = 0;
+            return;
+          }
+          lastTapRef.current = now;
+        }
+
+        // Start 1-finger pan
+        state.current.isDragging = true;
+        state.current.startX = e.touches[0].clientX;
+        state.current.startY = e.touches[0].clientY;
+        state.current.originX = state.current.x;
+        state.current.originY = state.current.y;
+      } else if (e.touches.length === 2) {
+        // Start 2-finger pinch
+        state.current.isDragging = false;
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        const dist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+
+        pinchData.current = {
+          startDistance: dist || 1,
+          startScale: state.current.scale,
+          midX: (t0.clientX + t1.clientX) / 2,
+          midY: (t0.clientY + t1.clientY) / 2,
+          originX: state.current.x,
+          originY: state.current.y,
+        };
+      }
+    };
+
+    const onTouchMove = (e) => {
+      // Crucial: prevent native browser pinch/zoom/scroll
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+
+      if (e.touches.length === 1 && state.current.isDragging) {
+        // 1-finger pan
+        const deltaX = e.touches[0].clientX - state.current.startX;
+        const deltaY = e.touches[0].clientY - state.current.startY;
+        const rawX = state.current.originX + deltaX;
+        const rawY = state.current.originY + deltaY;
+
+        const clamped = clampPosition(rawX, rawY, state.current.scale, el, contain);
+        state.current.x = clamped.x;
+        state.current.y = clamped.y;
+        applyTransform();
+      } else if (e.touches.length >= 2) {
+        // 2-finger pinch zoom
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        const currentDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+        const { startDistance, startScale, midX, midY, originX, originY } = pinchData.current;
+
+        const scaleFactor = currentDist / (startDistance || 1);
+        const nextScale = Math.min(Math.max(startScale * scaleFactor, minScale), maxScale);
+
+        const ratio = nextScale / (startScale || 1);
+        const rawX = midX - (midX - originX) * ratio;
+        const rawY = midY - (midY - originY) * ratio;
+
+        const clamped = clampPosition(rawX, rawY, nextScale, el, contain);
+        state.current.scale = nextScale;
+        state.current.x = clamped.x;
+        state.current.y = clamped.y;
+        applyTransform();
+      }
+    };
+
+    const onTouchEnd = (e) => {
+      if (e.touches.length === 1) {
+        // Switch back smoothly to single-finger drag without sudden jumping
+        state.current.isDragging = true;
+        state.current.startX = e.touches[0].clientX;
+        state.current.startY = e.touches[0].clientY;
+        state.current.originX = state.current.x;
+        state.current.originY = state.current.y;
+      } else if (e.touches.length === 0) {
+        state.current.isDragging = false;
+      }
+    };
+
+    // Prevent iOS Safari gesture events from hijacking pinch-to-zoom
+    const onGesturePrevent = (e) => {
+      if (e.cancelable) e.preventDefault();
+    };
+
+    // ================= MOUSE WHEEL ZOOM (Desktop & Laptop) =================
     const onWheel = (e) => {
       e.preventDefault();
       const current = state.current;
@@ -135,61 +229,20 @@ export default function usePanZoom({
       applyTransform();
     };
 
-    // ================= POINTER DOWN =================
-    const onPointerDown = (e) => {
-      if (e.button !== 0 && e.pointerType === "mouse") return;
+    // ================= MOUSE DRAG HANDLERS (Desktop) =================
+    const onMouseDown = (e) => {
+      if (e.button !== 0) return; // Left click only
+      state.current.isDragging = true;
+      state.current.startX = e.clientX;
+      state.current.startY = e.clientY;
+      state.current.originX = state.current.x;
+      state.current.originY = state.current.y;
+      el.style.cursor = "grabbing";
 
-      // Handle double-tap on mobile/touch
-      if (e.pointerType === "touch" && resetOnDoubleClick) {
-        const now = Date.now();
-        if (now - lastTapRef.current < 300) {
-          reset();
-          lastTapRef.current = 0;
-          return;
-        }
-        lastTapRef.current = now;
-      }
-
-      try {
-        el.setPointerCapture(e.pointerId);
-      } catch {
-        // Pointer capture not supported or invalid
-      }
-
-      activePointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-      if (activePointers.current.size === 1) {
-        // Start single-pointer drag
-        state.current.isDragging = true;
-        state.current.startX = e.clientX;
-        state.current.startY = e.clientY;
-        state.current.originX = state.current.x;
-        state.current.originY = state.current.y;
-        el.style.cursor = "grabbing";
-      } else if (activePointers.current.size === 2) {
-        // Start 2-finger pinch
-        const points = Array.from(activePointers.current.values());
-        const dist = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
-        pinchData.current = {
-          startDistance: dist || 1,
-          startScale: state.current.scale,
-          midX: (points[0].x + points[1].x) / 2,
-          midY: (points[0].y + points[1].y) / 2,
-          originX: state.current.x,
-          originY: state.current.y,
-        };
-      }
-    };
-
-    // ================= POINTER MOVE =================
-    const onPointerMove = (e) => {
-      if (!activePointers.current.has(e.pointerId)) return;
-      activePointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-      if (activePointers.current.size === 1 && state.current.isDragging) {
-        // 1-pointer pan
-        const deltaX = e.clientX - state.current.startX;
-        const deltaY = e.clientY - state.current.startY;
+      const onMouseMove = (moveEvt) => {
+        if (!state.current.isDragging) return;
+        const deltaX = moveEvt.clientX - state.current.startX;
+        const deltaY = moveEvt.clientY - state.current.startY;
         const rawX = state.current.originX + deltaX;
         const rawY = state.current.originY + deltaY;
 
@@ -197,49 +250,17 @@ export default function usePanZoom({
         state.current.x = clamped.x;
         state.current.y = clamped.y;
         applyTransform();
-      } else if (activePointers.current.size >= 2) {
-        // 2-finger pinch zoom
-        const points = Array.from(activePointers.current.values());
-        const currentDist = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
-        const { startDistance, startScale, midX, midY, originX, originY } = pinchData.current;
+      };
 
-        const scaleFactor = currentDist / (startDistance || 1);
-        const nextScale = Math.min(Math.max(startScale * scaleFactor, minScale), maxScale);
-
-        const ratio = nextScale / (startScale || 1);
-        const rawX = midX - (midX - originX) * ratio;
-        const rawY = midY - (midY - originY) * ratio;
-
-        const clamped = clampPosition(rawX, rawY, nextScale, el, contain);
-        state.current.scale = nextScale;
-        state.current.x = clamped.x;
-        state.current.y = clamped.y;
-        applyTransform();
-      }
-    };
-
-    // ================= POINTER UP / CANCEL =================
-    const onPointerUp = (e) => {
-      activePointers.current.delete(e.pointerId);
-      try {
-        if (el.hasPointerCapture(e.pointerId)) {
-          el.releasePointerCapture(e.pointerId);
-        }
-      } catch {
-        // Pointer capture not supported or invalid
-      }
-
-      if (activePointers.current.size === 1) {
-        // Switch back smoothly to single pointer drag
-        const remaining = Array.from(activePointers.current.values())[0];
-        state.current.startX = remaining.x;
-        state.current.startY = remaining.y;
-        state.current.originX = state.current.x;
-        state.current.originY = state.current.y;
-      } else if (activePointers.current.size === 0) {
+      const onMouseUp = () => {
         state.current.isDragging = false;
-        el.style.cursor = "grab";
-      }
+        if (elementRef.current) elementRef.current.style.cursor = "grab";
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      };
+
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
     };
 
     // ================= DOUBLE CLICK (Desktop) =================
@@ -261,21 +282,34 @@ export default function usePanZoom({
       applyTransform();
     };
 
+    // Attach native touch listeners with passive: false for reliable multi-touch pinch on iOS & Android
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: false });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: false });
+
+    // iOS Safari gesture prevention
+    el.addEventListener("gesturestart", onGesturePrevent, { passive: false });
+    el.addEventListener("gesturechange", onGesturePrevent, { passive: false });
+    el.addEventListener("gestureend", onGesturePrevent, { passive: false });
+
+    // Desktop mouse events
     el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("pointerdown", onPointerDown);
-    el.addEventListener("pointermove", onPointerMove);
-    el.addEventListener("pointerup", onPointerUp);
-    el.addEventListener("pointercancel", onPointerUp);
+    el.addEventListener("mousedown", onMouseDown);
     if (resetOnDoubleClick) el.addEventListener("dblclick", onDoubleClick);
     window.addEventListener("resize", onResize);
 
     return () => {
       el.removeEventListener("dragstart", onDragStart);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
+      el.removeEventListener("gesturestart", onGesturePrevent);
+      el.removeEventListener("gesturechange", onGesturePrevent);
+      el.removeEventListener("gestureend", onGesturePrevent);
       el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("pointerdown", onPointerDown);
-      el.removeEventListener("pointermove", onPointerMove);
-      el.removeEventListener("pointerup", onPointerUp);
-      el.removeEventListener("pointercancel", onPointerUp);
+      el.removeEventListener("mousedown", onMouseDown);
       if (resetOnDoubleClick) el.removeEventListener("dblclick", onDoubleClick);
       window.removeEventListener("resize", onResize);
     };

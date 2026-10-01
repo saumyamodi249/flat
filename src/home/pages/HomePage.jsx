@@ -21,14 +21,14 @@ function HomePage() {
   });
 
   return (
-    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full overflow-hidden bg-[var(--theme-bottom)] select-none">
+    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full overflow-hidden bg-[var(--theme-bottom)] select-none touch-none">
       {/* Background image — Always Building.png with pan and zoom */}
       <img
         ref={buildingImageRef}
         src="/UI IMG/Building.png"
         alt="Riviera Select property"
         draggable={false}
-        className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter,opacity] duration-500 ease-in-out opacity-100 ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""
+        className={`absolute inset-0 w-full h-full object-cover select-none touch-none transition-[filter,opacity] duration-500 ease-in-out opacity-100 ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""
           }`}
       />
 
