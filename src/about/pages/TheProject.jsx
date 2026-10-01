@@ -1,4 +1,3 @@
-import React from "react";
 import { aboutData } from "../data";
 import AboutTabs from "./AboutTabs";
 import SiteDetails from "../components/SiteDetails";

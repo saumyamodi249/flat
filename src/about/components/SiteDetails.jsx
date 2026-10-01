@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { IoLocationOutline } from "react-icons/io5";

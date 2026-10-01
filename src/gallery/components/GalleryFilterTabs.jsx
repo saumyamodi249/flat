@@ -1,4 +1,3 @@
-import React from "react";
 import { GALLERY_CATEGORIES } from "../data";
 
 function GalleryFilterTabs({ activeCategory = "interior", onSelectCategory }) {

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { CiCircleChevRight, CiCircleChevLeft, CiCircleChevDown } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -6,11 +6,9 @@ import BottomNav from "../../components/BottomNav";
 import InventoryPageDetail from "./InventoryPageDetail";
 import {
   inventoryUI,
-  inventoryTableHeaders,
   inventoryPropertyTypes,
   inventoryExposures,
   inventoryPropertyStatuses,
-  inventoryAreaRange,
   inventoryUnits,
 } from "../data";
 
@@ -38,9 +36,6 @@ function InventoryPage() {
   const [selectedPropertyType, setSelectedPropertyType] = useState(inventoryPropertyTypes[0]);
   const [selectedExposure, setSelectedExposure] = useState(inventoryExposures[0]);
   const [selectedStatus, setSelectedStatus] = useState(inventoryPropertyStatuses[0]);
-  const [minArea, setMinArea] = useState("");
-  const [maxArea, setMaxArea] = useState("");
-  const [focusedThumb, setFocusedThumb] = useState("min");
   // Keep favorite IDs in state, while dynamically pulling fresh data from inventoryUnits
   const [favoriteUnitIds, setFavoriteUnitIds] = useState(() => {
     return new Set(inventoryUnits.filter((u) => u.isFavorite).map((u) => u.id));
@@ -71,96 +66,6 @@ function InventoryPage() {
     return found || selectedUnit || units[0];
   }, [units, selectedUnit]);
 
-  // Computed range values and percentages for dual slider
-  const currentMinVal = Math.max(
-    inventoryAreaRange.min,
-    Math.min(Number(minArea || inventoryAreaRange.min), inventoryAreaRange.max)
-  );
-  const currentMaxVal = Math.max(
-    inventoryAreaRange.min,
-    Math.min(Number(maxArea || inventoryAreaRange.max), inventoryAreaRange.max)
-  );
-
-  const minPercent =
-    (currentMinVal - inventoryAreaRange.min) /
-    (inventoryAreaRange.max - inventoryAreaRange.min);
-  const maxPercent =
-    (currentMaxVal - inventoryAreaRange.min) /
-    (inventoryAreaRange.max - inventoryAreaRange.min);
-
-  // Slider dragging refs & event handlers
-  const sliderTrackRef = useRef(null);
-  const isDraggingRef = useRef(null);
-  const valuesRef = useRef({ currentMinVal, currentMaxVal });
-  valuesRef.current = { currentMinVal, currentMaxVal };
-
-  const updateThumbPosition = (thumbType, clientX) => {
-    const track = sliderTrackRef.current;
-    if (!track) return;
-    const rect = track.getBoundingClientRect();
-    const usableWidth = rect.width - 16;
-    const relativeX = clientX - rect.left - 8;
-    const rawPct = usableWidth > 0 ? Math.max(0, Math.min(1, relativeX / usableWidth)) : 0;
-    const rawVal = inventoryAreaRange.min + rawPct * (inventoryAreaRange.max - inventoryAreaRange.min);
-    const steppedVal = Math.round(rawVal / inventoryAreaRange.step) * inventoryAreaRange.step;
-
-    if (thumbType === "min") {
-      const clamped = Math.max(inventoryAreaRange.min, Math.min(steppedVal, valuesRef.current.currentMaxVal));
-      setMinArea(clamped === inventoryAreaRange.min ? "" : clamped.toString());
-    } else {
-      const clamped = Math.min(inventoryAreaRange.max, Math.max(steppedVal, valuesRef.current.currentMinVal));
-      setMaxArea(clamped === inventoryAreaRange.max ? "" : clamped.toString());
-    }
-  };
-
-  const startDragging = (thumbType, e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFocusedThumb(thumbType);
-    isDraggingRef.current = thumbType;
-
-    const onPointerMove = (moveEvt) => {
-      if (!isDraggingRef.current) return;
-      updateThumbPosition(isDraggingRef.current, moveEvt.clientX);
-    };
-
-    const onPointerUp = () => {
-      isDraggingRef.current = null;
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointercancel", onPointerUp);
-    };
-
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
-    window.addEventListener("pointercancel", onPointerUp);
-  };
-
-  const handleTrackPointerDown = (e) => {
-    e.preventDefault();
-    const track = sliderTrackRef.current;
-    if (!track) return;
-    const rect = track.getBoundingClientRect();
-    const usableWidth = rect.width - 16;
-    const relativeX = e.clientX - rect.left - 8;
-    const rawPct = usableWidth > 0 ? Math.max(0, Math.min(1, relativeX / usableWidth)) : 0;
-    const rawVal = inventoryAreaRange.min + rawPct * (inventoryAreaRange.max - inventoryAreaRange.min);
-    const steppedVal = Math.round(rawVal / inventoryAreaRange.step) * inventoryAreaRange.step;
-
-    const distMin = Math.abs(steppedVal - valuesRef.current.currentMinVal);
-    const distMax = Math.abs(steppedVal - valuesRef.current.currentMaxVal);
-    const targetThumb = distMin <= distMax ? "min" : "max";
-
-    updateThumbPosition(targetThumb, e.clientX);
-    startDragging(targetThumb, e);
-  };
-
-  useEffect(() => {
-    return () => {
-      isDraggingRef.current = null;
-    };
-  }, []);
-
   // Toggle favorite for unit — only ONE favorite allowed at a time
   const toggleUnitFavorite = (id, e) => {
     if (e && typeof e.stopPropagation === "function") {
@@ -181,15 +86,6 @@ function InventoryPage() {
     }
   };
 
-  // Reset Filters handler
-  const handleResetFilters = () => {
-    setSelectedPropertyType(inventoryPropertyTypes[0]);
-    setSelectedExposure(inventoryExposures[0]);
-    setSelectedStatus(inventoryPropertyStatuses[0]);
-    setMinArea("");
-    setMaxArea("");
-    setSelectedUnit(units[0]);
-  };
 
   // Show Flats button handler (from Image 2 -> Image 3)
   const handleShowFlats = () => {
@@ -203,8 +99,6 @@ function InventoryPage() {
     setSelectedPropertyType(inventoryPropertyTypes[0] || "Office");
     setSelectedExposure(inventoryExposures[0] || "N");
     setSelectedStatus(inventoryPropertyStatuses[0] || "All");
-    setMinArea("");
-    setMaxArea("");
     setShowFlatsCarousel(false);
     setSelectedUnit(units[0]);
   };
@@ -259,21 +153,6 @@ function InventoryPage() {
     return list;
   }, [units, selectedStatus, selectedExposure]);
 
-  // Filtered unit list based on user selections
-  const filteredUnits = useMemo(() => {
-    return units.filter((u) => {
-      if (selectedStatus !== inventoryPropertyStatuses[0] && u.status !== selectedStatus) {
-        return false;
-      }
-      if (minArea && u.area < Number(minArea)) {
-        return false;
-      }
-      if (maxArea && u.area > Number(maxArea)) {
-        return false;
-      }
-      return true;
-    });
-  }, [units, selectedStatus, minArea, maxArea]);
 
   return (
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-[var(--theme-inventory-img-bg)] select-none">

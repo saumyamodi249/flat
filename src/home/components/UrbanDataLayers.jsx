@@ -1,28 +1,7 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchLayer } from '../../api/UrbanDataLayers/urbanData';
 import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
-
-export const LAYERS = [
-  {
-    id: 'roads',
-    label: 'Roads',
-    imgSrc: '/UrbanDataLayers/road.svg',
-  },
-  {
-    id: 'parks',
-    label: 'Parks',
-    imgSrc: '/UrbanDataLayers/tree.svg',
-  },
-  {
-    id: 'education',
-    label: 'Education',
-    imgSrc: '/UrbanDataLayers/Education.svg',
-  },
-  {
-    id: 'food',
-    label: 'Fun & Food',
-    imgSrc: '/UrbanDataLayers/food.svg',
-  },
-];
+import { LAYERS } from '../data';
 
 /**
  * UrbanDataLayers Component
@@ -121,8 +100,9 @@ function UrbanDataLayers({
   }, [lat, lon, activeLayer, loadLayer]);
 
   useEffect(() => {
+    const controllers = abortControllersRef.current;
     return () => {
-      Object.values(abortControllersRef.current).forEach((ctrl) => ctrl.abort());
+      Object.values(controllers).forEach((ctrl) => ctrl.abort());
     };
   }, []);
 

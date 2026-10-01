@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { getWeather, formatLocalTime } from '../../api/temptimeweather/weather';
 
 /**
@@ -87,9 +87,8 @@ function ThermometerIcon({ className = 'w-5 h-5' }) {
  * Frosted dark-teal glass pill using var(--theme-blur-layer):
  * [ ☀️ Partly Cloudy | 🕒 5:54PM 🌡️ 31°C ]
  */
-function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, className = '', variant = 'desktop' }) {
+function WeatherCard({ lat = 23.0225, lon = 72.5714, className = '', variant = 'desktop' }) {
   const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [displayTime, setDisplayTime] = useState('');
 
@@ -103,7 +102,6 @@ function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, clas
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
 
-    setLoading(true);
     setHasError(false);
 
     try {
@@ -112,23 +110,24 @@ function WeatherCard({ lat = 23.0225, lon = 72.5714, isApproximate = false, clas
         setWeather(data);
         weatherRef.current = data;
         setDisplayTime(data.localTime);
-        setLoading(false);
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
         console.warn('Weather fetch failed:', err);
         setHasError(true);
-        setLoading(false);
       }
     }
   }, [lat, lon]);
 
   useEffect(() => {
-    fetchWeatherData();
+    const timer = setTimeout(() => {
+      fetchWeatherData();
+    }, 0);
     const tenMinutesMs = 10 * 60 * 1000;
     const intervalId = setInterval(fetchWeatherData, tenMinutesMs);
 
     return () => {
+      clearTimeout(timer);
       clearInterval(intervalId);
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();

@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { getAmenityById, amenityUI } from "../data";
 
 function AmenityView() {
   const { category = "waiting-lounge" } = useParams();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loadedId, setLoadedId] = useState(null);
 
   // Fetch current amenity matching route category
   const currentAmenity = useMemo(() => {
     return getAmenityById(category);
   }, [category]);
 
-  // Reset loaded state on category change for smooth fade-in
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [category]);
+  const isLoaded = loadedId === currentAmenity.id;
 
   return (
     <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-amenity-img-bg-border)] bg-[#081b1a] flex flex-col select-none shadow-md">
@@ -24,9 +21,9 @@ function AmenityView() {
           key={currentAmenity.id}
           src={currentAmenity.img || currentAmenity.photo}
           alt={currentAmenity.label}
-          onLoad={() => setIsLoaded(true)}
+          onLoad={() => setLoadedId(currentAmenity.id)}
           onError={(e) => {
-            setIsLoaded(true);
+            setLoadedId(currentAmenity.id);
             e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
           }}
           className={`w-full h-full object-cover select-none transition-opacity duration-300 ${

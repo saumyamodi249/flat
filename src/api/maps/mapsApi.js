@@ -1009,7 +1009,7 @@ export async function reverseGeocodeLocation(lat, lng, placeId = null, mapInstan
           travel: calculateTravelTimes(distanceKm),
         };
       }
-    } catch (err) {
+    } catch {
       // nearbySearch fallback
     }
   }

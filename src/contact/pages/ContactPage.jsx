@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/BottomNav";
 import { IoCloseCircleOutline } from "react-icons/io5";

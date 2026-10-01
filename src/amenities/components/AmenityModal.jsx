@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
 function AmenityModal({ amenity, onClose }) {

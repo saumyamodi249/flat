@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import MapPage from "./pages/MapPage";
 import MapView from "./pages/MapView";

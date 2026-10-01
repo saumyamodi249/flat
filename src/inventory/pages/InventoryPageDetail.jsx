@@ -1,9 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { inventoryUI, defaultFeaturedUnit } from "../data";
 
 function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" }) {
-  const [fallbackUnit, setFallbackUnit] = React.useState(defaultFeaturedUnit);
+  const [fallbackUnit, setFallbackUnit] = useState(defaultFeaturedUnit);
   const unit = propUnit || fallbackUnit;
 
   const isFavorite = Boolean(unit?.isFavorite);

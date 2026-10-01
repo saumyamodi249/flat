@@ -152,7 +152,9 @@ export default function usePanZoom({
 
       try {
         el.setPointerCapture(e.pointerId);
-      } catch (_) {}
+      } catch {
+        // Pointer capture not supported or invalid
+      }
 
       activePointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
@@ -223,7 +225,9 @@ export default function usePanZoom({
         if (el.hasPointerCapture(e.pointerId)) {
           el.releasePointerCapture(e.pointerId);
         }
-      } catch (_) {}
+      } catch {
+        // Pointer capture not supported or invalid
+      }
 
       if (activePointers.current.size === 1) {
         // Switch back smoothly to single pointer drag

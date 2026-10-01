@@ -109,8 +109,11 @@ export function useGeoLocation() {
   }, []);
 
   useEffect(() => {
-    fetchLocation();
+    const timer = setTimeout(() => {
+      fetchLocation();
+    }, 0);
     return () => {
+      clearTimeout(timer);
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }

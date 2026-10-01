@@ -1,4 +1,3 @@
-import React from "react";
 import { exteriorData } from "../data";
 
 function Exterior() {

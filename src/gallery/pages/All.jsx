@@ -1,4 +1,3 @@
-import React from "react";
 import { allGalleryData } from "../data";
 
 function All() {

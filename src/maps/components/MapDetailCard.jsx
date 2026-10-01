@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoLocationOutline, IoCloseCircleOutline } from "react-icons/io5";
 import { mapUI, CATEGORY_ICONS } from "../data";
 

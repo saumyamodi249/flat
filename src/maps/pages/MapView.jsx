@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import MapDetailCard from "../components/MapDetailCard";
 import StreetViewModal from "../components/StreetViewModal";
@@ -20,7 +20,6 @@ function MapView() {
   const [showStreetView, setShowStreetView] = useState(false);
   const [streetViewData, setStreetViewData] = useState(null);
   const [isDetailCardVisible, setIsDetailCardVisible] = useState(true);
-
   const [isMapReady, setIsMapReady] = useState(false);
 
   // References to preserve map state across renders without recreating/remounting
@@ -173,8 +172,6 @@ function MapView() {
   // Update card data and smoothly pan map to the first place in category
   useEffect(() => {
     const targetPlace = categoryPlaces[0] || BASE_PROPERTY_LOCATION;
-    setSelectedPlace(targetPlace);
-    setIsDetailCardVisible(true);
     hasUserInteracted.current = false;
 
     if (mapInstanceRef.current) {
@@ -187,6 +184,12 @@ function MapView() {
         }
       }
     }
+
+    const timer = setTimeout(() => {
+      setSelectedPlace(targetPlace);
+      setIsDetailCardVisible(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [category, categoryPlaces]);
 
   // Toggle Map / Satellite mode:

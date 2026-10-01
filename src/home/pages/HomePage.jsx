@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
-import UrbanDataLayers, { LAYERS } from "../components/UrbanDataLayers";
+import UrbanDataLayers from "../components/UrbanDataLayers";
+import { LAYERS } from "../data";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import usePanZoom from "../../hooks/usePanZoom";
 import { IoCloseCircleOutline } from "react-icons/io5";

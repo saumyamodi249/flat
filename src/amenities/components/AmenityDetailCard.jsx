@@ -1,4 +1,3 @@
-import React from "react";
 import { AMENITY_ICONS } from "../data";
 
 function AmenityDetailCard({ amenity, onOpenModal }) {
