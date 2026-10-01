@@ -234,10 +234,13 @@ function InventoryPage() {
   // Carousel units list (displayed when Show Flats is clicked) — mobile/tablet
   const carouselUnits = useMemo(() => {
     let list = units.filter((u) => {
+      if (selectedPropertyType && u.propertyType?.toLowerCase() !== selectedPropertyType.toLowerCase()) {
+        return false;
+      }
       if (selectedStatus && selectedStatus !== "All" && u.status?.toLowerCase() !== selectedStatus.toLowerCase()) {
         return false;
       }
-      if (selectedExposure && !u.exposure?.includes(selectedExposure)) {
+      if (selectedExposure && !u.exposure?.split(",").map((s) => s.trim()).includes(selectedExposure)) {
         return false;
       }
       return true;
@@ -255,12 +258,18 @@ function InventoryPage() {
     }
 
     return list;
-  }, [units, selectedStatus, selectedExposure]);
+  }, [units, selectedPropertyType, selectedStatus, selectedExposure]);
 
   // Filtered unit list based on user selections — desktop table
   const filteredUnits = useMemo(() => {
     return units.filter((u) => {
-      if (selectedStatus !== inventoryPropertyStatuses[0] && u.status !== selectedStatus) {
+      if (selectedPropertyType && u.propertyType?.toLowerCase() !== selectedPropertyType.toLowerCase()) {
+        return false;
+      }
+      if (selectedStatus && selectedStatus !== inventoryPropertyStatuses[0] && u.status?.toLowerCase() !== selectedStatus.toLowerCase()) {
+        return false;
+      }
+      if (selectedExposure && !u.exposure?.split(",").map((s) => s.trim()).includes(selectedExposure)) {
         return false;
       }
       if (minArea && u.area < Number(minArea)) {
@@ -271,7 +280,14 @@ function InventoryPage() {
       }
       return true;
     });
-  }, [units, selectedStatus, minArea, maxArea]);
+  }, [units, selectedPropertyType, selectedStatus, selectedExposure, minArea, maxArea]);
+
+  // Sync selectedUnit with filtered units when filter changes
+  useEffect(() => {
+    if (filteredUnits.length > 0 && !filteredUnits.some((u) => u.id === selectedUnit?.id)) {
+      setSelectedUnit(filteredUnits[0]);
+    }
+  }, [filteredUnits, selectedUnit]);
 
   return (
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-[var(--theme-inventory-img-bg)] select-none">
@@ -280,17 +296,17 @@ function InventoryPage() {
         {/* VIEW 1: INTRO VIEW (Always shown on mobile; shown on desktop/tablet when filter is closed) */}
         {!showDesktopFilterView ? (
           <div className="relative w-full h-full flex flex-col justify-between overflow-hidden">
-            {/* Top Bar (Desktop): Logo & Wishlist button */}
-            <div className="relative z-30 hidden lg:flex items-center justify-between px-[30px] pt-[30px]">
-              <div className="flex items-center">
-                <img
-                  src={inventoryUI.logoSrc}
-                  alt={inventoryUI.logoAlt}
-                  className="h-12 object-contain drop-shadow"
-                />
-              </div>
+            {/* Top Bar (Desktop): Logo */}
+            <div className="relative z-30 hidden lg:flex items-center px-[30px] pt-[30px]">
+              <img
+                src={inventoryUI.logoSrc}
+                alt={inventoryUI.logoAlt}
+                className="h-12 object-contain drop-shadow"
+              />
+            </div>
 
-              {/* Wishlist Circle Button — toggles active unit favorite */}
+            {/* Top-Right Favorite Circle Button (Desktop only >= 1024px) */}
+            <div className="hidden lg:block absolute top-[30px] right-[30px] z-30">
               <button
                 type="button"
                 aria-label={inventoryUI.wishlistAria}
@@ -376,7 +392,7 @@ function InventoryPage() {
             </div>
 
             {/* Desktop Unit Card: Top-right (Desktop only >= 1024px) */}
-            <div className="hidden lg:block absolute lg:top-24 lg:right-10 z-30 pointer-events-auto">
+            <div className="hidden lg:block absolute top-[90px] right-[30px] z-30 pointer-events-auto">
               <InventoryPageDetail
                 unit={activeUnit}
                 onToggleFavorite={toggleUnitFavorite}
@@ -828,12 +844,12 @@ function InventoryPage() {
             {/* RIGHT BUILDING AREA (65% Width) */}
             <div className="w-full lg:w-[65%] h-full relative flex items-center justify-center overflow-hidden bg-[var(--theme-inventory-img-bg)]">
               {/* Top-Right Favorite Circle Button */}
-              <div className="absolute top-4 sm:top-6 right-6 sm:right-10 z-30">
+              <div className="hidden lg:block absolute top-[30px] right-[30px] z-30">
                 <button
                   type="button"
                   aria-label={inventoryUI.wishlistAria}
                   onClick={() => toggleUnitFavorite(activeUnit?.id)}
-                  className="w-10 h-10 rounded-full border border-white/20 bg-black/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
+                  className="w-10 h-10 rounded-full border border-white/20 bg-[var(--theme-bg-blur)]/25 backdrop-blur-md flex items-center justify-center text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-default-text)] transition-all cursor-pointer shadow-lg"
                 >
                   {activeUnit?.isFavorite ? (
                     <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
@@ -853,7 +869,7 @@ function InventoryPage() {
               </div>
 
               {/* Right Floating Unit Card (VIEW 2) */}
-              <div className="absolute top-16 sm:top-20 right-6 sm:right-10 z-30 pointer-events-auto">
+              <div className="hidden lg:block absolute top-[90px] right-[30px] z-30 pointer-events-auto">
                 <InventoryPageDetail
                   unit={activeUnit}
                   onToggleFavorite={toggleUnitFavorite}
