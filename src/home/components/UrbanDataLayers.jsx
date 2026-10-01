@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchLayer } from '../../api/UrbanDataLayers/urbanData';
 import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
 
@@ -129,7 +128,7 @@ function UrbanDataLayers({
 
   return (
     <div
-      className={`rounded-[10px] bg-[var(--theme-blur-layer)]/50 backdrop-blur-md text-white shadow-2xl shadow-teal-950/50 select-none w-full sm:w-[310px] md:w-[330px] overflow-hidden transition-all duration-300 ${className}`}
+      className={`rounded-[10px] bg-[var(--theme-blur-layer)]/50 backdrop-blur-md text-white shadow-2xl shadow-teal-950/50 select-none w-full sm:w-77.5 md:w-82.5 overflow-hidden transition-all duration-300 ${className}`}
     >
       {/* Header: "Urban Data Layers" with collapse chevron */}
       <div
@@ -143,7 +142,7 @@ function UrbanDataLayers({
           type="button"
           aria-expanded={!isCollapsed}
           aria-label={isCollapsed ? 'Expand layers' : 'Collapse layers'}
-          className="text-white hover:text-white/80 transition-transform px-[6px] py-[9px] cursor-pointer flex items-center justify-center"
+          className="text-white hover:text-white/80 transition-transform px-1.5 py-2.25 cursor-pointer flex items-center justify-center"
         >
           {isCollapsed ? (
             <IoChevronDownOutline className="w-6 h-6 text-white" />
@@ -171,7 +170,7 @@ function UrbanDataLayers({
                   type="button"
                   onClick={() => handleToggleLayer(layer.id)}
                   aria-pressed={isActive}
-                  className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
+                  className={`group relative flex flex-col items-center justify-center p-2.5 rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-24.5 focus:outline-none ${isActive
                     ? 'bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent'
                     : 'bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent'
                     }`}
@@ -186,7 +185,7 @@ function UrbanDataLayers({
                     <img
                       src={layer.imgSrc}
                       alt={layer.label}
-                      className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-105'
+                      className={`h-7 sm:h-8 w-auto max-w-9 object-contain select-none transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-105'
                         }`}
                       onError={(e) => {
                         if (!e.currentTarget.src.includes('UrbanDataLayers')) {

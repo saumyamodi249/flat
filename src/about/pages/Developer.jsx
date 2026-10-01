@@ -1,4 +1,3 @@
-import React from "react";
 import { aboutData } from "../data";
 import AboutTabs from "./AboutTabs";
 import SiteDetails from "../components/SiteDetails";
@@ -17,7 +16,7 @@ function Developer() {
       <div className="w-full flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col">
         {/* 1st Main Div: Just Title */}
         <div>
-          <h2 className="text-lg sm:text-3xl lg:text-4xl mb-2.5 sm:mb-[30px] lg:mb-[30px] font-semibold tracking-normal text-[var(--theme-about-title-main)] uppercase">
+          <h2 className="text-lg sm:text-3xl lg:text-4xl mb-2.5 sm:mb-7.5 lg:mb-7.5 font-semibold tracking-normal text-[var(--theme-about-title-main)] uppercase">
             {data.title}
           </h2>
         </div>
@@ -34,7 +33,7 @@ function Developer() {
           </div>
 
           {/* Inside 2nd Div -> 2nd Child: Right Column with Title & Description */}
-          <div className="flex flex-col space-y-[10px]  sm:space-y-4">
+          <div className="flex flex-col space-y-2.5  sm:space-y-4">
             {/* 2nd Child -> 1st sub-div: Subtitle */}
             <div>
               <h3 className="text-base lg:text-3xl font-semibold text-[var(--theme-about-title)] tracking-wide">
@@ -52,7 +51,7 @@ function Developer() {
         </div>
 
         {/* Site Details on all viewports */}
-        <div className="mt-2.5 sm:mt-6 lg:mt-[50px]">
+        <div className="mt-2.5 sm:mt-6 lg:mt-12.5">
           <SiteDetails details={data.siteDetails} />
         </div>
       </div>
