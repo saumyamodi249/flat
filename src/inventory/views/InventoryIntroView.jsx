@@ -85,8 +85,14 @@ function InventoryIntroView() {
         </button>
       </div>
 
-      {/* Left Floating Filters Button (Desktop only >= 1024px) */}
-      <div className="hidden lg:block absolute top-20 left-12 z-30">
+      {/* Left Floating Filters Button (Desktop only >= 1024px) - Enters from left to current position */}
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -100, opacity: 0 }}
+        transition={{ duration: 1.8, ease: "easeInOut" }}
+        className="hidden lg:block absolute top-20 left-12 z-30"
+      >
         <button
           type="button"
           onClick={() => setIsFilterOpen(true)}
@@ -102,9 +108,9 @@ function InventoryIntroView() {
           </span>
           <CiCircleChevRight className="w-8 h-8 text-[var(--theme-inventory-filter-text)]" />
         </button>
-      </div>
+      </motion.div>
 
-      {/* Central 3D Building Perspective on Wireframe Floor */}
+      {/* Central 3D Building Perspective on Wireframe Floor - Scales up simultaneously */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4 pt-10 sm:pt-6 lg:pt-0 pb-10 sm:pb-12 lg:pb-0">
         <motion.img
           initial={{ opacity: 0, scale: 0.7 }}
@@ -117,13 +123,19 @@ function InventoryIntroView() {
         />
       </div>
 
-      {/* Desktop Unit Card: Top-right (Desktop only >= 1024px) */}
-      <div className="hidden lg:block absolute top-[90px] right-[30px] z-30 pointer-events-auto">
+      {/* Desktop Unit Card: Top-right (Desktop only >= 1024px) - Enters from right to current position simultaneously */}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 100, opacity: 0 }}
+        transition={{ duration: 1.8, ease: "easeInOut" }}
+        className="hidden lg:block absolute top-[90px] right-[30px] z-30 pointer-events-auto"
+      >
         <InventoryPageDetail
           unit={activeUnit}
           onToggleFavorite={toggleFavoriteUnit}
         />
-      </div>
+      </motion.div>
 
       {/* Mobile & Tablet Unit Cards: Only visible after user clicks "Show Flats" */}
       {showFlatsCarousel && (
