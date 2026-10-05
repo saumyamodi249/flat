@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 // ================= VALIDATION REGEX =================
@@ -115,37 +115,87 @@ function ContactPage() {
             </button>
           </div>
 
-          {isSubmitted ? (
-            <div className="py-10 text-center flex flex-col items-center justify-center space-y-3">
-              <div className="w-12 h-12 rounded-full border border-[#C09973]/20 flex items-center justify-center text-[#C09973]">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
+          <AnimatePresence mode="wait">
+            {isSubmitted ? (
+              <motion.div
+                key="submitted-success"
+                initial={{
+                  clipPath: "circle(0% at 50% 50%)",
+                  opacity: 0,
+                }}
+                animate={{
+                  clipPath: "circle(150% at 50% 50%)",
+                  opacity: 1,
+                }}
+                exit={{
+                  clipPath: "circle(0% at 50% 50%)",
+                  opacity: 0,
+                }}
+                transition={{
+                  duration: 0.75,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="py-10 text-center flex flex-col items-center justify-center space-y-4"
+              >
+                {/* Center Circle with Checkmark matching screenshot */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -30 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{
+                    delay: 0.2,
+                    duration: 0.5,
+                    type: "spring",
+                    stiffness: 240,
+                    damping: 18,
+                  }}
+                  className="w-14 h-14 rounded-full border border-[#C09973]/30 bg-[#C09973]/10 flex items-center justify-center text-[#C09973] shadow-lg"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-lg font-semibold text-white">
-                Thank you for reaching out!
-              </h2>
-              <p className="text-sm text-white/70 max-w-xs">
-                We have received your message and our team will get in touch
-                with you shortly.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-              className="flex flex-col space-y-2.5 sm:space-y-3.5"
-            >
+                  <svg
+                    className="w-7 h-7"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                  >
+                    <motion.path
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 0.35, duration: 0.45, ease: "easeOut" }}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35, duration: 0.45 }}
+                  className="text-xl font-semibold text-white tracking-normal"
+                >
+                  Thank you for reaching out!
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45, duration: 0.45 }}
+                  className="text-sm text-white/70 max-w-sm leading-relaxed"
+                >
+                  We have received your message and our team will get in touch
+                  with you shortly.
+                </motion.p>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="contact-form"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                onSubmit={handleSubmit}
+                noValidate
+                className="flex flex-col space-y-2.5 sm:space-y-3.5"
+              >
               {/* Field 1: Your Name */}
               <div className="flex flex-col space-y-2 sm:space-y-1.5">
                 <label className="text-base font-normal text-white">
@@ -245,8 +295,9 @@ function ContactPage() {
                   Privacy Policy
                 </a>
               </div>
-            </form>
+            </motion.form>
           )}
+          </AnimatePresence>
         </motion.div>
       </main>
 
