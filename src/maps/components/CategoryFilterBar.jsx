@@ -118,7 +118,7 @@ function CategoryFilterBar({ categories }) {
               ref={(el) => (buttonRefs.current[cat.id] = el)}
               type="button"
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center gap-[10px] lg:px-4 lg:py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
+              className={`flex items-center gap-[10px] px-4 py-2 rounded-[10px] text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer border border-[1px] shrink-0 ${isActive
                 ? "bg-[var(--theme-map-button-selected-bg)] text-[var(--theme-map-left)] border-[var(--theme-map-button-selected-bg)]"
                 : "bg-[var(--theme-map-button-default-bg)] text-[var(--theme-route-map-button-title-default-bg)] border-[var(--theme-map-border)]/90"
                 }`}

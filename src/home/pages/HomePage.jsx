@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
@@ -7,9 +7,10 @@ import UrbanDataLayers from "../components/UrbanDataLayers";
 import { LAYERS } from "../data";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import usePanZoom from "../../hooks/usePanZoom";
-import { IoCloseCircleOutline } from "react-icons/io5";
+import { IoCloseCircleOutline, IoClose } from "react-icons/io5";
 
 function HomePage() {
+  const navigate = useNavigate();
   const location = useLocation();
   const isSubpageActive = location.pathname !== "/home" && location.pathname !== "/";
   const isContactPage = location.pathname.startsWith("/contact");
@@ -23,30 +24,47 @@ function HomePage() {
 
   return (
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full overflow-hidden bg-[var(--theme-bottom)] select-none touch-none">
-      {/* Background image — Always Building.png with pan and zoom */}
-      <img
+      {/* Background images — Building.png (default) or Iscon circle.png (when layer active) with pan and zoom */}
+      <div
         ref={buildingImageRef}
-        src="/UI IMG/Building.png"
-        alt="Riviera Select property"
-        draggable={false}
-        className={`absolute inset-0 w-full h-full object-cover select-none touch-none transition-[filter,opacity] duration-500 ease-in-out opacity-100 ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""
-          }`}
-      />
+        className={`absolute inset-0 w-full h-full select-none touch-none ${
+          isSubpageActive ? "pointer-events-none" : ""
+        }`}
+      >
+        <img
+          src="/UI IMG/Building.png"
+          alt="Riviera Select property"
+          draggable={false}
+          className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${
+            activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
+          } ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""}`}
+        />
+        <img
+          src="/UI IMG/Iscon circle.png"
+          alt="Iscon Circle urban layer view"
+          draggable={false}
+          className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${
+            activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
+          } ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""}`}
+        />
+      </div>
 
       {/* ================= TOP BAR ================= */}
       {/* 1. Mobile Top Bar (Screen 1 & 3: phone logo + Weather Pill + filter chain) — Visible on Mobile */}
       {!isContactPage && (
         <div
-          className={`relative flex md:hidden items-start justify-between px-5 pt-[30px] w-full transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
+          className={`relative flex sm:hidden items-start justify-between px-5 pt-[30px] w-full transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
             }`}
         >
           {/* Mobile Left: phone logo */}
           <div className="h-[42px] flex items-center">
-            <img
-              src="/UI IMG/phone logo.svg"
-              alt="Riviera"
-              className="h-[25px] w-[25px] object-contain drop-shadow"
-            />
+            <Link to="/home" className="cursor-pointer focus:outline-none">
+              <img
+                src="/UI IMG/phone logo.svg"
+                alt="Riviera"
+                className="h-[25px] w-[25px] object-contain drop-shadow"
+              />
+            </Link>
           </div>
 
           {/* Mobile Center: Weather Pill with condition below */}
@@ -77,36 +95,38 @@ function HomePage() {
         </div>
       )}
 
-      {/* 2. Desktop Top Bar — Only on Home page (Laptop & Desktop) */}
-      {!isSubpageActive && (
-        <div
-          className="relative hidden md:flex flex-row items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3 transition-all duration-300 z-30"
-        >
-          {/* Top logo */}
-          <div className="flex items-center">
+      {/* 2. Desktop Top Bar — Completely static at top, NO Framer Motion on the logo */}
+      <div
+        className="relative hidden sm:flex flex-row items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3 z-40 pointer-events-auto shrink-0"
+      >
+        {/* Top logo — No Framer Motion */}
+        <div className="flex items-center">
+          <Link to="/home" className="cursor-pointer focus:outline-none">
             <img
               src="/UI IMG/top_logo.svg"
               alt="Riviera Select"
               className="h-12 object-contain drop-shadow"
             />
-          </div>
+          </Link>
+        </div>
 
-          {/* Top Right Weather Card Strip */}
-          <div className="self-auto">
+        {/* Top Right: WeatherCard on Home (only when subpage is NOT active) */}
+        <div className="self-auto">
+          {!isSubpageActive && (
             <WeatherCard
               lat={coords.lat}
               lon={coords.lon}
               isApproximate={isApproximate}
               variant="desktop"
             />
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* ================= DESKTOP FLOATING URBAN DATA LAYERS — Only on Home page ================= */}
       {!isSubpageActive && (
         <div
-          className="relative z-10 flex-1 hidden md:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none transition-all duration-300"
+          className="relative z-10 flex-1 hidden sm:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none transition-all duration-300"
         >
           <div className="pointer-events-auto">
             <UrbanDataLayers
@@ -127,7 +147,7 @@ function HomePage() {
       {/* ================= MOBILE URBAN DATA LAYERS DRAWER (Screen 3) ================= */}
       <AnimatePresence>
         {!isSubpageActive && isUrbanDrawerOpen && (
-          <div className="fixed inset-0 z-40 md:hidden">
+          <div className="fixed inset-0 z-40 sm:hidden">
             {/* Backdrop overlay to click outside */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -142,61 +162,73 @@ function HomePage() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 320 }}
-              className="absolute z-10 bottom-[52px] left-0 right-0 rounded-t-[16px] bg-[var(--theme-blur-layer)]/95 backdrop-blur-md p-5 pb-6 shadow-2xl text-[var(--theme-UrbanDataLayers-border)]"
+              className="absolute z-10 bottom-[52px] left-0 right-0 LG:rounded-t-[16px] bg-[var(--theme-blur-layer)]/50 backdrop-blur-md text-white shadow-2xl shadow-teal-950/50 select-none overflow-hidden transition-all duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header: Title + Close Icon */}
-              <div className="flex items-center justify-between pb-2">
-                <h3 className="text-base font-semibold text-white tracking-wide">
+              <div className="flex items-center justify-between p-4 pb-3">
+                <h2 className="text-[15px] sm:text-base font-semibold tracking-normal text-white">
                   Urban Data Layers
-                </h3>
+                </h2>
                 <button
                   type="button"
                   onClick={() => setIsUrbanDrawerOpen(false)}
-                  className="text-white hover:text-white/80 cursor-pointer flex items-center justify-center transition-colors"
+                  className="text-white hover:text-white/80 transition-transform p-1 cursor-pointer flex items-center justify-center"
                   aria-label="Close Urban Data Layers"
                 >
-                  <IoCloseCircleOutline className="w-6 h-6" />
+                  <IoCloseCircleOutline className="w-6 h-6 text-white" />
                 </button>
               </div>
 
               {/* Thin horizontal divider line matching laptop version */}
-              <div className="border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20 my-2" />
+              <div className="mx-4 border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20" />
 
               {/* Body: 2x2 Grid exactly like laptop version */}
-              <div className="grid grid-cols-2 gap-4 sm:gap-3.5 pt-1">
-                {LAYERS.map((layer) => {
-                  const isActive = activeLayer === layer.id;
-                  return (
-                    <button
-                      key={layer.id}
-                      type="button"
-                      onClick={() => {
-                        setActiveLayer(isActive ? null : layer.id);
-                      }}
-                      aria-pressed={isActive}
-                      className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
-                        ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
-                        : "bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent"
+              <div className="px-4 pb-5 pt-3">
+                <div className="grid grid-cols-2 gap-4 sm:gap-3.5">
+                  {LAYERS.map((layer) => {
+                    const isActive = activeLayer === layer.id;
+                    return (
+                      <button
+                        key={layer.id}
+                        type="button"
+                        onClick={() => {
+                          setActiveLayer(isActive ? null : layer.id);
+                        }}
+                        aria-pressed={isActive}
+                        className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${
+                          isActive
+                            ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
+                            : "bg-transparent hover:bg-[var(--theme-blur-layer)]/80 hover:shadow-lg hover:shadow-black/20 active:bg-[var(--theme-blur-layer)]/80 active:shadow-lg active:shadow-black/20 text-white/80 hover:text-white border border-transparent"
                         }`}
-                    >
-                      {/* Label on Top */}
-                      <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
-                        {layer.label}
-                      </span>
+                      >
+                        {/* Label on Top */}
+                        <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
+                          {layer.label}
+                        </span>
 
-                      {/* Custom Image */}
-                      <div className="relative flex items-center justify-center h-8">
-                        <img
-                          src={layer.imgSrc}
-                          alt={layer.label}
-                          className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"
+                        {/* Custom Image */}
+                        <div className="relative flex items-center justify-center h-8">
+                          <img
+                            src={layer.imgSrc}
+                            alt={layer.label}
+                            className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${
+                              isActive ? "scale-110" : "group-hover:scale-105"
                             }`}
-                        />
-                      </div>
-                    </button>
-                  );
-                })}
+                            onError={(e) => {
+                              if (!e.currentTarget.src.includes("UrbanDataLayers")) {
+                                e.currentTarget.src = layer.imgSrc.replace(
+                                  "/urbandatalayer/",
+                                  "/UrbanDataLayers/"
+                                );
+                              }
+                            }}
+                          />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -204,20 +236,28 @@ function HomePage() {
       </AnimatePresence>
 
       {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About, Contact) - Slides up from bottom */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {isSubpageActive && (
           <motion.div
-            key={location.pathname.split("/")[1] || "subpage"}
+            key="subpage-canvas"
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
             transition={{
-              duration: 0.65,
+              duration: 0.88,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="fixed inset-0 z-30 flex flex-col pointer-events-auto"
           >
-            <Outlet />
+            <motion.div
+              key={location.pathname.split("/")[1] || "subpage"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25 }}
+              className="w-full h-full flex flex-col"
+            >
+              <Outlet />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

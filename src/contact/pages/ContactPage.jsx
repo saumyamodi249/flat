@@ -64,19 +64,6 @@ function ContactPage() {
   return (
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-transparent select-none">
 
-      {/* Top Bar: Left Logo (Desktop & Tablet only matching Image 1) */}
-      <div className="hidden sm:flex absolute top-5 sm:top-7 left-5 sm:left-8 z-30 items-center">
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={() => navigate("/home")}
-        >
-          <img
-            src="/UI IMG/top_logo.svg"
-            alt="Riviera Select"
-            className="h-10 sm:h-12 object-contain drop-shadow"
-          />
-        </div>
-      </div>
 
       {/* Main Content Area: Modal centered on desktop/tablet (Image 1), anchored to bottom on mobile */}
       <main className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-4 pb-[52px] sm:pb-0 w-full max-w-full min-h-0 overflow-hidden">

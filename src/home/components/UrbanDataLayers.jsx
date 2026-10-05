@@ -152,7 +152,7 @@ function UrbanDataLayers({
                   aria-pressed={isActive}
                   className={`group relative flex flex-col items-center justify-center p-2.5 rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-24.5 focus:outline-none ${isActive
                     ? 'bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent'
-                    : 'bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent'
+                    : 'bg-transparent hover:bg-[var(--theme-blur-layer)]/80 hover:shadow-lg hover:shadow-black/20 active:bg-[var(--theme-blur-layer)]/80 active:shadow-lg text-white/80 hover:text-white border border-transparent'
                     }`}
                 >
                   {/* Label on Top */}
