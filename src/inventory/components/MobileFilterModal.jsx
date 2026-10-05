@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import {
   inventoryUI,
   inventoryPropertyTypes,
@@ -19,17 +20,24 @@ function MobileFilterModal(props) {
   const onShowFlats = props.onShowFlats ?? store.handleShowFlats;
   const onClearAll = props.onClearAll ?? store.handleClearAllMobile;
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-start lg:hidden bg-black/60 backdrop-blur-sm overflow-y-auto"
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="w-full bg-[var(--theme-inventory-bg-main)] border-b border-white/10 p-5 shadow-2xl flex flex-col text-white"
-      >
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-start lg:hidden bg-black/60 backdrop-blur-sm overflow-y-auto"
+        >
+          <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full bg-[var(--theme-inventory-bg-main)] border-b border-white/10 p-5 shadow-2xl flex flex-col text-white"
+          >
         {/* Top Header: Filter Icon + Title + Close Button */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -162,8 +170,10 @@ function MobileFilterModal(props) {
             Clear all
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
   );
 }
 

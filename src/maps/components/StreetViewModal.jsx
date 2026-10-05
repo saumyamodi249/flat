@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 import { getStreetViewEmbedUrl } from "../../api/maps/mapsApi";
 
@@ -19,11 +20,18 @@ function StreetViewModal({ place, streetViewData, onClose }) {
   const embedUrl = streetViewData?.embedUrl || getStreetViewEmbedUrl(place);
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--theme-bg-blur)]/80 backdrop-blur-md animate-fadeIn cursor-pointer"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--theme-bg-blur)]/80 backdrop-blur-md cursor-pointer"
     >
-      <div
+      <motion.div
+        initial={{ scale: 0.95, y: 20, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.95, y: 20, opacity: 0 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-4xl h-[75vh] max-h-[680px] bg-[var(--theme-map-street-view)] border border-[var(--theme-map-border)]/50 rounded-[14px] shadow-2xl overflow-hidden flex flex-col cursor-default"
       >
@@ -60,8 +68,8 @@ function StreetViewModal({ place, streetViewData, onClose }) {
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

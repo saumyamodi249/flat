@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import BottomNav from "../../components/BottomNav";
 import { IoCloseCircleOutline } from "react-icons/io5";
 

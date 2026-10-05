@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { getAmenityById, amenityUI } from "../data";
 
 function AmenityView() {
@@ -17,19 +18,23 @@ function AmenityView() {
     <div className="relative w-full h-full flex-1 min-h-0 rounded-[14px] sm:rounded-[10px] overflow-hidden border border-[var(--theme-amenity-img-bg-border)] bg-[#081b1a] flex flex-col select-none shadow-md">
       {/* High-Resolution Amenity Photo matching reference design */}
       <div className="relative flex-1 w-full h-full bg-[#081b1a] overflow-hidden">
-        <img
-          key={currentAmenity.id}
-          src={currentAmenity.img || currentAmenity.photo}
-          alt={currentAmenity.label}
-          onLoad={() => setLoadedId(currentAmenity.id)}
-          onError={(e) => {
-            setLoadedId(currentAmenity.id);
-            e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
-          }}
-          className={`w-full h-full object-cover select-none transition-opacity duration-300 ${
-            isLoaded ? "opacity-100 animate-fadeIn" : "opacity-0"
-          }`}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentAmenity.id}
+            src={currentAmenity.img || currentAmenity.photo}
+            alt={currentAmenity.label}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            onLoad={() => setLoadedId(currentAmenity.id)}
+            onError={(e) => {
+              setLoadedId(currentAmenity.id);
+              e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
+            }}
+            className="w-full h-full object-cover select-none"
+          />
+        </AnimatePresence>
 
         {/* Loading state while switching amenity photos */}
         {!isLoaded && (

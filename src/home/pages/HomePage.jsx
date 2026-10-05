@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
 import UrbanDataLayers from "../components/UrbanDataLayers";
@@ -124,81 +125,102 @@ function HomePage() {
       )}
 
       {/* ================= MOBILE URBAN DATA LAYERS DRAWER (Screen 3) ================= */}
-      {!isSubpageActive && isUrbanDrawerOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
-          {/* Backdrop overlay to click outside (transparent so it does not darken the drawer) */}
-          <div
-            className="absolute inset-0"
-            onClick={() => setIsUrbanDrawerOpen(false)}
-          />
+      <AnimatePresence>
+        {!isSubpageActive && isUrbanDrawerOpen && (
+          <div className="fixed inset-0 z-40 md:hidden">
+            {/* Backdrop overlay to click outside */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/25"
+              onClick={() => setIsUrbanDrawerOpen(false)}
+            />
 
-          <div
-            className="absolute z-10 bottom-[52px] left-0 right-0 rounded-none bg-[var(--theme-blur-layer)]/50 backdrop-blur-md p-5 pb-6 shadow-2xl shadow-teal-950/50 text-[var(--theme-UrbanDataLayers-border)]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header: Title + Close Icon */}
-            <div className="flex items-center justify-between pb-2">
-              <h3 className="text-base font-semibold text-white tracking-wide">
-                Urban Data Layers
-              </h3>
-              <button
-                type="button"
-                onClick={() => setIsUrbanDrawerOpen(false)}
-                className="text-white hover:text-white/80 cursor-pointer flex items-center justify-center transition-colors"
-                aria-label="Close Urban Data Layers"
-              >
-                <IoCloseCircleOutline className="w-6 h-6" />
-              </button>
-            </div>
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 320 }}
+              className="absolute z-10 bottom-[52px] left-0 right-0 rounded-t-[16px] bg-[var(--theme-blur-layer)]/95 backdrop-blur-md p-5 pb-6 shadow-2xl text-[var(--theme-UrbanDataLayers-border)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header: Title + Close Icon */}
+              <div className="flex items-center justify-between pb-2">
+                <h3 className="text-base font-semibold text-white tracking-wide">
+                  Urban Data Layers
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setIsUrbanDrawerOpen(false)}
+                  className="text-white hover:text-white/80 cursor-pointer flex items-center justify-center transition-colors"
+                  aria-label="Close Urban Data Layers"
+                >
+                  <IoCloseCircleOutline className="w-6 h-6" />
+                </button>
+              </div>
 
-            {/* Thin horizontal divider line matching laptop version */}
-            <div className="border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20 my-2" />
+              {/* Thin horizontal divider line matching laptop version */}
+              <div className="border-t border-[var(--theme-UrbanDataLayers-border)] opacity-20 my-2" />
 
-            {/* Body: 2x2 Grid exactly like laptop version */}
-            <div className="grid grid-cols-2 gap-4 sm:gap-3.5 pt-1">
-              {LAYERS.map((layer) => {
-                const isActive = activeLayer === layer.id;
-                return (
-                  <button
-                    key={layer.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveLayer(isActive ? null : layer.id);
-                    }}
-                    aria-pressed={isActive}
-                    className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
-                      ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
-                      : "bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent"
-                      }`}
-                  >
-                    {/* Label on Top */}
-                    <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
-                      {layer.label}
-                    </span>
+              {/* Body: 2x2 Grid exactly like laptop version */}
+              <div className="grid grid-cols-2 gap-4 sm:gap-3.5 pt-1">
+                {LAYERS.map((layer) => {
+                  const isActive = activeLayer === layer.id;
+                  return (
+                    <button
+                      key={layer.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveLayer(isActive ? null : layer.id);
+                      }}
+                      aria-pressed={isActive}
+                      className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
+                        ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
+                        : "bg-transparent hover:bg-[var(--theme-blur-layer)]/40 text-white/80 hover:text-white border border-transparent"
+                        }`}
+                    >
+                      {/* Label on Top */}
+                      <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
+                        {layer.label}
+                      </span>
 
-                    {/* Custom Image */}
-                    <div className="relative flex items-center justify-center h-8">
-                      <img
-                        src={layer.imgSrc}
-                        alt={layer.label}
-                        className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"
-                          }`}
-                      />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                      {/* Custom Image */}
+                      <div className="relative flex items-center justify-center h-8">
+                        <img
+                          src={layer.imgSrc}
+                          alt={layer.label}
+                          className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"
+                            }`}
+                        />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
-      {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About, Contact) */}
-      {isSubpageActive && (
-        <div className="fixed inset-0 z-30 flex flex-col pointer-events-auto">
-          <Outlet />
-        </div>
-      )}
+      {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About, Contact) - Slides up from bottom */}
+      <AnimatePresence mode="wait">
+        {isSubpageActive && (
+          <motion.div
+            key={location.pathname.split("/")[1] || "subpage"}
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{
+              duration: 0.65,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="fixed inset-0 z-30 flex flex-col pointer-events-auto"
+          >
+            <Outlet />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom Nav on Home */}
       {!isSubpageActive && (

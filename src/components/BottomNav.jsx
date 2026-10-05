@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 
 
@@ -75,14 +75,14 @@ function BottomNav() {
                   className="w-full rounded-[10px] bg-[var(--theme-bottom)] border border-[var(--theme-UrbanDataLayers-border)]/20 backdrop-blur-md overflow-hidden shadow-2xl flex flex-col divide-y divide-[var(--theme-UrbanDataLayers-border)]/15 text-[var(--theme-route-title)]"
                 >
                   {section.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.path}
+                      to={item.path}
                       onClick={() => setMenuOpen(false)}
                       className="py-4 px-3.5 text-center text-sm font-medium text-[var(--theme-route-title)] hover:bg-[var(--theme-route-box)]/25 transition-colors no-underline block"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               ))}
@@ -106,16 +106,16 @@ function BottomNav() {
                   : currentPath.startsWith(item.path);
 
               return (
-                <a
+                <Link
                   key={item.path}
-                  href={item.path}
+                  to={item.path}
                   className={`h-full flex items-center justify-center px-4 text-xs font-bold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
                     ? "bg-[var(--theme-route-box)] shadow-sm"
                     : "hover:bg-[var( --theme-home-white-text)]/90"
                     }`}
                 >
                   {item.label}
-                </a>
+                </Link>
               );
             })}
 
@@ -153,16 +153,16 @@ function BottomNav() {
                   : currentPath.startsWith(item.path);
 
               return (
-                <a
+                <Link
                   key={item.path}
-                  href={item.path}
+                  to={item.path}
                   className={`h-full flex items-center justify-center px-5 py-2.5 text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
                     ? "bg-[var(--theme-route-box)] shadow-sm"
                     : "hover:bg-[var( --theme-home-white-text)]/10"
                     }`}
                 >
                   {item.label}
-                </a>
+                </Link>
               );
             })}
           </div>

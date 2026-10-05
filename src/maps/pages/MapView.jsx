@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import MapDetailCard from "../components/MapDetailCard";
 import StreetViewModal from "../components/StreetViewModal";
 import { mapUI } from "../data";
@@ -255,15 +256,24 @@ function MapView() {
       </div>
 
       {/* Floating Place Detail Card (Centered horizontally on mobile matching Image 1) */}
-      {isDetailCardVisible && (
-        <div className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 sm:left-auto sm:right-3.5 sm:translate-x-0 z-30 w-[calc(100%-24px)] max-w-[340px] sm:w-[325px] animate-fadeIn pointer-events-auto">
-          <MapDetailCard
-            place={selectedPlace}
-            onOpenStreetView={handleOpen360StreetView}
-            onClose={() => setIsDetailCardVisible(false)}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {isDetailCardVisible && (
+          <motion.div
+            key={selectedPlace?.name || "card"}
+            initial={{ opacity: 0, y: -15, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 sm:left-auto sm:right-3.5 sm:translate-x-0 z-30 w-[calc(100%-24px)] max-w-[340px] sm:w-[325px] pointer-events-auto"
+          >
+            <MapDetailCard
+              place={selectedPlace}
+              onOpenStreetView={handleOpen360StreetView}
+              onClose={() => setIsDetailCardVisible(false)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom-Left: Map / Satellite Mode Toggle matching Image 1 */}
       <div className="absolute bottom-2.5 left-2.5 sm:bottom-3.5 sm:left-3.5 z-30 pointer-events-auto">

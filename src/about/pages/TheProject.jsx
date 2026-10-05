@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { aboutData } from "../data";
 import AboutTabs from "./AboutTabs";
 import SiteDetails from "../components/SiteDetails";
@@ -6,7 +7,12 @@ function TheProject() {
   const data = aboutData.project;
 
   return (
-    <div className="w-full max-w-full flex flex-col h-full min-h-0">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.28, ease: "easeOut" }}
+      className="w-full max-w-full flex flex-col h-full min-h-0"
+    >
       {/* Centered Tabs with zero extra bottom margin */}
       <div className="flex justify-center w-full max-w-full shrink-0">
         <AboutTabs />
@@ -55,7 +61,7 @@ function TheProject() {
           <SiteDetails details={data.siteDetails} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

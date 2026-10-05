@@ -1,5 +1,6 @@
 import { CiCircleChevLeft } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { motion } from "framer-motion";
 import InventoryPageDetail from "../pages/InventoryPageDetail";
 import InventoryFilterControls from "../components/InventoryFilterControls";
 import InventoryTable from "../components/InventoryTable";
@@ -18,7 +19,12 @@ function InventoryFilterView() {
   return (
     <div className="relative w-full h-full flex flex-col lg:flex-row overflow-hidden">
       {/* LEFT FILTER PANEL (40% Width) */}
-      <div className="w-full lg:w-[40%] h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main)] border-r border-white/10">
+      <motion.div
+        initial={{ x: "-100%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full lg:w-[40%] h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main)] border-r border-white/10"
+      >
         {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Sticky) */}
         <div className="shrink-0 flex items-center justify-between px-[30px] pt-[30px] pb-[20px]">
           <img
@@ -77,7 +83,7 @@ function InventoryFilterView() {
             onToggleFavorite={toggleFavoriteUnit}
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* RIGHT BUILDING AREA (60% Width) */}
       <div className="w-full lg:w-[60%] h-full relative flex items-center justify-center overflow-hidden bg-[var(--theme-inventory-img-bg)]">

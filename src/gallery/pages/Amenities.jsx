@@ -1,8 +1,14 @@
+import { motion } from "framer-motion";
 import { amenitiesData } from "../data";
 
 function Amenities() {
   return (
-    <div className="w-full max-w-full flex flex-col h-full min-h-0 select-none">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.99 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.28, ease: "easeOut" }}
+      className="w-full max-w-full flex flex-col h-full min-h-0 select-none"
+    >
       {/* Scrollable Gallery Content Area */}
       <div className="w-full flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col pr-0.5 sm:pr-1 pb-6">
         {/* 3-Column Responsive Grid Layout on Mobile, expanding on Desktop */}
@@ -25,7 +31,7 @@ function Amenities() {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
