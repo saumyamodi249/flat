@@ -133,8 +133,8 @@ function CategoryFilterBar({ categories }) {
                     maskPosition: "center",
                     WebkitMaskPosition: "center",
                     backgroundColor: isActive
-                      ? "var(--theme-amenity-left, #F7E4CF)"
-                      : "var(--theme-amenity-border, #C09973)",
+                      ? "var(--theme-amenity-left)"
+                      : "var(--theme-amenity-border)",
                   }}
                 />
               ) : null}
@@ -149,7 +149,7 @@ function CategoryFilterBar({ categories }) {
         className="absolute right-0 top-0 bottom-0 flex items-center justify-end pl-8 pr-0 pointer-events-none z-10 w-[140px]"
         style={{
           background:
-            "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-amenity-bg, #002E2D) 85%, var(--theme-amenity-bg, #002E2D) 100%)",
+            "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-amenity-bg) 85%, var(--theme-amenity-bg) 100%)",
         }}
       >
         {/* Navigation Arrows */}

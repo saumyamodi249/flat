@@ -21,8 +21,8 @@ function InventoryFilterControls(props) {
   const setMaxArea = props.setMaxArea ?? store.setMaxArea;
   const className = props.className || "";
   return (
-    <div className={`flex flex-col gap-4 sm:gap-5 ${className}`}>
-      <div className="flex flex-col gap-8">
+    <div className={`flex flex-col gap-5 ${className}`}>
+      <div className="flex flex-col gap-5">
         {/* Sub-Div 2: Property Type */}
         <div className="flex flex-col gap-4">
           <span className="text-[var(--theme-inventory-tab-default-text)] text-sm font-medium">
@@ -36,8 +36,8 @@ function InventoryFilterControls(props) {
                 onClick={() => setSelectedPropertyType(type)}
                 className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                   selectedPropertyType === type
-                    ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                    ? "bg-[var(--theme-inventory-tab-selected-bg)] text-[var(--theme-inventory-tab-selected-text)] shadow"
+                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)]"
                 }`}
               >
                 {type}
@@ -59,8 +59,8 @@ function InventoryFilterControls(props) {
                 onClick={() => setSelectedExposure(exp)}
                 className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                   selectedExposure === exp
-                    ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                    ? "bg-[var(--theme-inventory-tab-selected-bg)] text-[var(--theme-inventory-tab-selected-text)] shadow"
+                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)]"
                 }`}
               >
                 {exp}
@@ -82,8 +82,8 @@ function InventoryFilterControls(props) {
                 onClick={() => setSelectedStatus(status)}
                 className={`flex-1 py-2 px-4 rounded-[10px] text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                   selectedStatus === status
-                    ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-[var(--theme-inventory-tab-selected-text,#FFFFFF)] shadow"
-                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)]"
+                    ? "bg-[var(--theme-inventory-tab-selected-bg)] text-[var(--theme-inventory-tab-selected-text)] shadow"
+                    : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)]"
                 }`}
               >
                 {status}

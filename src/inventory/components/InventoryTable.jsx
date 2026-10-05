@@ -73,9 +73,8 @@ function InventoryTable({
               key={u.id}
               onClick={() => onSelectUnit && onSelectUnit(u)}
               style={{ height: "40px" }}
-              className={`w-full h-[40px] shrink-0 grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 cursor-pointer transition-colors ${
-                isSelected ? "bg-white/10" : "hover:bg-white/5"
-              }`}
+              className={`w-full h-[40px] shrink-0 grid grid-cols-5 text-sm sm:text-base font-normal text-[var(--theme-inventory-tab-default-text)] items-center py-2 cursor-pointer transition-colors ${isSelected ? "bg-white/10" : "hover:bg-white/5"
+                }`}
             >
               <span className="col-span-1 text-center flex items-center justify-center font-medium whitespace-nowrap">
                 {u.unitNo ? u.unitNo.replace(/^Unit\s*(?:No\.?)?\s*/i, "") : ""}

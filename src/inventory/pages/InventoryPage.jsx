@@ -26,7 +26,7 @@ function InventoryPage() {
   const showDesktopFilterView = isFilterOpen && isDesktop;
 
   return (
-    <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-[var(--theme-inventory-img-bg)] select-none">
+    <div className="fixed inset-0 h-full w-full overflow-hidden flex flex-col justify-between bg-[var(--theme-inventory-img-bg)] select-none">
       {/* Main Content Area */}
       <main className="relative flex-1 min-h-0 w-full flex flex-col overflow-hidden">
         {!showDesktopFilterView ? <InventoryIntroView /> : <InventoryFilterView />}

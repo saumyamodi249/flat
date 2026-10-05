@@ -18,7 +18,7 @@ function AmenityPage() {
 
       {/* Main Content Area: Modal anchored to bottom, starting right below mobile header (~115px) */}
       <main className="relative z-20 flex-1 flex flex-col justify-end items-center px-0 sm:px-[50px] pt-[140px] sm:pt-4 pb-[52px] md:pb-[56px] w-full max-w-full min-h-0 overflow-hidden">
-        <div className="w-full max-w-8xl h-full sm:rounded-t-[10px] rounded-b-none backdrop-blur-md px-4 sm:px-[40px] pt-4 sm:pt-[30px] pb-3 sm:pb-[30px] border-b-0 bg-[var(--theme-amenity-bg,#002E2D)] flex flex-col gap-4 sm:gap-[30px] min-h-0 overflow-hidden shadow-2xl">
+        <div className="w-full max-w-8xl h-full sm:rounded-t-[10px] rounded-b-none backdrop-blur-md px-4 sm:px-[40px] pt-4 sm:pt-[30px] pb-3 sm:pb-[30px] border-b-0 bg-[var(--theme-amenity-bg)] flex flex-col gap-4 sm:gap-[30px] min-h-0 overflow-hidden shadow-2xl">
           {/* Mobile Header: Title + Close Icon inside card */}
           <div className="flex sm:hidden items-center justify-between  shrink-0 mb-2">
             <h2 className="text-base font-semibold tracking-wide text-white">

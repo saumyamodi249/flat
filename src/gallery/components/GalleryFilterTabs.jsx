@@ -13,8 +13,8 @@ function GalleryFilterTabs({ activeCategory = "interior", onSelectCategory }) {
             onClick={() => onSelectCategory(cat.id)}
             className={`px-5 sm:px-6 py-1.5 sm:py-2 rounded-[10px] text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer select-none ${
               isActive
-                ? "bg-[var(--theme-gallery-tab-selected-bg,#C09973)] text-[var(--theme-gallery-tab-selected-text,#FFFFFF)] shadow-md font-semibold"
-                : "bg-transparent text-[var(--theme-gallery-tab-default-text,#FFFFFF)]/85 hover:text-[var(--theme-gallery-tab-hover-text,#F7E4CF)]"
+                ? "bg-[var(--theme-gallery-tab-selected-bg)] text-[var(--theme-gallery-tab-selected-text)] shadow-md font-semibold"
+                : "bg-transparent text-[var(--theme-gallery-tab-default-text)]/85 hover:text-[var(--theme-gallery-tab-hover-text)]"
             }`}
           >
             {cat.label}

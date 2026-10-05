@@ -18,7 +18,7 @@ function InventoryFilterView() {
   return (
     <div className="relative w-full h-full flex flex-col lg:flex-row overflow-hidden">
       {/* LEFT FILTER PANEL (40% Width) */}
-      <div className="w-full lg:w-[40%] h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main,#071B11)] border-r border-white/10">
+      <div className="w-full lg:w-[40%] h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main)] border-r border-white/10">
         {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Sticky) */}
         <div className="shrink-0 flex items-center justify-between px-[30px] pt-[30px] pb-[20px]">
           <img
@@ -65,11 +65,11 @@ function InventoryFilterView() {
         </div>
 
         {/* Left Panel Scrollable Container — Scroll starts below the sticky Filter Bar */}
-        <div className="flex-1 min-h-0 w-full flex flex-col overflow-y-auto scrollbar-none">
+        <div className="flex-1 min-h-0 w-full flex flex-col overflow-y-auto scrollbar-none pb-0 gap-5">
           {/* Filter Controls (Property Type, Exposure, Status, Area Range) powered by Zustand */}
-          <InventoryFilterControls className="shrink-0 px-[50px] pb-6 min-h-[calc(100dvh-240px)]" />
+          <InventoryFilterControls className="shrink-0 px-[30px] sm:px-[50px]" />
 
-          {/* Flat Option: Table Area (Exactly 5 flats visible, isolated inner scroll) */}
+          {/* Flat Option: Table Area (Full width across left panel for wide column gap, no bottom padding) */}
           <InventoryTable
             units={filteredUnits}
             activeUnit={activeUnit}

@@ -77,7 +77,7 @@ function InventoryIntroView() {
           className="w-10 h-10 rounded-full border border-white/30 bg-black/25 backdrop-blur-md flex items-center justify-center text-white hover:text-white transition-all cursor-pointer shadow-lg active:scale-90"
         >
           {activeUnit?.isFavorite ? (
-            <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart,#FF4D4F)]" />
+            <FaHeart className="w-4 h-4 text-[var(--theme-inventory-heart)]" />
           ) : (
             <FaRegHeart className="w-4 h-4" />
           )}

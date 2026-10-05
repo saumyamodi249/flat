@@ -82,8 +82,8 @@ function MobileFilterModal(props) {
                   onClick={() => setSelectedPropertyType(type)}
                   className={`flex-1 py-2 px-2 sm:px-4 rounded-[8px] sm:rounded-[10px] text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer text-center whitespace-nowrap active:scale-95 ${
                     isSelected
-                      ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-white shadow-sm"
-                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)] hover:bg-white/10"
+                      ? "bg-[var(--theme-inventory-tab-selected-bg)] text-white shadow-sm"
+                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)] hover:bg-white/10"
                   }`}
                 >
                   {type}
@@ -108,8 +108,8 @@ function MobileFilterModal(props) {
                   onClick={() => setSelectedExposure(exp)}
                   className={`flex-1 py-2 px-2 sm:px-4 rounded-[8px] sm:rounded-[10px] text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer text-center active:scale-95 ${
                     isSelected
-                      ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-white shadow-sm"
-                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)] hover:bg-white/10"
+                      ? "bg-[var(--theme-inventory-tab-selected-bg)] text-white shadow-sm"
+                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)] hover:bg-white/10"
                   }`}
                 >
                   {exp}
@@ -134,8 +134,8 @@ function MobileFilterModal(props) {
                   onClick={() => setSelectedStatus(status)}
                   className={`flex-1 py-2 px-1.5 sm:px-3 rounded-[8px] sm:rounded-[10px] text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer text-center whitespace-nowrap active:scale-95 ${
                     isSelected
-                      ? "bg-[var(--theme-inventory-tab-selected-bg,#C09973)] text-white shadow-sm"
-                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)] hover:bg-white/10"
+                      ? "bg-[var(--theme-inventory-tab-selected-bg)] text-white shadow-sm"
+                      : "text-[var(--theme-inventory-tab-default-text)] hover:text-[var(--theme-inventory-tab-hover-text)] hover:bg-white/10"
                   }`}
                 >
                   {status}
@@ -157,7 +157,7 @@ function MobileFilterModal(props) {
           <button
             type="button"
             onClick={onClearAll}
-            className="text-white hover:text-[var(--theme-inventory-tab-hover-text,#F7E4CF)] hover:bg-white/5 active:scale-95 px-4 py-2.5 rounded-[10px] text-sm font-medium cursor-pointer transition-all"
+            className="text-white hover:text-[var(--theme-inventory-tab-hover-text)] hover:bg-white/5 active:scale-95 px-4 py-2.5 rounded-[10px] text-sm font-medium cursor-pointer transition-all"
           >
             Clear all
           </button>

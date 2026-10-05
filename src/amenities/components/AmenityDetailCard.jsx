@@ -6,7 +6,7 @@ function AmenityDetailCard({ amenity, onOpenModal }) {
   const iconSrc = amenity.icon || AMENITY_ICONS[amenity.id];
 
   return (
-    <div className="w-[300px] sm:w-[325px] bg-[var(--theme-amenity-bg,#002E2D)]/90 backdrop-blur-md border border-[var(--theme-amenity-border)]/30 rounded-[14px] p-4 text-[var(--theme-amenity-text)] shadow-2xl transition-all duration-300 pointer-events-auto select-none animate-fadeIn">
+    <div className="w-[300px] sm:w-[325px] bg-[var(--theme-amenity-bg)]/90 backdrop-blur-md border border-[var(--theme-amenity-border)]/30 rounded-[14px] p-4 text-[var(--theme-amenity-text)] shadow-2xl transition-all duration-300 pointer-events-auto select-none animate-fadeIn">
       {/* Amenity Title */}
       <h3 className="text-xl font-semibold text-[var(--theme-amenity-text)] tracking-tight leading-snug truncate">
         {amenity.label || amenity.name}
@@ -27,7 +27,7 @@ function AmenityDetailCard({ amenity, onOpenModal }) {
               WebkitMaskRepeat: "no-repeat",
               maskPosition: "center",
               WebkitMaskPosition: "center",
-              backgroundColor: "var(--theme-amenity-border, #C09973)",
+              backgroundColor: "var(--theme-amenity-border)",
             }}
           />
         )}
@@ -44,7 +44,7 @@ function AmenityDetailCard({ amenity, onOpenModal }) {
         <button
           type="button"
           onClick={() => onOpenModal(amenity)}
-          className="w-full py-2.5 px-4 rounded-[8px] bg-[var(--theme-amenity-button-selected-bg,#C09973)] hover:opacity-90 active:scale-[0.98] text-[var(--theme-amenity-left)] flex items-center justify-center gap-2 transition-all cursor-pointer font-medium text-sm shadow-sm"
+          className="w-full py-2.5 px-4 rounded-[8px] bg-[var(--theme-amenity-button-selected-bg)] hover:opacity-90 active:scale-[0.98] text-[var(--theme-amenity-left)] flex items-center justify-center gap-2 transition-all cursor-pointer font-medium text-sm shadow-sm"
         >
           View Fullscreen
         </button>

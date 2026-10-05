@@ -21,10 +21,10 @@ function AmenityModal({ amenity, onClose }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-5xl h-[80vh] max-h-[750px] bg-[var(--theme-amenity-bg,#002E2D)] border border-[var(--theme-amenity-border)]/50 rounded-[14px] shadow-2xl overflow-hidden flex flex-col cursor-default"
+        className="relative w-full max-w-5xl h-[80vh] max-h-[750px] bg-[var(--theme-amenity-bg)] border border-[var(--theme-amenity-border)]/50 rounded-[14px] shadow-2xl overflow-hidden flex flex-col cursor-default"
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--theme-amenity-border)]/30 bg-[var(--theme-amenity-bg,#002E2D)]">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--theme-amenity-border)]/30 bg-[var(--theme-amenity-bg)]">
           <div className="flex items-center gap-3">
             <h4 className="text-[var(--theme-amenity-text)] font-semibold text-base flex items-center gap-2">
               <span>{amenity.label}</span>

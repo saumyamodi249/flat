@@ -27,7 +27,7 @@ function GalleryView() {
             <div
               key={item.id}
               onClick={() => setSelectedItem(item)}
-              className={`relative overflow-hidden rounded-[10px] border border-white/10  shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border,#C09973)]/60 ${item.rowSpan || "row-span-1"
+              className={`relative overflow-hidden rounded-[10px] border border-white/10  shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border)]/60 ${item.rowSpan || "row-span-1"
                 } ${item.colSpan || "col-span-1"} min-h-[180px] md:min-h-0`}
             >
               <img

@@ -6,11 +6,19 @@
   --font-poppins: 'Poppins', sans-serif;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 *,
 *::before,
 *::after,
-html,
-body,
 input,
 button,
 textarea,
@@ -203,7 +211,7 @@ select {
 
 /* Terms of Service & Privacy Policy */
 .theme-terms-policy-link {
-  color: var(--theme-terms-conditions-white, #FFFFFF);
+  color: var(--theme-terms-conditions-white);
   text-decoration: underline;
   font-weight: 500;
   cursor: pointer;
@@ -218,12 +226,12 @@ select {
 /* When selected: full 100% opacity light blue (hover won't dim it) */
 .theme-terms-policy-link.selected,
 .theme-terms-policy-link.selected:hover {
-  color: var(--theme-terms-conditions-selected, #addef7) !important;
+  color: var(--theme-terms-conditions-selected) !important;
   opacity: 1 !important;
 }
 
 .theme-terms-policy-link::selection {
-  color: var(--theme-terms-conditions-selected, #addef7);
+  color: var(--theme-terms-conditions-selected);
 }
 
 /* Universally hide Google Maps bottom bar (Keyboard shortcuts, Terms, Map data, Report error) and Google logo */

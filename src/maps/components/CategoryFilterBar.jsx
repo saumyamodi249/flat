@@ -137,8 +137,8 @@ function CategoryFilterBar({ categories }) {
                     maskPosition: "center",
                     WebkitMaskPosition: "center",
                     backgroundColor: isActive
-                      ? "var(--theme-icon-selected-color, #F7E4CF)"
-                      : "var(--theme-icon-color, #C09973)",
+                      ? "var(--theme-icon-selected-color)"
+                      : "var(--theme-icon-color)",
                   }}
                 />
               ) : null}
@@ -152,7 +152,7 @@ function CategoryFilterBar({ categories }) {
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center justify-end pl-8 pr-0 pointer-events-none z-10 w-[140px]"
         style={{
-          background: "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-map-bg, #002E2D) 85%, var(--theme-map-bg, #002E2D) 100%)",
+          background: "linear-gradient(90deg, rgba(0, 46, 45, 0) 0%, rgba(0, 46, 45, 0.75) 45%, var(--theme-map-bg) 85%, var(--theme-map-bg) 100%)",
         }}
       >
         {/* Carousel Navigation Arrows (Exact 30x30 circles matching design) */}
