@@ -1,7 +1,15 @@
 import { useRef, useEffect, useState } from "react";
 import { inventoryAreaRange, inventoryUI } from "../data";
+import useInventoryStore from "../store/useInventoryStore";
 
-function AreaRangeSlider({ minArea, maxArea, setMinArea, setMaxArea, className = "" }) {
+function AreaRangeSlider(props) {
+  const store = useInventoryStore();
+  const minArea = props.minArea ?? store.minArea;
+  const maxArea = props.maxArea ?? store.maxArea;
+  const setMinArea = props.setMinArea ?? store.setMinArea;
+  const setMaxArea = props.setMaxArea ?? store.setMaxArea;
+  const className = props.className || "";
+
   const [focusedThumb, setFocusedThumb] = useState("min");
 
   // Computed range values and percentages for dual slider

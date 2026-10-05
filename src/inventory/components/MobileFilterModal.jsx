@@ -4,19 +4,21 @@ import {
   inventoryExposures,
   inventoryPropertyStatuses,
 } from "../data";
+import useInventoryStore from "../store/useInventoryStore";
 
-function MobileFilterModal({
-  isOpen,
-  onClose,
-  selectedPropertyType,
-  setSelectedPropertyType,
-  selectedExposure,
-  setSelectedExposure,
-  selectedStatus,
-  setSelectedStatus,
-  onShowFlats,
-  onClearAll,
-}) {
+function MobileFilterModal(props) {
+  const store = useInventoryStore();
+  const isOpen = props.isOpen ?? store.isMobileFilterOpen;
+  const onClose = props.onClose ?? (() => store.setIsMobileFilterOpen(false));
+  const selectedPropertyType = props.selectedPropertyType ?? store.selectedPropertyType;
+  const setSelectedPropertyType = props.setSelectedPropertyType ?? store.setSelectedPropertyType;
+  const selectedExposure = props.selectedExposure ?? store.selectedExposure;
+  const setSelectedExposure = props.setSelectedExposure ?? store.setSelectedExposure;
+  const selectedStatus = props.selectedStatus ?? store.selectedStatus;
+  const setSelectedStatus = props.setSelectedStatus ?? store.setSelectedStatus;
+  const onShowFlats = props.onShowFlats ?? store.handleShowFlats;
+  const onClearAll = props.onClearAll ?? store.handleClearAllMobile;
+
   if (!isOpen) return null;
 
   return (

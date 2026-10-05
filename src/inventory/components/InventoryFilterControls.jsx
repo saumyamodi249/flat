@@ -5,20 +5,21 @@ import {
   inventoryUI,
 } from "../data";
 import AreaRangeSlider from "./AreaRangeSlider";
+import useInventoryStore from "../store/useInventoryStore";
 
-function InventoryFilterControls({
-  selectedPropertyType,
-  setSelectedPropertyType,
-  selectedExposure,
-  setSelectedExposure,
-  selectedStatus,
-  setSelectedStatus,
-  minArea,
-  setMinArea,
-  maxArea,
-  setMaxArea,
-  className = "",
-}) {
+function InventoryFilterControls(props) {
+  const store = useInventoryStore();
+  const selectedPropertyType = props.selectedPropertyType ?? store.selectedPropertyType;
+  const setSelectedPropertyType = props.setSelectedPropertyType ?? store.setSelectedPropertyType;
+  const selectedExposure = props.selectedExposure ?? store.selectedExposure;
+  const setSelectedExposure = props.setSelectedExposure ?? store.setSelectedExposure;
+  const selectedStatus = props.selectedStatus ?? store.selectedStatus;
+  const setSelectedStatus = props.setSelectedStatus ?? store.setSelectedStatus;
+  const minArea = props.minArea ?? store.minArea;
+  const setMinArea = props.setMinArea ?? store.setMinArea;
+  const maxArea = props.maxArea ?? store.maxArea;
+  const setMaxArea = props.setMaxArea ?? store.setMaxArea;
+  const className = props.className || "";
   return (
     <div className={`flex flex-col gap-4 sm:gap-5 ${className}`}>
       <div className="flex flex-col gap-8">
