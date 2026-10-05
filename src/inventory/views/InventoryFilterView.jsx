@@ -105,7 +105,11 @@ function InventoryFilterView() {
 
         {/* 3D Isometric Building Perspective */}
         <div className="w-full h-full flex items-center justify-center p-4">
-          <img
+          <motion.img
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.7 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
             src={inventoryUI.buildingSrc}
             alt={inventoryUI.buildingAlt}
             className="w-auto h-[82%] max-w-[95%] object-contain drop-shadow-2xl"

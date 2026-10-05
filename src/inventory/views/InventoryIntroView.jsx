@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { CiCircleChevRight, CiCircleChevDown } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import InventoryPageDetail from "../pages/InventoryPageDetail";
@@ -105,10 +106,14 @@ function InventoryIntroView() {
 
       {/* Central 3D Building Perspective on Wireframe Floor */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4 pt-10 sm:pt-6 lg:pt-0 pb-10 sm:pb-12 lg:pb-0">
-        <img
+        <motion.img
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.7 }}
+          transition={{ duration: 1.8, ease: "easeInOut" }}
           src={inventoryUI.buildingSrc}
           alt={inventoryUI.buildingAlt}
-          className="w-auto h-[82%] sm:h-[77%] lg:h-[84%] max-h-[72vh] sm:max-h-[80vh] lg:max-h-none max-w-[92%] sm:max-w-[95%] object-contain drop-shadow-2xl transition-all duration-300"
+          className="w-auto h-[82%] sm:h-[77%] lg:h-[84%] max-h-[72vh] sm:max-h-[80vh] lg:max-h-none max-w-[92%] sm:max-w-[95%] object-contain drop-shadow-2xl"
         />
       </div>
 
