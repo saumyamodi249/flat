@@ -20,6 +20,7 @@ function HomePage() {
   const { coords, isApproximate } = useGeoLocation();
   const [activeLayer, setActiveLayer] = useState(null);
   const [isUrbanDrawerOpen, setIsUrbanDrawerOpen] = useState(false);
+  const [initialImageAdjusted, setInitialImageAdjusted] = useState(false);
   const { ref: buildingImageRef } = usePanZoom({
     minScale: 1,
     maxScale: 10,
@@ -30,26 +31,45 @@ function HomePage() {
       {/* Background images — Building.png (default) or Iscon circle.png (when layer active) with pan and zoom */}
       <div
         ref={buildingImageRef}
-        className={`absolute inset-0 w-full h-full select-none touch-none ${
-          isSubpageActive ? "pointer-events-none" : ""
-        }`}
+        className={`absolute inset-0 w-full h-full select-none touch-none ${isSubpageActive ? "pointer-events-none" : ""
+          }`}
       >
-        <img
-          src="/UI IMG/Building.png"
-          alt="Riviera Select property"
-          draggable={false}
-          className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${
-            activeLayer ? "opacity-0 pointer-events-none" : "opacity-100"
-          } ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""}`}
-        />
-        <img
-          src="/UI IMG/Iscon circle.png"
-          alt="Iscon Circle urban layer view"
-          draggable={false}
-          className={`absolute inset-0 w-full h-full object-cover select-none transition-all duration-500 ease-in-out ${
-            activeLayer ? "opacity-100" : "opacity-0 pointer-events-none"
-          } ${isSubpageActive ? "blur-[3px] opacity-65 brightness-65 pointer-events-none" : ""}`}
-        />
+        <AnimatePresence>
+          {!activeLayer ? (
+            <motion.img
+              key="building-view"
+              src="/UI IMG/Building.png"
+              alt="Riviera Select property"
+              draggable={false}
+              initial={{ opacity: 0, scale: 2 }}
+              animate={{
+                opacity: isSubpageActive ? 0.65 : 1,
+                scale: 1,
+              }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+              transition={{ duration: 1.8, ease: "easeInOut" }}
+              onAnimationComplete={() => setInitialImageAdjusted(true)}
+              className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter] duration-500 ${isSubpageActive ? "blur-[3px] brightness-65" : ""
+                }`}
+            />
+          ) : (
+            <motion.img
+              key="iscon-circle-view"
+              src="/UI IMG/Iscon circle.png"
+              alt="Iscon Circle urban layer view"
+              draggable={false}
+              initial={{ opacity: 0, scale: 3.75 }}
+              animate={{
+                opacity: isSubpageActive ? 0.65 : 1,
+                scale: 1,
+              }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+              transition={{ duration: 1.8, ease: "easeInOut" }}
+              className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter] duration-500 ${isSubpageActive ? "blur-[3px] brightness-65" : ""
+                }`}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ================= TOP BAR ================= */}
@@ -113,34 +133,62 @@ function HomePage() {
           </Link>
         </div>
 
-        {/* Top Right: WeatherCard on Home (only when subpage is NOT active) */}
+        {/* Top Right: WeatherCard on Home (only when subpage is NOT active) - Slides up to original after image settles */}
         <div className="self-auto">
-          {!isSubpageActive && (
-            <WeatherCard
-              lat={coords.lat}
-              lon={coords.lon}
-              isApproximate={isApproximate}
-              variant="desktop"
-            />
-          )}
+          <AnimatePresence>
+            {!isSubpageActive && (
+              <motion.div
+                key="desktop-weather-card"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 30, opacity: 0, transition: { duration: 0.3 } }}
+                transition={{
+                  duration: 1.8,
+                  ease: "easeInOut",
+                  delay: initialImageAdjusted ? 0.2 : 1.8,
+                }}
+              >
+                <WeatherCard
+                  lat={coords.lat}
+                  lon={coords.lon}
+                  isApproximate={isApproximate}
+                  variant="desktop"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* ================= DESKTOP FLOATING URBAN DATA LAYERS — Only on Home page ================= */}
-      {!isSubpageActive && (
-        <div
-          className="relative z-10 flex-1 hidden sm:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none transition-all duration-300"
-        >
-          <div className="pointer-events-auto">
-            <UrbanDataLayers
-              lat={coords.lat}
-              lon={coords.lon}
-              activeLayer={activeLayer}
-              onLayerChange={setActiveLayer}
-            />
-          </div>
-        </div>
-      )}
+      {/* ================= DESKTOP FLOATING URBAN DATA LAYERS — Only on Home page - Slides up to original after image settles ================= */}
+      <AnimatePresence>
+        {!isSubpageActive && (
+          <motion.div
+            key="desktop-urban-layers-container"
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            className="relative z-10 flex-1 hidden sm:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none"
+          >
+            <motion.div
+              key="desktop-urban-layers-card"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 1.8,
+                ease: "easeInOut",
+                delay: initialImageAdjusted ? 0.2 : 1.8,
+              }}
+              className="pointer-events-auto"
+            >
+              <UrbanDataLayers
+                lat={coords.lat}
+                lon={coords.lon}
+                activeLayer={activeLayer}
+                onLayerChange={setActiveLayer}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Atmospheric dark overlay sitting at z-20 above all home elements */}
       {isSubpageActive && (
@@ -199,11 +247,10 @@ function HomePage() {
                           setActiveLayer(isActive ? null : layer.id);
                         }}
                         aria-pressed={isActive}
-                        className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${
-                          isActive
-                            ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
-                            : "bg-transparent hover:bg-[var(--theme-blur-layer)]/80 hover:shadow-lg hover:shadow-black/20 active:bg-[var(--theme-blur-layer)]/80 active:shadow-lg active:shadow-black/20 text-white/80 hover:text-white border border-transparent"
-                        }`}
+                        className={`group relative flex flex-col items-center justify-center p-[10px] rounded-2xl transition-all duration-300 ease-out cursor-pointer min-h-[98px] focus:outline-none ${isActive
+                          ? "bg-[var(--theme-blur-layer)]/80 text-white shadow-lg shadow-black/20 border border-transparent"
+                          : "bg-transparent hover:bg-[var(--theme-blur-layer)]/80 hover:shadow-lg hover:shadow-black/20 active:bg-[var(--theme-blur-layer)]/80 active:shadow-lg active:shadow-black/20 text-white/80 hover:text-white border border-transparent"
+                          }`}
                       >
                         {/* Label on Top */}
                         <span className="text-sm font-semibold tracking-tight text-center text-white mb-2.5">
@@ -215,9 +262,8 @@ function HomePage() {
                           <img
                             src={layer.imgSrc}
                             alt={layer.label}
-                            className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${
-                              isActive ? "scale-110" : "group-hover:scale-105"
-                            }`}
+                            className={`h-7 sm:h-8 w-auto max-w-[36px] object-contain select-none transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"
+                              }`}
                             onError={(e) => {
                               if (!e.currentTarget.src.includes("UrbanDataLayers")) {
                                 e.currentTarget.src = layer.imgSrc.replace(
