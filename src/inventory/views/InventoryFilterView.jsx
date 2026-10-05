@@ -18,11 +18,12 @@ function InventoryFilterView() {
 
   return (
     <div className="relative w-full h-full flex flex-col lg:flex-row overflow-hidden">
-      {/* LEFT FILTER PANEL (40% Width) */}
+      {/* LEFT FILTER PANEL (40% Width) - Slides in slowly and gracefully from left to current position */}
       <motion.div
         initial={{ x: "-100%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        exit={{ x: "-100%", opacity: 0 }}
+        transition={{ duration: 1.8, ease: "easeInOut" }}
         className="w-full lg:w-[40%] h-full flex flex-col z-30 bg-[var(--theme-inventory-bg-main)] border-r border-white/10"
       >
         {/* Filter Top Header: Riviera Select Logo + Collapse Chevron Left (Sticky) */}
@@ -88,7 +89,7 @@ function InventoryFilterView() {
       {/* RIGHT BUILDING AREA (60% Width) */}
       <div className="w-full lg:w-[60%] h-full relative flex items-center justify-center overflow-hidden bg-[var(--theme-inventory-img-bg)]">
         {/* Top-Right Favorite Circle Button */}
-        <div className="hidden lg:block absolute top-[30px] right-[30px] z-30">
+        <div className="hidden lg:block absolute top-[30px] right-4 lg:right-5 z-30">
           <button
             type="button"
             aria-label={inventoryUI.wishlistAria}
@@ -103,8 +104,8 @@ function InventoryFilterView() {
           </button>
         </div>
 
-        {/* 3D Isometric Building Perspective */}
-        <div className="w-full h-full flex items-center justify-center p-4">
+        {/* 3D Isometric Building Perspective - Small to Big like default view, shifted slightly left */}
+        <div className="w-full h-full flex items-center justify-center p-4 lg:-translate-x-10">
           <motion.img
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -112,17 +113,23 @@ function InventoryFilterView() {
             transition={{ duration: 1.8, ease: "easeInOut" }}
             src={inventoryUI.buildingSrc}
             alt={inventoryUI.buildingAlt}
-            className="w-auto h-[82%] max-w-[95%] object-contain drop-shadow-2xl"
+            className="w-auto h-[93%] max-w-[98%] object-contain drop-shadow-2xl"
           />
         </div>
 
-        {/* Right Floating Unit Card (VIEW 2) */}
-        <div className="hidden lg:block absolute top-[90px] right-[30px] z-30 pointer-events-auto">
+        {/* Right Floating Unit Card (VIEW 2) - Enters from right slowly and gracefully */}
+        <motion.div
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 100, opacity: 0 }}
+          transition={{ duration: 1.8, ease: "easeInOut" }}
+          className="hidden lg:block absolute top-[90px] right-4 lg:right-5 z-30 pointer-events-auto"
+        >
           <InventoryPageDetail
             unit={activeUnit}
             onToggleFavorite={toggleFavoriteUnit}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

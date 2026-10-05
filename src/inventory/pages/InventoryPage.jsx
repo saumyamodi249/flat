@@ -30,14 +30,14 @@ function InventoryPage() {
     <div className="fixed inset-0 h-full w-full overflow-hidden flex flex-col justify-between bg-[var(--theme-inventory-img-bg)] select-none">
       {/* Main Content Area */}
       <main className="relative flex-1 min-h-0 w-full flex flex-col overflow-hidden">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {!showDesktopFilterView ? (
             <motion.div
               key="intro"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.2 }}
               className="w-full h-full flex flex-col"
             >
               <InventoryIntroView />
@@ -45,10 +45,7 @@ function InventoryPage() {
           ) : (
             <motion.div
               key="filter"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
               className="w-full h-full flex flex-col"
             >
               <InventoryFilterView />
