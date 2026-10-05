@@ -14,6 +14,9 @@ function HomePage() {
   const location = useLocation();
   const isSubpageActive = location.pathname !== "/home" && location.pathname !== "/";
   const isContactPage = location.pathname.startsWith("/contact");
+  const isOtherSubpageActive = isSubpageActive && !isContactPage;
+  const subpageKey = location.pathname.split("/")[1] || "subpage";
+  const isGoingHome = location.pathname === "/home" || location.pathname === "/";
   const { coords, isApproximate } = useGeoLocation();
   const [activeLayer, setActiveLayer] = useState(null);
   const [isUrbanDrawerOpen, setIsUrbanDrawerOpen] = useState(false);
@@ -235,39 +238,49 @@ function HomePage() {
         )}
       </AnimatePresence>
 
-      {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About, Contact) - Slides up from bottom */}
+      {/* Contact Modal Canvas — Fade & Scale only, ZERO down-to-up motion */}
       <AnimatePresence>
-        {isSubpageActive && (
+        {isContactPage && (
           <motion.div
-            key="subpage-canvas"
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "100%", opacity: 0 }}
-            transition={{
-              duration: 0.88,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            key="contact-canvas"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
             className="fixed inset-0 z-30 flex flex-col pointer-events-auto"
           >
-            <motion.div
-              key={location.pathname.split("/")[1] || "subpage"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.25 }}
-              className="w-full h-full flex flex-col"
-            >
-              <Outlet />
-            </motion.div>
+            <Outlet />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Bottom Nav on Home */}
-      {!isSubpageActive && (
-        <div className="relative w-full z-40 shrink-0">
-          <BottomNav />
-        </div>
-      )}
+      {/* Subpage Modal Canvas (Amenities, Gallery, Maps, About) - Slides up from bottom on EVERY page navigation */}
+      <AnimatePresence>
+        {isOtherSubpageActive && (
+          <motion.div
+            key={subpageKey}
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={
+              isGoingHome
+                ? { y: "100%", opacity: 0 }
+                : { opacity: 0, transition: { duration: 0.22 } }
+            }
+            transition={{
+              duration: 0.58,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="fixed inset-0 z-30 flex flex-col pointer-events-auto"
+          >
+            <Outlet />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom Navigation — Permanently fixed at bottom, ZERO Framer Motion */}
+      <div className="relative w-full z-40 shrink-0">
+        <BottomNav />
+      </div>
     </div>
   );
 }

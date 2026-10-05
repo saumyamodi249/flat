@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import BottomNav from "../../components/BottomNav";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 // ================= VALIDATION REGEX =================
@@ -66,8 +65,20 @@ function ContactPage() {
 
 
       {/* Main Content Area: Modal centered on desktop/tablet (Image 1), anchored to bottom on mobile */}
-      <main className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-4 pb-[52px] sm:pb-0 w-full max-w-full min-h-0 overflow-hidden">
-        <div className="w-full max-w-lg sm:max-w-xl rounded-t-[20px] rounded-b-none sm:rounded-2xl backdrop-blur-md px-5 sm:px-8 pt-5 sm:pt-7 pb-4 sm:pb-7 shadow-2xl border-b-0 sm:border border-white/10 bg-[var(--theme-box-bg)] flex flex-col min-h-0">
+      <main
+        onClick={(e) => {
+          if (e.target === e.currentTarget) navigate("/home");
+        }}
+        className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-4 pb-[52px] sm:pb-0 w-full max-w-full min-h-0 overflow-hidden"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.7 }}
+          transition={{ duration: 1.8, ease: "easeInOut" }}
+          onClick={(e) => e.stopPropagation()}
+          className="w-full max-w-lg sm:max-w-xl rounded-t-[20px] rounded-b-none sm:rounded-2xl backdrop-blur-md px-5 sm:px-8 pt-5 sm:pt-7 pb-4 sm:pb-7 shadow-2xl border-b-0 sm:border border-white/10 bg-[var(--theme-box-bg)] flex flex-col min-h-0"
+        >
           
           {/* --- MOBILE HEADER (< sm) --- */}
           <div className="flex sm:hidden items-center justify-between w-full shrink-0">
@@ -80,7 +91,7 @@ function ContactPage() {
               type="button"
               onClick={() => navigate("/home")}
               aria-label="Close Contact Us"
-              className="text-[var(--theme-cancel)] cursor-pointer p-0.5"
+              className="text-[var(--theme-cancel)] cursor-pointer p-0.5 hover:opacity-75 active:scale-90 transition-all"
             >
               <IoCloseCircleOutline className="w-6 h-6" />
             </button>
@@ -98,7 +109,7 @@ function ContactPage() {
               type="button"
               onClick={() => navigate("/home")}
               aria-label="Close Contact Us"
-              className="text-[var(--theme-cancel)] cursor-pointer p-0.5"
+              className="text-[var(--theme-cancel)] cursor-pointer p-0.5 hover:opacity-75 active:scale-90 transition-all"
             >
               <IoCloseCircleOutline className="w-7 h-7" />
             </button>
@@ -236,13 +247,10 @@ function ContactPage() {
               </div>
             </form>
           )}
-        </div>
+        </motion.div>
       </main>
 
-      {/* Bottom Navigation */}
-      <footer className="relative w-full z-40 shrink-0">
-        <BottomNav />
-      </footer>
+
     </div>
   );
 }

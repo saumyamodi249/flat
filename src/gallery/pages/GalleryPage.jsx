@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import TopNav from "../../components/TopNav";
-import BottomNav from "../../components/BottomNav";
 import GalleryTabs from "./GalleryTabs";
 
 function GalleryPage() {
@@ -45,10 +44,7 @@ function GalleryPage() {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
-      <footer className="relative w-full z-40 shrink-0">
-        <BottomNav />
-      </footer>
+
     </div>
   );
 }
