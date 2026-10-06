@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import { CATEGORY_ICONS } from "../data";
 
 function CategoryFilterBar({ categories }) {
@@ -29,6 +28,19 @@ function CategoryFilterBar({ categories }) {
       if (width > 0) {
         setWidthRef.current = width;
       }
+    }
+  };
+
+  // Infinite 360 scroll wrap handler: ensures scroll never ends in either direction
+  const normalizeScrollPosition = () => {
+    const el = scrollRef.current;
+    const setWidth = setWidthRef.current;
+    if (!el || !setWidth || setWidth <= 0) return;
+
+    if (el.scrollLeft >= 3 * setWidth) {
+      el.scrollLeft -= setWidth;
+    } else if (el.scrollLeft <= setWidth) {
+      el.scrollLeft += setWidth;
     }
   };
 
@@ -99,19 +111,6 @@ function CategoryFilterBar({ categories }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [categories]);
-
-  // Infinite 360 scroll wrap handler: ensures scroll never ends in either direction
-  const normalizeScrollPosition = () => {
-    const el = scrollRef.current;
-    const setWidth = setWidthRef.current;
-    if (!el || !setWidth || setWidth <= 0) return;
-
-    if (el.scrollLeft >= 3 * setWidth) {
-      el.scrollLeft -= setWidth;
-    } else if (el.scrollLeft <= setWidth) {
-      el.scrollLeft += setWidth;
-    }
-  };
 
   const handleScroll = () => {
     const el = scrollRef.current;

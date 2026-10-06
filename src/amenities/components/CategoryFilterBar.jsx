@@ -30,6 +30,19 @@ function CategoryFilterBar({ categories }) {
     }
   };
 
+  // Infinite 360 scroll wrap handler: ensures scroll never ends in either direction
+  const normalizeScrollPosition = () => {
+    const el = scrollRef.current;
+    const setWidth = setWidthRef.current;
+    if (!el || !setWidth || setWidth <= 0) return;
+
+    if (el.scrollLeft >= 3 * setWidth) {
+      el.scrollLeft -= setWidth;
+    } else if (el.scrollLeft <= setWidth) {
+      el.scrollLeft += setWidth;
+    }
+  };
+
   // Perform one complete circular chakkar:
   // Glides smoothly through every amenity category and lands right back at the start
   const runCircularChakkar = () => {
@@ -97,19 +110,6 @@ function CategoryFilterBar({ categories }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [categories]);
-
-  // Infinite 360 scroll wrap handler: ensures scroll never ends in either direction
-  const normalizeScrollPosition = () => {
-    const el = scrollRef.current;
-    const setWidth = setWidthRef.current;
-    if (!el || !setWidth || setWidth <= 0) return;
-
-    if (el.scrollLeft >= 3 * setWidth) {
-      el.scrollLeft -= setWidth;
-    } else if (el.scrollLeft <= setWidth) {
-      el.scrollLeft += setWidth;
-    }
-  };
 
   const handleScroll = () => {
     const el = scrollRef.current;

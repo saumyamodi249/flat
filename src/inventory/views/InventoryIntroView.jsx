@@ -119,6 +119,8 @@ function InventoryIntroView() {
           transition={{ duration: 1.8, ease: "easeInOut" }}
           src={inventoryUI.buildingSrc}
           alt={inventoryUI.buildingAlt}
+          loading="eager"
+          decoding="async"
           className="w-auto h-[88%] sm:h-[88%] lg:h-[84%] max-h-[78vh] sm:max-h-[82vh] lg:max-h-none max-w-[94%] sm:max-w-[95%] object-contain drop-shadow-2xl"
         />
       </div>

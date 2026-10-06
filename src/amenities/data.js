@@ -423,16 +423,6 @@ export const AMENITIES_LIST = [
   },
 ];
 
-export const amenityCategories = AMENITIES_LIST;
-
-export const AMENITY_ICONS = Object.fromEntries(
-  AMENITIES_LIST.map((item) => [item.id, item.icon])
-);
-
-export const AMENITY_PHOTOS = Object.fromEntries(
-  AMENITIES_LIST.map((item) => [item.id, item.photo || item.img])
-);
-
 export function getAmenityById(id) {
   if (!id) return AMENITIES_LIST[0];
   const found = AMENITIES_LIST.find(

@@ -356,11 +356,3 @@ export const allGalleryData = [
   ...amenitiesData,
 ];
 
-// Backward compatibility references
-export const GALLERY_CATEGORIES = galleryTabs;
-export const GALLERY_ITEMS = {
-  interior: portfolioData,
-  exterior: exteriorData,
-  amenities: amenitiesData,
-  all: allGalleryData,
-};

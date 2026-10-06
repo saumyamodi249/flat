@@ -33,7 +33,9 @@ function AreaRangeSlider(props) {
   const sliderTrackRef = useRef(null);
   const isDraggingRef = useRef(null);
   const valuesRef = useRef({ currentMinVal, currentMaxVal });
-  valuesRef.current = { currentMinVal, currentMaxVal };
+  useEffect(() => {
+    valuesRef.current = { currentMinVal, currentMaxVal };
+  }, [currentMinVal, currentMaxVal]);
 
   const updateThumbPosition = (thumbType, clientX) => {
     const track = sliderTrackRef.current;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "../../components/BottomNav";
 import WeatherCard from "../components/WeatherCard";
@@ -7,10 +7,9 @@ import UrbanDataLayers from "../components/UrbanDataLayers";
 import { LAYERS } from "../data";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import usePanZoom from "../../hooks/usePanZoom";
-import { IoCloseCircleOutline, IoClose } from "react-icons/io5";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 function HomePage() {
-  const navigate = useNavigate();
   const location = useLocation();
   const isSubpageActive = location.pathname !== "/home" && location.pathname !== "/";
   const isContactPage = location.pathname.startsWith("/contact");
@@ -41,6 +40,8 @@ function HomePage() {
               src="/UI IMG/Building.png"
               alt="Riviera Select property"
               draggable={false}
+              loading="eager"
+              decoding="async"
               initial={isOtherSubpageActive ? false : { opacity: 0, scale: 2 }}
               animate={{
                 opacity: isSubpageActive ? 0.65 : 1,
@@ -64,6 +65,8 @@ function HomePage() {
               src="/UI IMG/Iscon circle.png"
               alt="Iscon Circle urban layer view"
               draggable={false}
+              loading="eager"
+              decoding="async"
               initial={isOtherSubpageActive ? false : { opacity: 0, scale: 3.75 }}
               animate={{
                 opacity: isSubpageActive ? 0.65 : 1,
