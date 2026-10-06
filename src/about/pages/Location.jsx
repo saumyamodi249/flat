@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { aboutData } from "../data";
 import AboutTabs from "./AboutTabs";
@@ -5,14 +6,40 @@ import SiteDetails from "../components/SiteDetails";
 
 function Location() {
   const data = aboutData.location;
+  const [displayedDescription, setDisplayedDescription] = useState("");
+  const [isTypingDone, setIsTypingDone] = useState(false);
+
+  const isFirstEnter = typeof window !== "undefined" && !window.__aboutEntranceDone;
+  const animDelay = isFirstEnter ? 1.85 : 0.05;
+
+  useEffect(() => {
+    let timer;
+    let interval;
+
+    const delayMs = isFirstEnter ? 1850 : 80;
+
+    timer = setTimeout(() => {
+      let currentIndex = 0;
+      const textLength = data.description.length;
+
+      interval = setInterval(() => {
+        currentIndex += 1;
+        setDisplayedDescription(data.description.slice(0, currentIndex));
+        if (currentIndex >= textLength) {
+          clearInterval(interval);
+          setIsTypingDone(true);
+        }
+      }, 10);
+    }, delayMs);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [data.description, isFirstEnter]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.28, ease: "easeOut" }}
-      className="w-full max-w-full flex flex-col h-full min-h-0"
-    >
+    <div className="w-full max-w-full flex flex-col h-full min-h-0">
       {/* Centered Tabs with zero extra bottom margin */}
       <div className="flex justify-center w-full max-w-full shrink-0">
         <AboutTabs />
@@ -29,8 +56,17 @@ function Location() {
 
         {/* 2nd Main Div: Row container for Map (left) and Text content (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 sm:gap-6 lg:gap-10 items-start w-full">
-          {/* Inside 2nd Div -> 1st Child: Map only */}
-          <div className="w-full h-44 sm:h-72 md:h-80 lg:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[var(--theme-bg-blur)]/20 shrink-0">
+          {/* Inside 2nd Div -> 1st Child: Map container (scales small to original, NO empty box before animation) */}
+          <motion.div
+            initial={{ scale: 0.75, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+              duration: 1.4,
+              ease: [0.25, 1, 0.5, 1],
+              delay: animDelay,
+            }}
+            className="w-full h-44 sm:h-72 md:h-80 lg:h-96 rounded-[8px] overflow-hidden shadow-2xl border border-white/10 bg-[var(--theme-bg-blur)]/20 shrink-0 will-change-transform transform-gpu"
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d771.391519637442!2d72.61096364588012!3d23.119886328808533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e82296f9e7abf%3A0x9f0fa0efc3bcb29e!2sCluster_chandkheda%2016%2C%208%2C%20Sardar%20Patel%20Ring%20Rd%2C%20nr.%20Tapovan%20Circle%2C%20Nigam%20Nagar%2C%20Chandkheda%2C%20Ahmedabad%2C%20Gujarat%20382424!5e0!3m2!1sen!2sin!4v1790148770082!5m2!1sen!2sin"
               className="block w-full h-full border-0 rounded-[8px]"
@@ -39,10 +75,10 @@ function Location() {
               referrerPolicy="strict-origin-when-cross-origin"
               title="Riviera Select Location"
             />
-          </div>
+          </motion.div>
 
           {/* Inside 2nd Div -> 2nd Child: Right Column with Title & Description */}
-          <div className="flex flex-col space-y-[10px]  sm:space-y-4">
+          <div className="flex flex-col space-y-[10px] sm:space-y-4">
             {/* 2nd Child -> 1st sub-div: Subtitle */}
             <div>
               <h3 className="text-base lg:text-3xl font-semibold text-[var(--theme-about-title)] tracking-wide">
@@ -50,10 +86,13 @@ function Location() {
               </h3>
             </div>
 
-            {/* 2nd Child -> 2nd sub-div: Description */}
+            {/* 2nd Child -> 2nd sub-div: Description typed in front of the user */}
             <div>
-              <p className="text-base sm:text-base lg:text-lg text-[var(--theme-about-description)] font-light leading-relaxed whitespace-pre-line">
-                {data.description}
+              <p className="text-base sm:text-base lg:text-lg text-[var(--theme-about-description)] font-light leading-relaxed whitespace-pre-line min-h-[140px]">
+                {displayedDescription}
+                {!isTypingDone && displayedDescription.length > 0 && (
+                  <span className="inline-block w-[2px] h-[1.1em] ml-0.5 align-middle bg-[var(--theme-route-about-button-bg)] animate-pulse" />
+                )}
               </p>
             </div>
           </div>
@@ -64,7 +103,7 @@ function Location() {
           <SiteDetails details={data.siteDetails} />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
