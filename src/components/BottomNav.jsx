@@ -145,7 +145,7 @@ function BottomNav() {
         {/* === FULL NAV (> 425px: shows all items without clubbing) === */}
         <div className="full-desktop-nav items-center h-full w-full justify-between">
           {/* Nav items starting cleanly with small left padding */}
-          <div className="flex items-center h-full pl-6 lg:pl-12.5 gap-6 lg:gap-7.5 xl:gap-12 overflow-x-auto scrollbar-none">
+          <div className="flex items-center h-full pl-1.5 sm:pl-2 md:pl-2.5 lg:pl-12.5 gap-1 sm:gap-1.5 md:gap-2 lg:gap-7.5 xl:gap-12 overflow-x-auto scrollbar-none flex-1 min-w-0">
             {navItems.map((item) => {
               const isActive =
                 item.path === "/home"
@@ -156,7 +156,7 @@ function BottomNav() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`h-full flex items-center justify-center px-5 py-2.5 text-sm lg:text-base font-semibold uppercase tracking-wider no-underline transition-colors whitespace-nowrap text-[var(--theme-route-title)] ${isActive
+                  className={`h-full flex items-center justify-center px-1.5 sm:px-2 md:px-2.5 lg:px-5 py-2 text-[11px] sm:text-xs md:text-[12.5px] lg:text-base font-semibold uppercase tracking-tight md:tracking-normal lg:tracking-wider no-underline transition-colors whitespace-nowrap shrink-0 text-[var(--theme-route-title)] ${isActive
                     ? "bg-[var(--theme-route-box)] shadow-sm"
                     : "hover:bg-[var( --theme-home-white-text)]/10"
                     }`}
@@ -167,12 +167,12 @@ function BottomNav() {
             })}
           </div>
 
-          {/* Right SolidTwin Logo with exact padding requested */}
-          <div className="flex items-center justify-end pr-12.5 py-[12.29px] pl-18 shrink-0">
+          {/* Right SolidTwin Logo */}
+          <div className="flex items-center justify-end pr-2 sm:pr-3 md:pr-4 lg:pr-12.5 py-[12px] pl-1.5 sm:pl-2 md:pl-3 lg:pl-18 shrink-0">
             <img
               src="/UI IMG/bottom_logo.svg"
               alt="Powered by SolidTwin"
-              className="h-7 object-contain"
+              className="h-4.5 sm:h-5 md:h-5.5 lg:h-7 object-contain"
             />
           </div>
         </div>
