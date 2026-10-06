@@ -41,14 +41,20 @@ function HomePage() {
               src="/UI IMG/Building.png"
               alt="Riviera Select property"
               draggable={false}
-              initial={{ opacity: 0, scale: 2 }}
+              initial={isOtherSubpageActive ? false : { opacity: 0, scale: 2 }}
               animate={{
                 opacity: isSubpageActive ? 0.65 : 1,
                 scale: 1,
               }}
               exit={{ opacity: 0, transition: { duration: 0.5 } }}
-              transition={{ duration: 1.8, ease: "easeInOut" }}
-              onAnimationComplete={() => setInitialImageAdjusted(true)}
+              transition={
+                isOtherSubpageActive
+                  ? { duration: 0 }
+                  : { duration: 1.8, ease: "easeInOut" }
+              }
+              onAnimationComplete={() => {
+                if (!isOtherSubpageActive) setInitialImageAdjusted(true);
+              }}
               className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter] duration-500 ${isSubpageActive ? "blur-[3px] brightness-65" : ""
                 }`}
             />
@@ -58,13 +64,17 @@ function HomePage() {
               src="/UI IMG/Iscon circle.png"
               alt="Iscon Circle urban layer view"
               draggable={false}
-              initial={{ opacity: 0, scale: 3.75 }}
+              initial={isOtherSubpageActive ? false : { opacity: 0, scale: 3.75 }}
               animate={{
                 opacity: isSubpageActive ? 0.65 : 1,
                 scale: 1,
               }}
               exit={{ opacity: 0, transition: { duration: 0.5 } }}
-              transition={{ duration: 1.8, ease: "easeInOut" }}
+              transition={
+                isOtherSubpageActive
+                  ? { duration: 0 }
+                  : { duration: 1.8, ease: "easeInOut" }
+              }
               className={`absolute inset-0 w-full h-full object-cover select-none transition-[filter] duration-500 ${isSubpageActive ? "blur-[3px] brightness-65" : ""
                 }`}
             />
@@ -309,14 +319,14 @@ function HomePage() {
             animate={{ y: 0, opacity: 1 }}
             exit={
               isGoingHome
-                ? { y: "100%", opacity: 0 }
-                : { opacity: 0, transition: { duration: 0.22 } }
+                ? { y: "100%", opacity: 0, transition: { duration: 1.8, ease: "easeInOut" } }
+                : { opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } }
             }
             transition={{
-              duration: 0.58,
-              ease: [0.16, 1, 0.3, 1],
+              duration: 1.8,
+              ease: "easeInOut",
             }}
-            className="fixed inset-0 z-30 flex flex-col pointer-events-auto"
+            className="fixed inset-0 z-30 flex flex-col pointer-events-auto will-change-transform transform-gpu"
           >
             <Outlet />
           </motion.div>

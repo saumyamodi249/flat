@@ -23,6 +23,7 @@ function All() {
                 alt={`${item.category} ${item.id}`}
                 className="w-full h-full object-cover select-none"
                 loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
                 }}

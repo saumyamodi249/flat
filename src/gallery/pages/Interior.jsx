@@ -23,6 +23,7 @@ function Interior() {
                 alt={`${item.category} ${item.id}`}
                 className="w-full h-auto block select-none"
                 loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
                 }}
