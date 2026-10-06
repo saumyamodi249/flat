@@ -86,7 +86,7 @@ function HomePage() {
       {/* 1. Mobile Top Bar (Screen 1 & 3: phone logo + Weather Pill + filter chain) — Visible on Mobile */}
       {!isContactPage && (
         <div
-          className={`relative flex sm:hidden items-start justify-between px-5 pt-[30px] w-full transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
+          className={`relative flex sm:hidden items-start justify-between px-[20px] pt-[20px] w-full transition-all duration-300 ${isSubpageActive ? "z-10 blur-[2px] opacity-55 pointer-events-none" : "z-30"
             }`}
         >
           {/* Mobile Left: phone logo */}
@@ -130,7 +130,7 @@ function HomePage() {
 
       {/* 2. Desktop Top Bar — Completely static at top, NO Framer Motion on the logo */}
       <div
-        className="relative hidden sm:flex flex-row items-center justify-between pl-[20px] sm:pl-[30px] pr-[20px] sm:pr-[30px] pt-[20px] sm:pt-[30px] gap-3 z-40 pointer-events-auto shrink-0"
+        className="relative hidden sm:flex flex-row items-center justify-between px-[20px] pt-[20px] gap-3 z-40 pointer-events-auto shrink-0"
       >
         {/* Top logo — No Framer Motion */}
         <div className="flex items-center">
@@ -138,7 +138,7 @@ function HomePage() {
             <img
               src="/UI IMG/top_logo.svg"
               alt="Riviera Select"
-              className="h-12 object-contain drop-shadow"
+              className="h-7 sm:h-7.5 md:h-8 lg:h-12 object-contain drop-shadow"
             />
           </Link>
         </div>
@@ -176,7 +176,7 @@ function HomePage() {
           <motion.div
             key="desktop-urban-layers-container"
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
-            className="relative z-10 flex-1 hidden sm:flex justify-end items-start px-4 sm:px-[30px] pt-5 pointer-events-none"
+            className="relative z-10 flex-1 hidden sm:flex justify-end items-start px-[20px] pt-[20px] pointer-events-none"
           >
             <motion.div
               key="desktop-urban-layers-card"

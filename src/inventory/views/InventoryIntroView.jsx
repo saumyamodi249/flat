@@ -44,7 +44,7 @@ function InventoryIntroView() {
       </div>
 
       {/* Top Bar (Mobile & Tablet): Phone Logo (left) + Center Filters Pill + Right Heart Button */}
-      <div className="relative z-30 flex lg:hidden items-center justify-between px-5 pt-[25px] sm:px-[30px] sm:pt-[30px]">
+      <div className="relative z-30 flex lg:hidden items-center justify-between px-[20px] pt-[20px]">
         <div className="flex items-center">
           <img
             src="/UI IMG/phone logo.svg"
