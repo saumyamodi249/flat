@@ -198,12 +198,14 @@ function ContactPage() {
               >
                 {/* Field 1: Your Name */}
                 <div className="flex flex-col space-y-1.5 sm:space-y-1">
-                  <label className="text-sm sm:text-base font-normal text-white">
+                  <label htmlFor="contact-name" className="text-sm sm:text-base font-normal text-white">
                     Your Name*
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     name="name"
+                    autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your name"
@@ -219,12 +221,14 @@ function ContactPage() {
 
                 {/* Field 2: Email Id */}
                 <div className="flex flex-col space-y-1.5 sm:space-y-1">
-                  <label className="text-sm sm:text-base font-normal text-white">
+                  <label htmlFor="contact-email" className="text-sm sm:text-base font-normal text-white">
                     Email Id*
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     name="email"
+                    autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your Email Id"
@@ -240,10 +244,11 @@ function ContactPage() {
 
                 {/* Field 3: Message */}
                 <div className="flex flex-col space-y-1.5 sm:space-y-1">
-                  <label className="text-sm sm:text-base font-normal text-white">
+                  <label htmlFor="contact-message" className="text-sm sm:text-base font-normal text-white">
                     Message
                   </label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     rows={3}
                     value={formData.message}

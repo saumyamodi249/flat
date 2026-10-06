@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CategoryFilterBar({ categories }) {
@@ -21,17 +21,17 @@ function CategoryFilterBar({ categories }) {
   const draggedDistance = useRef(0);
 
   // Measure single loop set width
-  const updateSetWidth = () => {
+  const updateSetWidth = useCallback(() => {
     if (set0Ref.current && set1Ref.current) {
       const width = set1Ref.current.offsetLeft - set0Ref.current.offsetLeft;
       if (width > 0) {
         setWidthRef.current = width;
       }
     }
-  };
+  }, []);
 
   // Infinite 360 scroll wrap handler: ensures scroll never ends in either direction
-  const normalizeScrollPosition = () => {
+  const normalizeScrollPosition = useCallback(() => {
     const el = scrollRef.current;
     const setWidth = setWidthRef.current;
     if (!el || !setWidth || setWidth <= 0) return;
@@ -41,11 +41,11 @@ function CategoryFilterBar({ categories }) {
     } else if (el.scrollLeft <= setWidth) {
       el.scrollLeft += setWidth;
     }
-  };
+  }, []);
 
   // Perform one complete circular chakkar:
   // Glides smoothly through every amenity category and lands right back at the start
-  const runCircularChakkar = () => {
+  const runCircularChakkar = useCallback(() => {
     const el = scrollRef.current;
     const setWidth = setWidthRef.current;
     if (!el || !setWidth || setWidth <= 0 || userInteracted.current) return;
@@ -79,7 +79,7 @@ function CategoryFilterBar({ categories }) {
     };
 
     chakkarRaf.current = requestAnimationFrame(animateChakkar);
-  };
+  }, [normalizeScrollPosition]);
 
   // Setup loop and trigger the circular chakkar on mount
   useEffect(() => {
@@ -109,9 +109,9 @@ function CategoryFilterBar({ categories }) {
       if (chakkarRaf.current) cancelAnimationFrame(chakkarRaf.current);
       window.removeEventListener("resize", handleResize);
     };
-  }, [categories]);
+  }, [categories, runCircularChakkar, updateSetWidth]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const el = scrollRef.current;
     const setWidth = setWidthRef.current;
     if (!el || !setWidth) return;
@@ -128,7 +128,7 @@ function CategoryFilterBar({ categories }) {
     scrollEndTimer.current = setTimeout(() => {
       normalizeScrollPosition();
     }, 80);
-  };
+  }, [normalizeScrollPosition]);
 
   // Mouse wheel horizontal scroll handler (scrolls 360 infinitely left and right)
   useEffect(() => {
@@ -151,7 +151,7 @@ function CategoryFilterBar({ categories }) {
     return () => {
       el.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [handleScroll]);
 
   // Arrow navigation buttons (infinite 360 rotation, never disabled)
   const handleArrowScroll = (direction) => {

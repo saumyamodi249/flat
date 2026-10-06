@@ -128,7 +128,7 @@ function AreaRangeSlider(props) {
           />
         </div>
 
-        {/* Min Thumb (Left Side Handle - Draggable) */}
+        {/* Min Thumb (Left Side Handle - Draggable & Keyboard Accessible) */}
         <div
           role="slider"
           aria-label="Minimum Area"
@@ -137,7 +137,18 @@ function AreaRangeSlider(props) {
           aria-valuenow={currentMinVal}
           tabIndex={0}
           onPointerDown={(e) => startDragging("min", e)}
-          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+              e.preventDefault();
+              const nextVal = Math.max(inventoryAreaRange.min, currentMinVal - inventoryAreaRange.step);
+              setMinArea(nextVal === inventoryAreaRange.min ? "" : nextVal.toString());
+            } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+              e.preventDefault();
+              const nextVal = Math.min(currentMaxVal, currentMinVal + inventoryAreaRange.step);
+              setMinArea(nextVal.toString());
+            }
+          }}
+          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded-full ${
             focusedThumb === "min" ? "z-40" : "z-30"
           }`}
           style={{
@@ -152,7 +163,7 @@ function AreaRangeSlider(props) {
           />
         </div>
 
-        {/* Max Thumb (Right Side Handle - Draggable) */}
+        {/* Max Thumb (Right Side Handle - Draggable & Keyboard Accessible) */}
         <div
           role="slider"
           aria-label="Maximum Area"
@@ -161,7 +172,18 @@ function AreaRangeSlider(props) {
           aria-valuenow={currentMaxVal}
           tabIndex={0}
           onPointerDown={(e) => startDragging("max", e)}
-          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+              e.preventDefault();
+              const nextVal = Math.max(currentMinVal, currentMaxVal - inventoryAreaRange.step);
+              setMaxArea(nextVal.toString());
+            } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+              e.preventDefault();
+              const nextVal = Math.min(inventoryAreaRange.max, currentMaxVal + inventoryAreaRange.step);
+              setMaxArea(nextVal === inventoryAreaRange.max ? "" : nextVal.toString());
+            }
+          }}
+          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded-full ${
             focusedThumb === "max" ? "z-40" : "z-30"
           }`}
           style={{
