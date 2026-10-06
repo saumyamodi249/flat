@@ -14,8 +14,18 @@ function Interior() {
         {/* 6-Column Grid Layout matching past specs */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 w-full">
           {portfolioData.map((item) => (
-            <div
+            <motion.div
               key={item.id}
+              initial={{ scale: 0.7, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.9,
+                ease: "easeOut",
+              }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               className={`${item.className} relative rounded-xl lg:rounded-md overflow-hidden border border-white/10 bg-[#081b1a] shadow-md`}
             >
               <img
@@ -28,7 +38,7 @@ function Interior() {
                   e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
                 }}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { GALLERY_ITEMS } from "../data";
 import GalleryModal from "../components/GalleryModal";
 
@@ -24,10 +25,20 @@ function GalleryView() {
       <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-3.5 sm:gap-4 w-full h-full flex-1 min-h-0 overflow-y-auto md:overflow-hidden pr-0.5">
         {items.map((item) => {
           return (
-            <div
+            <motion.div
               key={item.id}
+              initial={{ scale: 0.7, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.9,
+                ease: "easeOut",
+              }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               onClick={() => setSelectedItem(item)}
-              className={`relative overflow-hidden rounded-[10px] border border-white/10  shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border)]/60 ${item.rowSpan || "row-span-1"
+              className={`relative overflow-hidden rounded-[10px] border border-white/10 shadow-lg group cursor-pointer transition-all duration-300 hover:border-[var(--theme-gallery-border)]/60 ${item.rowSpan || "row-span-1"
                 } ${item.colSpan || "col-span-1"} min-h-[180px] md:min-h-0`}
             >
               <img
@@ -46,7 +57,7 @@ function GalleryView() {
                   {item.title}
                 </h4>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

@@ -14,8 +14,18 @@ function Exterior() {
         {/* 3-Column Responsive Grid Layout on Mobile, expanding on Desktop */}
         <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 auto-rows-[75px] xs:auto-rows-[85px] sm:auto-rows-[105px] md:auto-rows-[125px] lg:auto-rows-[135px] gap-1.5 sm:gap-2.5 md:gap-4 lg:gap-5 w-full [grid-auto-flow:dense]">
           {exteriorData.map((item) => (
-            <div
+            <motion.div
               key={item.id}
+              initial={{ scale: 0.7, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.9,
+                ease: "easeOut",
+              }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               className={`${item.className} relative rounded-[6px] sm:rounded-[10px] overflow-hidden border border-white/10 bg-[#081b1a] shadow-md`}
             >
               <img
@@ -28,7 +38,7 @@ function Exterior() {
                   e.currentTarget.src = "/Amenity/amenity-img/waiting_lounge.svg";
                 }}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
