@@ -11,7 +11,7 @@ import {
   loadLeafletSDK,
   BASE_PROPERTY_LOCATION,
 } from "../../api/maps/mapsApi";
-import { IoAdd, IoRemove } from "react-icons/io5";
+import { IoAdd, IoRemove, IoLocateOutline } from "react-icons/io5";
 
 function MapView() {
   const { category = "parks" } = useParams();
@@ -219,6 +219,15 @@ function MapView() {
     }
   };
 
+  // Re-center back to Riviera Select primary property
+  const handleRecenter = () => {
+    if (mapInstanceRef.current) {
+      hasUserInteracted.current = true;
+      mapInstanceRef.current.panTo([BASE_PROPERTY_LOCATION.lat, BASE_PROPERTY_LOCATION.lng]);
+      mapInstanceRef.current.setZoom(16);
+    }
+  };
+
   // Open 360° Street View for selected location
   const handleOpen360StreetView = async (place) => {
     try {
@@ -282,27 +291,42 @@ function MapView() {
           onClick={handleToggleMapMode}
           title={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
           aria-label={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
-          className="w-[62px] h-[62px] sm:w-20 sm:h-20 rounded-[12px] sm:rounded-[14px] border-2 border-white/80 overflow-hidden shadow-2xl relative cursor-pointer select-none bg-[#081b1a] flex items-center justify-center"
+          className="group w-[62px] h-[62px] sm:w-20 sm:h-20 rounded-[12px] sm:rounded-[14px] border-2 border-white/80 overflow-hidden shadow-2xl relative cursor-pointer select-none bg-[#081b1a] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-300 hover:border-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           {/* Thumbnail preview image (has authentic Satellite / Map label built into the SVG) */}
           <img
             src={mapMode === "road" ? mapUI.satelliteImg : mapUI.roadImg}
             alt={mapMode === "road" ? mapUI.satelliteAlt : mapUI.roadAlt}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
+          <span className="absolute bottom-1 px-1.5 py-0.5 rounded-[4px] bg-black/70 backdrop-blur-xs text-[9px] sm:text-[10px] font-semibold text-white uppercase tracking-wider opacity-90 group-hover:opacity-100 transition-opacity pointer-events-none">
+            {mapMode === "road" ? "Satellite" : "Map"}
+          </span>
         </button>
       </div>
 
-      {/* Zoom In & Out Controls (Bottom-Right matching Image 1) */}
-      <div className="absolute bottom-2.5 right-2.5 sm:bottom-3.5 sm:right-3.5 z-30 flex flex-col bg-[#002E2D]/95 backdrop-blur-md border border-white/20 rounded-[8px] overflow-hidden shadow-2xl pointer-events-auto">
+      {/* Zoom In, Re-center & Zoom Out Controls (Bottom-Right matching Image 1) */}
+      <div className="absolute bottom-2.5 right-2.5 sm:bottom-3.5 sm:right-3.5 z-30 flex flex-col bg-[#002E2D]/95 backdrop-blur-md border border-white/25 rounded-[10px] sm:rounded-[12px] overflow-hidden shadow-2xl pointer-events-auto">
         <button
           type="button"
           onClick={handleZoomIn}
           aria-label={mapUI.zoomIn}
           title={mapUI.zoomIn}
-          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/10 active:bg-white/20 transition-all cursor-pointer"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/15 active:scale-90 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <IoAdd className="w-5 h-5" />
+        </button>
+
+        <div className="w-full h-[1px] bg-white/20" />
+
+        <button
+          type="button"
+          onClick={handleRecenter}
+          aria-label="Re-center to Riviera Select"
+          title="Re-center to Riviera Select"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white/90 hover:text-white hover:bg-white/15 active:scale-90 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          <IoLocateOutline className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
         </button>
 
         <div className="w-full h-[1px] bg-white/20" />
@@ -312,7 +336,7 @@ function MapView() {
           onClick={handleZoomOut}
           aria-label={mapUI.zoomOut}
           title={mapUI.zoomOut}
-          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/10 active:bg-white/20 transition-all cursor-pointer"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-white hover:bg-white/15 active:scale-90 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <IoRemove className="w-5 h-5" />
         </button>
