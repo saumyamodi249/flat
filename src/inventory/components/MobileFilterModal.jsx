@@ -27,16 +27,17 @@ function MobileFilterModal(props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
           onClick={onClose}
           className="fixed inset-0 z-50 flex items-start lg:hidden bg-black/60 backdrop-blur-sm overflow-y-auto"
         >
           <motion.div
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            initial={{ y: "-100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "-100%", opacity: 0 }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full bg-[var(--theme-inventory-bg-main)] border-b border-white/10 p-5 shadow-2xl flex flex-col text-white"
+            className="w-full bg-[var(--theme-inventory-bg-main)] border-b border-white/10 p-5 shadow-2xl flex flex-col text-white will-change-transform transform-gpu"
           >
         {/* Top Header: Filter Icon + Title + Close Button */}
         <div className="flex items-center justify-between">

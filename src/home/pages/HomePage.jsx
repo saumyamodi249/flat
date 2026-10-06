@@ -31,7 +31,7 @@ function HomePage() {
       {/* Background images — Building.png (default) or Iscon circle.png (when layer active) with pan and zoom */}
       <div
         ref={buildingImageRef}
-        className={`absolute inset-0 w-full h-full select-none touch-none ${isSubpageActive ? "pointer-events-none" : ""
+        className={`absolute inset-0 w-full h-full select-none touch-none ${isSubpageActive || isUrbanDrawerOpen ? "pointer-events-none" : ""
           }`}
       >
         <AnimatePresence>
@@ -209,12 +209,9 @@ function HomePage() {
       <AnimatePresence>
         {!isSubpageActive && isUrbanDrawerOpen && (
           <div className="fixed inset-0 z-40 sm:hidden">
-            {/* Backdrop overlay to click outside */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/25"
+            {/* Transparent backdrop overlay to click outside without darkening background */}
+            <div
+              className="absolute inset-0 bg-transparent"
               onClick={() => setIsUrbanDrawerOpen(false)}
             />
 
@@ -222,8 +219,8 @@ function HomePage() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 320 }}
-              className="absolute z-10 bottom-[52px] left-0 right-0 LG:rounded-t-[16px] bg-[var(--theme-blur-layer)]/50 backdrop-blur-md text-white shadow-2xl shadow-teal-950/50 select-none overflow-hidden transition-all duration-300"
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute z-10 bottom-[52px] left-0 right-0 rounded-t-[16px] bg-[var(--theme-blur-layer)]/50 backdrop-blur-md text-white shadow-2xl shadow-teal-950/50 select-none overflow-hidden will-change-transform transform-gpu"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header: Title + Close Icon */}

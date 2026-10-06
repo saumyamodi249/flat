@@ -44,7 +44,7 @@ function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" 
           {unit?.unitNo
             ? unit.unitNo.startsWith("Unit No.")
               ? unit.unitNo
-              : `Unit No. ${unit.unitNo}`
+              : `Unit No. ${unit.unitNo.startsWith("A-") ? unit.unitNo : `A-${unit.unitNo}`}`
             : "Unit No. N/A"}
         </div>
         <div className={`text-sm font-semibold ${getStatusColor(unit?.status)}`}>
@@ -98,20 +98,20 @@ function InventoryPageDetail({ unit: propUnit, onToggleFavorite, className = "" 
 
       </div>
 
-      {/* 4th Div: Action Buttons (Side-by-side on mobile matching Image 1, vertical on desktop) */}
-      <div className="flex flex-row sm:flex-col gap-2.5 sm:gap-2">
+      {/* 4th Div: Action Buttons (Stacked vertically matching Image 3 & 4) */}
+      <div className="flex flex-col gap-2">
         {/* 4th > 1st Div: View Property */}
-        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-2 sm:px-4 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
+        <div className="w-full flex items-center justify-center gap-2 py-2 sm:py-2.5 px-3 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
           <img src="/Inventory/360 View.svg" alt="360 View" className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="text-xs sm:text-[15px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
+          <span className="text-xs sm:text-[14px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
             {inventoryUI.viewPropertyText || "View Property"}
           </span>
         </div>
 
         {/* 4th > 2nd Div: Floor Plan */}
-        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-2 sm:px-4 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
+        <div className="w-full flex items-center justify-center gap-2 py-2 sm:py-2.5 px-3 rounded-[8px] border border-[var(--theme-InventoryDetail-inner-box-border)] cursor-pointer hover:bg-white/5 transition-colors">
           <img src="/Inventory/floor-plan.svg" alt="Floor Plan" className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="text-xs sm:text-[15px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
+          <span className="text-xs sm:text-[14px] font-medium text-[var(--theme-InventoryDetail-tab-default-text)] whitespace-nowrap">
             {inventoryUI.floorPlanText || "Floor Plan"}
           </span>
         </div>

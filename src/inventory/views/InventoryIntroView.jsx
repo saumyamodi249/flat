@@ -111,7 +111,7 @@ function InventoryIntroView() {
       </motion.div>
 
       {/* Central 3D Building Perspective on Wireframe Floor - Scales up simultaneously */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4 pt-10 sm:pt-6 lg:pt-0 pb-10 sm:pb-12 lg:pb-0">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4 pt-10 sm:pt-12 lg:pt-0 pb-10 sm:pb-3 lg:pb-0">
         <motion.img
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -119,7 +119,7 @@ function InventoryIntroView() {
           transition={{ duration: 1.8, ease: "easeInOut" }}
           src={inventoryUI.buildingSrc}
           alt={inventoryUI.buildingAlt}
-          className="w-auto h-[82%] sm:h-[77%] lg:h-[84%] max-h-[72vh] sm:max-h-[80vh] lg:max-h-none max-w-[92%] sm:max-w-[95%] object-contain drop-shadow-2xl"
+          className="w-auto h-[88%] sm:h-[88%] lg:h-[84%] max-h-[78vh] sm:max-h-[82vh] lg:max-h-none max-w-[94%] sm:max-w-[95%] object-contain drop-shadow-2xl"
         />
       </div>
 

@@ -64,12 +64,12 @@ function ContactPage() {
     <div className="relative flex flex-col justify-between h-[100dvh] max-h-[100dvh] w-full max-w-full overflow-hidden bg-transparent select-none">
 
 
-      {/* Main Content Area: Modal centered on desktop/tablet (Image 1), anchored to bottom on mobile */}
+      {/* Main Content Area: Flush bottom sheet on mobile (same to same img), centered on tablet/desktop */}
       <main
         onClick={(e) => {
           if (e.target === e.currentTarget) navigate("/home");
         }}
-        className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-4 pb-[52px] sm:pb-0 w-full max-w-full min-h-0 overflow-hidden"
+        className="relative z-20 flex-1 flex flex-col justify-end sm:justify-center items-center px-0 sm:px-6 pt-0 sm:pt-[96px] pb-[52px] sm:pb-[76px] w-full max-w-full min-h-0 overflow-hidden"
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
@@ -77,9 +77,9 @@ function ContactPage() {
           exit={{ opacity: 0, scale: 0.7 }}
           transition={{ duration: 1.8, ease: "easeInOut" }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-lg sm:max-w-xl rounded-t-[20px] rounded-b-none sm:rounded-2xl backdrop-blur-md px-5 sm:px-8 pt-5 sm:pt-7 pb-4 sm:pb-7 shadow-2xl border-b-0 sm:border border-white/10 bg-[var(--theme-box-bg)] flex flex-col min-h-0"
+          className="w-full max-w-full sm:max-w-[480px] md:max-w-[500px] rounded-b-none sm:rounded-2xl backdrop-blur-md px-5 sm:px-7 pt-5 sm:pt-6 pb-5 sm:pb-6 shadow-2xl border-t border-white/10 border-b-0 sm:border sm:border-white/10 bg-[var(--theme-box-bg)] flex flex-col min-h-0 max-h-full overflow-y-auto scrollbar-none sm:my-auto"
         >
-          
+
           {/* --- MOBILE HEADER (< sm) --- */}
           <div className="flex sm:hidden items-center justify-between w-full shrink-0">
             <img
@@ -196,107 +196,107 @@ function ContactPage() {
                 noValidate
                 className="flex flex-col space-y-2.5 sm:space-y-3.5"
               >
-              {/* Field 1: Your Name */}
-              <div className="flex flex-col space-y-2 sm:space-y-1.5">
-                <label className="text-base font-normal text-white">
-                  Your Name*
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your name"
-                  className={`w-full rounded-[8px] border bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.name
-                    ? "border-[#FF4D4F]"
-                    : "border-white/20 focus:border-white/50"
-                    }`}
-                />
-                {errors.name && (
-                  <p className="text-xs text-[#FF4D4F]">{errors.name}</p>
-                )}
-              </div>
+                {/* Field 1: Your Name */}
+                <div className="flex flex-col space-y-1.5 sm:space-y-1">
+                  <label className="text-sm sm:text-base font-normal text-white">
+                    Your Name*
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter your name"
+                    className={`w-full rounded-[8px] border bg-transparent py-2.5 sm:py-2.5 px-3.5 text-sm sm:text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.name
+                      ? "border-[#FF4D4F]"
+                      : "border-white/20 focus:border-white/50"
+                      }`}
+                  />
+                  {errors.name && (
+                    <p className="text-xs text-[#FF4D4F]">{errors.name}</p>
+                  )}
+                </div>
 
-              {/* Field 2: Email Id */}
-              <div className="flex flex-col space-y-2 sm:space-y-1.5">
-                <label className="text-base font-normal text-white">
-                  Email Id*
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your Email Id"
-                  className={`w-full rounded-[8px] border bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.email
-                    ? "border-[#FF4D4F]"
-                    : "border-white/20 focus:border-white/50"
-                    }`}
-                />
-                {errors.email && (
-                  <p className="text-xs text-[#FF4D4F]">{errors.email}</p>
-                )}
-              </div>
+                {/* Field 2: Email Id */}
+                <div className="flex flex-col space-y-1.5 sm:space-y-1">
+                  <label className="text-sm sm:text-base font-normal text-white">
+                    Email Id*
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter your Email Id"
+                    className={`w-full rounded-[8px] border bg-transparent py-2.5 sm:py-2.5 px-3.5 text-sm sm:text-base text-white placeholder:text-white/40 outline-none focus:outline-none transition-colors ${errors.email
+                      ? "border-[#FF4D4F]"
+                      : "border-white/20 focus:border-white/50"
+                      }`}
+                  />
+                  {errors.email && (
+                    <p className="text-xs text-[#FF4D4F]">{errors.email}</p>
+                  )}
+                </div>
 
-              {/* Field 3: Message */}
-              <div className="flex flex-col space-y-2 sm:space-y-1.5">
-                <label className="text-base font-normal text-white">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  rows={3}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Enter your message"
-                  className="w-full rounded-[8px] border border-white/20 focus:border-white/50 bg-transparent py-[13px] px-4 lg:px-3.5 lg:py-2.5 text-base text-white placeholder:text-white/40 outline-none focus:outline-none resize-none transition-colors"
-                />
-              </div>
+                {/* Field 3: Message */}
+                <div className="flex flex-col space-y-1.5 sm:space-y-1">
+                  <label className="text-sm sm:text-base font-normal text-white">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    rows={3}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Enter your message"
+                    className="w-full rounded-[8px] border border-white/20 focus:border-white/50 bg-transparent py-2.5 sm:py-2.5 px-3.5 text-sm sm:text-base text-white placeholder:text-white/40 outline-none focus:outline-none resize-none transition-colors"
+                  />
+                </div>
 
-              {/* Submit Button (16px margin above) */}
-              <div className="mt-4">
-                <button
-                  type="submit"
-                  className="w-full rounded-[8px] border border-[#C09973]/80 bg-transparent py-2.5 sm:py-3 text-sm lg:text-base font-semibold uppercase tracking-widest text-[#C09973] hover:bg-[#C09973]/10 cursor-pointer shadow-sm transition-colors"
-                >
-                  LET'S CONNECT
-                </button>
-              </div>
+                {/* Submit Button (16px margin above) */}
+                <div className="mt-4">
+                  <button
+                    type="submit"
+                    className="w-full rounded-[8px] border border-[#C09973]/80 bg-transparent py-2.5 sm:py-3 text-sm lg:text-base font-semibold uppercase tracking-widest text-[#C09973] hover:bg-[#C09973]/10 cursor-pointer shadow-sm transition-colors"
+                  >
+                    LET'S CONNECT
+                  </button>
+                </div>
 
-              {/* Terms and Privacy Policy notice (desktop & tablet) */}
-              <div className="hidden sm:block px-2 pt-3 text-center text-xs font-normal leading-relaxed text-white/50">
-                By providing us with your information you are consenting to the
-                collection and use of information in accordance with our{" "}
-                <a
-                  href="#terms"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedPolicy((prev) =>
-                      prev === "terms" ? null : "terms",
-                    );
-                  }}
-                  className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "terms" ? "text-white" : "hover:text-white"
-                    }`}
-                >
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a
-                  href="#privacy"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedPolicy((prev) =>
-                      prev === "privacy" ? null : "privacy",
-                    );
-                  }}
-                  className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "privacy" ? "text-white" : "hover:text-white"
-                    }`}
-                >
-                  Privacy Policy
-                </a>
-              </div>
-            </motion.form>
-          )}
+                {/* Terms and Privacy Policy notice (desktop & tablet) */}
+                <div className="hidden sm:block px-2 pt-3 text-center text-xs font-normal leading-relaxed text-white/50">
+                  By providing us with your information you are consenting to the
+                  collection and use of information in accordance with our{" "}
+                  <a
+                    href="#terms"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedPolicy((prev) =>
+                        prev === "terms" ? null : "terms",
+                      );
+                    }}
+                    className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "terms" ? "text-white" : "hover:text-white"
+                      }`}
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="#privacy"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedPolicy((prev) =>
+                        prev === "privacy" ? null : "privacy",
+                      );
+                    }}
+                    className={`underline font-medium cursor-pointer transition-all duration-200 ${selectedPolicy === "privacy" ? "text-white" : "hover:text-white"
+                      }`}
+                  >
+                    Privacy Policy
+                  </a>
+                </div>
+              </motion.form>
+            )}
           </AnimatePresence>
         </motion.div>
       </main>

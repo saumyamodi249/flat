@@ -33,7 +33,7 @@ function MobileFlatsCarousel({ units, onToggleFavorite, className = "" }) {
   if (!units || units.length === 0) return null;
 
   return (
-    <div className={`lg:hidden absolute bottom-[62px] left-0 right-0 z-30 pointer-events-auto animate-fadeIn ${className}`}>
+    <div className={`lg:hidden absolute bottom-2 sm:bottom-3 left-0 right-0 z-30 pointer-events-auto animate-fadeIn ${className}`}>
       <div
         ref={carouselRef}
         onPointerDown={handlePointerDown}
@@ -44,7 +44,7 @@ function MobileFlatsCarousel({ units, onToggleFavorite, className = "" }) {
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         {units.map((u) => (
-          <div key={u.id} className="w-[280px] sm:w-[320px] shrink-0 snap-center">
+          <div key={u.id} className="w-[280px] sm:w-[300px] shrink-0 snap-center">
             <InventoryPageDetail
               unit={u}
               onToggleFavorite={onToggleFavorite}
