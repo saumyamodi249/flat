@@ -282,19 +282,14 @@ function MapView() {
           onClick={handleToggleMapMode}
           title={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
           aria-label={mapMode === "road" ? mapUI.toggleSatellite : mapUI.toggleRoad}
-          className="w-[62px] h-[62px] sm:w-20 sm:h-20 rounded-[12px] sm:rounded-[14px] border-2 border-white/80 overflow-hidden shadow-2xl relative group cursor-pointer hover:scale-105 active:scale-95 transition-all select-none bg-[#081b1a] flex items-center justify-center"
+          className="w-[62px] h-[62px] sm:w-20 sm:h-20 rounded-[12px] sm:rounded-[14px] border-2 border-white/80 overflow-hidden shadow-2xl relative cursor-pointer select-none bg-[#081b1a] flex items-center justify-center"
         >
-          {/* Thumbnail preview image */}
+          {/* Thumbnail preview image (has authentic Satellite / Map label built into the SVG) */}
           <img
             src={mapMode === "road" ? mapUI.satelliteImg : mapUI.roadImg}
             alt={mapMode === "road" ? mapUI.satelliteAlt : mapUI.roadAlt}
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-full object-cover"
           />
-          {/* Overlay gradient & title text */}
-          <div className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors" />
-          <span className="relative z-10 text-[11px] sm:text-xs font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] tracking-wide">
-            {mapMode === "road" ? "Satellite" : "Map"}
-          </span>
         </button>
       </div>
 
